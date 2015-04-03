@@ -1,0 +1,65 @@
+﻿body {
+
+} 
+p.heading {
+    font-size: 20px;
+    margin-bottom: 2px;
+}
+div.table {
+    display: inline-block;
+} 
+div#study, div#patient {
+    display: none;
+}
+div#investigators, div#settings, div#patientssettings {
+    border: 1px solid black;
+    width: 800px;
+    padding: 10px;
+}
+div#settings {
+    border: 1px solid black;
+    width: 800px;
+    padding: 10px;
+}
+div#cards div {
+    display: inline-block;
+    vertical-align: top;
+}
+div#cards {
+    display: none;
+}
+div.border {
+    border: 1px solid black;
+    padding: 10px;
+    width: 700px;
+}
+div.strategy {
+    margin: 5px;
+}
+table {
+    padding: 0px;
+    margin: 0px 50px 0px 0px;
+    border-collapse: collapse; 
+} 
+td {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid black;
+} 
+table {
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+div#spacer {
+    display: inline-block;
+    width: 100px;
+}
+button {
+    display: inline;
+    float: left;
+    margin: 5px;
+}
+div#setpatients {
+    display: none;
+}
