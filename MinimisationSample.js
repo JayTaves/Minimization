@@ -333,6 +333,7 @@
                 }
             }
             patientPlaced = true;
+            heldTable();
             $("button.actions").hide();
             $("span#allottedpatient").hide();
             $("button#playerendturn").show();
@@ -660,7 +661,7 @@
             });
             var studyLength = parseInt($("input[name=patientslength]").val(), 10);
             if (!isNaN(studyLength)) {
-                patients = [];
+                patients = [];  
                 for (var index = 0; index < studyLength; index++) {
                     var randomNum = Math.floor(Math.random() * allPatients.length);
                     patients.push(allPatients[randomNum]);
