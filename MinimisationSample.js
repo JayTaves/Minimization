@@ -274,19 +274,32 @@
         var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
         var turn = function () {
             if (patient.number === investigator.selectPatient) {
-                var result = minimize(patient, gatorNumber, study.control, study.treatment);
-                if (result.res === investigator.targetGroup) {
-                    var patientRes = study.addPatient(patient, gatorNumber);
-                    investigator.targetScore++;
-                } else {
-                    if (investigator.heldPatients.length === allowedLength) {
-                        //Swap to gain more turns on held patient
-                        var discardPatient = investigator.heldPatients.pop().patient;
-                        writeMessage(gatorNumber, discardPatient.number, "discard");
+                var tryPat = function () {
+                    var result = minimize(patient, gatorNumber, study.control, study.treatment);
+                    if (result.res === investigator.targetGroup) {
+                        var patientRes = study.addPatient(patient, gatorNumber);
+                        investigator.targetScore++;
+                    } else {
+                        if (investigator.heldPatients.length !== 0) {
+                            var heldres = minimize(investigator.heldPatients[0].patient, gatorNumber, study.control, study.treatment);
+                            if (heldres.res !== investigator.targetGroup) {
+                                var sacrificepat = investigator.heldPatients.pop().patient;
+                                study.addPatient(sacrificepat, gatorNumber);
+                                tryPat();    
+                            }
+                        } else {
+                            if (investigator.heldPatients.length === allowedLength) {
+                                //Swap to gain more turns on held patient
+                                var discardPatient = investigator.heldPatients.pop().patient;
+                                writeMessage(gatorNumber, discardPatient.number, "discard");
+                            } else {
+                                investigator.heldPatients.push({ patient: patient, turns: heldTurns });
+                                writeMessage(gatorNumber, patient.number, "hold");
+                            }
+                        }
                     }
-                    investigator.heldPatients.push({ patient: patient, turns: heldTurns });
-                    writeMessage(gatorNumber, patient.number, "hold");
                 }
+                tryPat();
             } else {
                 var turnOver = false;
                 for (var index = 0; !turnOver && index < investigator.heldPatients.length; index++) {
