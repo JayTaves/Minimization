@@ -1,5 +1,5 @@
 # Minimization
-This is code for a minimization tool to demonstrate the effectiveness of this algorithm over pure randomization.
+This is code for a minimization tool to demonstrate the effectiveness of this algorithm over pure randomization. Check it out at http://jaytaves.github.io/Minimization/
 
 ### Trials
 * The game simulates a (usually clinical) trial being setup with two groups, treatment and control.
