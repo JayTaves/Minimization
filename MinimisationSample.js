@@ -559,11 +559,13 @@
     var validateSequence = function (sequence) {
         var re = /^(\s)*(([1-9]|1[0-2]),(\s)*)*([1-9]|1[0-2])(\s)*$/;
         var pass = re.test(sequence);
-        if (!pass) {
-            return "regex fail";
+        $("i#ownseqvalid").show();
+        if (pass) {
+            $("i#ownseqvalid").attr("class", "fa fa-check");
         } else {
-            return sequence;
+            $("i#ownseqvalid").attr("class", "fa fa-exclamation");
         }
+        return pass;
     };
     var setup = function (allInvestigators, studyPatients) {
         var study = new Trial(allInvestigators);
@@ -693,8 +695,19 @@
         } else {
             if ($("input[name=patientlist]:checked").val() === "standard") {
                 patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
-            } else if ($("input[name=patientlist]:checked").val() === "other1") {
-                patients = [allPatients[12], allPatients[3], allPatients[10], allPatients[7], allPatients[12], allPatients[6], allPatients[4], allPatients[12], allPatients[7], allPatients[10], allPatients[0], allPatients[11], allPatients[3], allPatients[10]];
+            } else if ($("input[name=patientlist]:checked").val() === "own") {
+                var seq = $("input[name=ownsequence]").val();
+                if (validateSequence(seq)) {
+                    patients = [];
+                    seq = seq.split(",");
+                    for (var index = 0; index < seq.length; index++) {
+                        seq[index] = parseInt(seq[index], 10) - 1;
+                        patients.push(allPatients[seq[index]]);
+                    }
+                    patients.reverse();
+                } else {
+                    return;
+                }
             } else {
                 console.error("Something else selected");
             }
@@ -738,13 +751,7 @@
         if (!selOwn) {
             $("i#ownseqvalid").hide();
         } else {
-            var res = validateSequence(seq);
-            $("i#ownseqvalid").show();
-            if (res === "regex fail") {
-                $("i#ownseqvalid").attr("class", "fa fa-exclamation");
-            } else {
-                $("i#ownseqvalid").attr("class", "fa fa-check");
-            }
+            validateSequence(seq);
         }
     });
     $("button#restart").click(function () {
