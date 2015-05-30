@@ -23,17 +23,6 @@
         this.selectPatient = patient;
         this.targetGroup = group;
         this.heldCounter = function () {
-            /**
-            for (var index = 0; index < this.heldPatients.length; index++) {
-                var heldPatient = this.heldPatients[index];
-                if (heldPatient.turns === 0) {
-                    writeMessage(this.number, heldPatient.patient.number, "timeout");
-                    this.heldPatients.splice(index, 1);
-                    index--;
-                }
-                heldPatient.turns--;
-            }
-            */
             for (var index = this.heldPatients.length - 1; index >= 0; index--) {
                 var heldPatient = this.heldPatients[index];
                 if (heldPatient.turns === 0) {
@@ -235,6 +224,7 @@
     var eleven = new Patient(11, Gender.Female, AgeBuckets.Old, Risk.Low);
     var twelve = new Patient(12, Gender.Female, AgeBuckets.Old, Risk.High);
 
+    //Note calls to setup use the same name of allPatients, but do not refer to this array
     var allPatients = [jQuery.extend(true, {}, one),
                         jQuery.extend(true, {}, two),
                         jQuery.extend(true, {}, three),
@@ -565,8 +555,17 @@
         } else {
             console.error("Invalid setting");
         }
-    }
-    var setup = function (allInvestigators, allPatients) {
+    };
+    var validateSequence = function (sequence) {
+        var re = /^(\s)*(([1-9]|1[0-2]),(\s)*)*([1-9]|1[0-2])(\s)*$/;
+        var pass = re.test(sequence);
+        if (!pass) {
+            return "regex fail";
+        } else {
+            return sequence;
+        }
+    };
+    var setup = function (allInvestigators, studyPatients) {
         var study = new Trial(allInvestigators);
         var count = 0;
         var next;
@@ -580,8 +579,8 @@
                 count++;
             }
             var nextInvestigator = allInvestigators[(count) % allInvestigators.length];
-            var patientTemp = allPatients.pop();
-            if (allPatients.length === 0) {
+            var patientTemp = studyPatients.pop();
+            if (studyPatients.length === 0) {
                 $("button#next").hide();
                 $("div#messages div").prepend("<a>No more patients to sort. Study ended.</a><br />");
             }
@@ -597,7 +596,7 @@
         $("button#next").show();
         $("button#next").on("click", function () {
             $("button#next").off("click");
-            nextInvestigator(allInvestigators, allPatients, count, study);
+            nextInvestigator(allInvestigators, studyPatients, count, study);
         });
     };
     
@@ -731,6 +730,21 @@
             $("input[name=includeall]").prop("checked", true);
         } else {
             $("input[name=includeall], input[name=includenone]").prop("checked", false);
+        }
+    });
+    $("input[name=ownsequence]").change(function () {
+        var seq = $(this).val();
+        var selOwn = $("input[name=patientlist]:checked").val() === "own";
+        if (!selOwn) {
+            $("i#ownseqvalid").hide();
+        } else {
+            var res = validateSequence(seq);
+            $("i#ownseqvalid").show();
+            if (res === "regex fail") {
+                $("i#ownseqvalid").attr("class", "fa fa-exclamation");
+            } else {
+                $("i#ownseqvalid").attr("class", "fa fa-check");
+            }
         }
     });
     $("button#restart").click(function () {

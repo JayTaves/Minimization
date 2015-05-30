@@ -60,6 +60,13 @@ button {
     float: left;
     margin: 5px;
 }
+/* These two should always be opposite each other */
 div#setpatients {
+    /*display: none;*/
+}
+div#randompatients {
+    display: none;
+}
+i#ownseqvalid {
     display: none;
 }
