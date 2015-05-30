@@ -562,8 +562,10 @@
         $("i#ownseqvalid").show();
         if (pass) {
             $("i#ownseqvalid").attr("class", "fa fa-check");
+            $("button#start").removeAttr("disabled");
         } else {
             $("i#ownseqvalid").attr("class", "fa fa-exclamation");
+            $("button#start").attr("disabled", "disabled");
         }
         return pass;
     };
@@ -571,7 +573,7 @@
         var study = new Trial(allInvestigators);
         var count = 0;
         var next;
-        
+
         var nextIteration = function () {
             $("button#next").show();
             if (next !== undefined) {
@@ -712,6 +714,15 @@
                 console.error("Something else selected");
             }
         }
+        $("input#savesequence").show();
+        var textpat = "";
+        for (var index = patients.length - 1; index >= 0; index--) {
+            textpat = textpat + patients[index].number;
+            if (index !== 0) {
+                textpat = textpat + ", ";
+            }
+        }
+        $("input#savesequence").val(textpat);
         setup(gators, patients);
     });
     $("select[name=seedtype]").change(function () {
@@ -745,7 +756,7 @@
             $("input[name=includeall], input[name=includenone]").prop("checked", false);
         }
     });
-    $("input[name=ownsequence]").change(function () {
+    $("input[name=ownsequence]").on("change keydown paste input", function () {
         var seq = $(this).val();
         var selOwn = $("input[name=patientlist]:checked").val() === "own";
         if (!selOwn) {

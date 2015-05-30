@@ -70,3 +70,6 @@ div#randompatients {
 i#ownseqvalid {
     display: none;
 }
+input#savesequence {
+    display: none;
+}
