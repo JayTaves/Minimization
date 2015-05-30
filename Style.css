@@ -73,3 +73,14 @@ i#ownseqvalid {
 input#savesequence {
     display: none;
 }
+p.headingdate {
+    font-size: 20px;
+    margin: 0px;
+}
+p.headingtime {
+    font-style: italic;
+    margin: 0px;
+}
+ul {
+    margin-top: 0px;
+}
