@@ -110,18 +110,18 @@
         this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
         
         this.addPatient = function (patient, investigator) {
-            patient.investigator = investigator;
-            var result = minimize(patient, investigator, this.control, this.treatment);
+            patient.investigator = investigator.number;
+            var result = minimize(patient, investigator.number, this.control, this.treatment);
             if (result.res === "control") {
                 this.control = result.control;
                 writeMessage(patient.investigator, patient.number, "add", "control");
                 this.control.updateTable();
-                return "control";
+                groupRes = "control";
             } else if (result.res === "treatment") {
                 this.treatment = result.treatment;
                 writeMessage(patient.investigator, patient.number, "add", "treatment");
                 this.treatment.updateTable();
-                return "treatment";
+                groupRes = "treatment";
             } else if (result.res === "tie") {
                 //var tie = this.tiebreak.pop();
                 var tie = Math.floor(Math.random() * 2);
@@ -130,15 +130,25 @@
                     //writeMessage("<a>Investigator " + patient.investigator + " added patient " + patient.number + ". After a tie break it was added to the treatment group.</a><br />");
                     writeMessage(patient.investigator, patient.number, "add", "tietreatment");
                     this.treatment.updateTable();
-                    return "treatment";
+                    groupRes = "treatment";
                 } else {
                     this.control = result.control;
                     //writeMessage("<a>Investigator " + patient.investigator + " added patient " + patient.number + ". After a tie break it was added to the control group.</a><br />");
                     writeMessage(patient.investigator, patient.number, "add", "tiecontrol");
                     this.control.updateTable();
-                    return "control";
+                    groupRes = "control";
                 } 
+            } else {
+                console.error("Invalid minimization result");
             }
+            if (patient.number === investigator.selectPatient) {
+                if (investigator.targetGroup.toLowerCase() === groupRes) {
+                    investigator.targetScore++;
+                } else {
+                    investigator.nonTargetScore++;
+                }
+            }
+            return groupRes;
         };
     }
     var groupDiff = function (controlGroup, treatmentGroup) {
@@ -247,7 +257,7 @@
             endGame(allInvestigators, allPatients);
         } else {
             if (autoPlay) {
-                var res = study.addPatient(patient, gatorNumber);
+                var res = study.addPatient(patient, investigator);
                 if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                     investigator.targetsGiven++;
                     if (res === investigator.targetGroup) {
@@ -260,7 +270,7 @@
             } else {
                 $("button#next").click(function () {
                     $("button#next").off("click");
-                    res = study.addPatient(patient, gatorNumber);
+                    res = study.addPatient(patient, investigator);
                     if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                         investigator.targetsGiven++;
                         if (res === investigator.targetGroup) {
@@ -282,15 +292,13 @@
                 var tryPat = function () {
                     var result = minimize(patient, gatorNumber, study.control, study.treatment);
                     if (result.res === investigator.targetGroup) {
-                        var patientRes = study.addPatient(patient, gatorNumber);
-                        investigator.targetScore++;
+                        var patientRes = study.addPatient(patient, investigator);
                     } else {
                         if (investigator.heldPatients.length !== 0) {
                             var heldres = minimize(investigator.heldPatients[0].patient, gatorNumber, study.control, study.treatment);
                             if (heldres.res !== investigator.targetGroup && heldres.res !== "tie") {
                                 var sacrificepat = investigator.heldPatients.pop().patient;
-                                study.addPatient(sacrificepat, gatorNumber);
-                                investigator.nonTargetScore++;
+                                study.addPatient(sacrificepat, investigator);
                                 tryPat();    
                             }
                         } else {
@@ -312,13 +320,12 @@
                         var hpat = investigator.heldPatients[index].patient;
                         var result = minimize(hpat, gatorNumber, study.control, study.treatment);
                         if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
-                            patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, gatorNumber);
-                            investigator.targetScore++;
+                            patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, investigator);
                         }
                     } 
                 };
                 tryHeld();
-                patientRes = study.addPatient(patient, gatorNumber);
+                patientRes = study.addPatient(patient, investigator);
                 tryHeld();
             }
             nextInvestigator(allInvestigators, allPatients, count, study);
@@ -342,7 +349,7 @@
         var investigator = this;
         var patientPlaced = false;
         var add = function () {
-            var patientRes = study.addPatient(patient, gatorNumber);
+            var patientRes = study.addPatient(patient, investigator);
             if (patient.number === investigator.selectPatient) {
                 if (patientRes === investigator.targetGroup) {
                     investigator.targetScore++;
@@ -411,7 +418,7 @@
                     return function () {
                         $("button.discardheld, button.addheld").off("click");
                         var patient = investigator.heldPatients.splice(number, 1)[0].patient;
-                        var patientRes = study.addPatient(patient, gatorNumber);
+                        var patientRes = study.addPatient(patient, investigator);
                         if (patient.number === investigator.selectPatient) {
                             if (patientRes === investigator.targetGroup) {
                                 investigator.targetScore++;
