@@ -23,14 +23,14 @@
         this.selectPatient = patient;
         this.targetGroup = group;
         this.heldCounter = function () {
-            for (var index = 0; index < this.heldPatients.length; index++) {
+            for (var index = this.heldPatients.length - 1; index >= 0; index--) {
                 var heldPatient = this.heldPatients[index];
                 if (heldPatient.turns === 0) {
                     writeMessage(this.number, heldPatient.patient.number, "timeout");
                     this.heldPatients.splice(index, 1);
-                    index--;
+                } else {
+                    heldPatient.turns--;
                 }
-                heldPatient.turns--;
             }
         };
     };
@@ -224,6 +224,7 @@
     var eleven = new Patient(11, Gender.Female, AgeBuckets.Old, Risk.Low);
     var twelve = new Patient(12, Gender.Female, AgeBuckets.Old, Risk.High);
 
+    //Note calls to setup use the same name of allPatients, but do not refer to this array
     var allPatients = [jQuery.extend(true, {}, one),
                         jQuery.extend(true, {}, two),
                         jQuery.extend(true, {}, three),
@@ -282,7 +283,7 @@
                     } else {
                         if (investigator.heldPatients.length !== 0) {
                             var heldres = minimize(investigator.heldPatients[0].patient, gatorNumber, study.control, study.treatment);
-                            if (heldres.res !== investigator.targetGroup) {
+                            if (heldres.res !== investigator.targetGroup && heldres.res !== "tie") {
                                 var sacrificepat = investigator.heldPatients.pop().patient;
                                 study.addPatient(sacrificepat, gatorNumber);
                                 tryPat();    
@@ -301,21 +302,17 @@
                 }
                 tryPat();
             } else {
-                var turnOver = false;
-                for (var index = 0; !turnOver && index < investigator.heldPatients.length; index++) {
-                    var result = minimize(investigator.heldPatients[index].patient, gatorNumber, study.control, study.treatment);
-                    if (result.res === investigator.targetGroup && patient.number === investigator.selectPatient) {
+                for (var index = 0; index < investigator.heldPatients.length; index++) {
+                    var hpat = investigator.heldPatients[index].patient;
+                    var result = minimize(hpat, gatorNumber, study.control, study.treatment);
+                    if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
                         writeMessage(gatorNumber, patient.number, "discard");
                         patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, gatorNumber);
                         investigator.targetScore++;
-                        turnOver = true;
                     }
                 } 
-                if (!turnOver) {
-                    patientRes = study.addPatient(patient, gatorNumber);
-                }
+                patientRes = study.addPatient(patient, gatorNumber);
             }
-            //investigator.heldCounter();
             nextInvestigator(allInvestigators, allPatients, count, study);
         };
         if (patient === undefined) {
@@ -558,12 +555,25 @@
         } else {
             console.error("Invalid setting");
         }
-    }
-    var setup = function (allInvestigators, allPatients) {
+    };
+    var validateSequence = function (sequence) {
+        var re = /^(\s)*(([1-9]|1[0-2]),(\s)*)*([1-9]|1[0-2])(\s)*$/;
+        var pass = re.test(sequence);
+        $("i#ownseqvalid").show();
+        if (pass) {
+            $("i#ownseqvalid").attr("class", "fa fa-check");
+            $("button#start").removeAttr("disabled");
+        } else {
+            $("i#ownseqvalid").attr("class", "fa fa-exclamation");
+            $("button#start").attr("disabled", "disabled");
+        }
+        return pass;
+    };
+    var setup = function (allInvestigators, studyPatients) {
         var study = new Trial(allInvestigators);
         var count = 0;
         var next;
-        
+
         var nextIteration = function () {
             $("button#next").show();
             if (next !== undefined) {
@@ -573,8 +583,8 @@
                 count++;
             }
             var nextInvestigator = allInvestigators[(count) % allInvestigators.length];
-            var patientTemp = allPatients.pop();
-            if (allPatients.length === 0) {
+            var patientTemp = studyPatients.pop();
+            if (studyPatients.length === 0) {
                 $("button#next").hide();
                 $("div#messages div").prepend("<a>No more patients to sort. Study ended.</a><br />");
             }
@@ -590,7 +600,7 @@
         $("button#next").show();
         $("button#next").on("click", function () {
             $("button#next").off("click");
-            nextInvestigator(allInvestigators, allPatients, count, study);
+            nextInvestigator(allInvestigators, studyPatients, count, study);
         });
     };
     
@@ -687,12 +697,32 @@
         } else {
             if ($("input[name=patientlist]:checked").val() === "standard") {
                 patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
-            } else if ($("input[name=patientlist]:checked").val() === "other1") {
-                patients = [allPatients[12], allPatients[3], allPatients[10], allPatients[7], allPatients[12], allPatients[6], allPatients[4], allPatients[12], allPatients[7], allPatients[10], allPatients[0], allPatients[11], allPatients[3], allPatients[10]];
+            } else if ($("input[name=patientlist]:checked").val() === "own") {
+                var seq = $("input[name=ownsequence]").val();
+                if (validateSequence(seq)) {
+                    patients = [];
+                    seq = seq.split(",");
+                    for (var index = 0; index < seq.length; index++) {
+                        seq[index] = parseInt(seq[index], 10) - 1;
+                        patients.push(allPatients[seq[index]]);
+                    }
+                    patients.reverse();
+                } else {
+                    return;
+                }
             } else {
                 console.error("Something else selected");
             }
         }
+        $("input#savesequence").show();
+        var textpat = "";
+        for (var index = patients.length - 1; index >= 0; index--) {
+            textpat = textpat + patients[index].number;
+            if (index !== 0) {
+                textpat = textpat + ", ";
+            }
+        }
+        $("input#savesequence").val(textpat);
         setup(gators, patients);
     });
     $("select[name=seedtype]").change(function () {
@@ -724,6 +754,15 @@
             $("input[name=includeall]").prop("checked", true);
         } else {
             $("input[name=includeall], input[name=includenone]").prop("checked", false);
+        }
+    });
+    $("input[name=ownsequence]").on("change keydown paste input", function () {
+        var seq = $(this).val();
+        var selOwn = $("input[name=patientlist]:checked").val() === "own";
+        if (!selOwn) {
+            $("i#ownseqvalid").hide();
+        } else {
+            validateSequence(seq);
         }
     });
     $("button#restart").click(function () {

@@ -5,6 +5,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="MinimisationSample.js"></script>
     <link rel="stylesheet" href="Style.css" />
+    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
 </head>
 <body>
     <div id="studysetup">
@@ -106,8 +107,8 @@
         <p id="patientstitle" class="heading">Choose patients to be seeded</p>
         <div id="patientssettings">
             <select name="seedtype">
-                <option>Predetermined</option>
-                <option selected="selected">Random</option>
+                <option selected="selected">Predetermined</option>
+                <option>Random</option>
             </select>
             <br /><br />
             <div id="randompatients">
@@ -135,8 +136,9 @@
             </div>
             <div id="setpatients">
                 <input name="patientlist" value="standard" type="radio" checked />Standard <br />
-                <input name="patientlist" value="other1" type="radio" disabled="disabled" />Some other predetermined sequence <br />
-                <input name="patientlist" value="other2" type="radio" disabled="disabled" />You can have a bunch of predetermined sequences here <br />
+                <input name="patientlist" value="own" type="radio" />My own sequence
+                <input name="ownsequence" type="text" placeholder="comma separated sequence" />
+                <i id="ownseqvalid" class="fa fa-check"></i><br />
             </div>
         </div>
         <br />
@@ -169,6 +171,8 @@
                 <td class="high">0</td>
             </tr>
         </table>
+        <br />
+        Patient sequence (for saving) <input id="savesequence" type="text" size="5" readonly="readonly" />
     </div>
     <div id="study">
         <div id="treatment" class="table">
@@ -249,7 +253,6 @@
     </div>
     <button id="next" style="display:none">Next Patient</button>
     <button id="restart">Restart</button>
-    <br />
     <div id="cards">
        <div id="playerturn">
             <p class="heading">Your Turn (Investigator <a class="playergator"></a>)</p>
