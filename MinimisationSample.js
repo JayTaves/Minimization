@@ -249,6 +249,7 @@
             if (autoPlay) {
                 var res = study.addPatient(patient, gatorNumber);
                 if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
+                    investigator.targetsGiven++;
                     if (res === investigator.targetGroup) {
                         investigator.targetScore++;
                     } else {
@@ -261,6 +262,7 @@
                     $("button#next").off("click");
                     res = study.addPatient(patient, gatorNumber);
                     if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
+                        investigator.targetsGiven++;
                         if (res === investigator.targetGroup) {
                             investigator.targetScore++;
                         } else {
