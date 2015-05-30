@@ -290,6 +290,7 @@
                             if (heldres.res !== investigator.targetGroup && heldres.res !== "tie") {
                                 var sacrificepat = investigator.heldPatients.pop().patient;
                                 study.addPatient(sacrificepat, gatorNumber);
+                                investigator.nonTargetScore++;
                                 tryPat();    
                             }
                         } else {
