@@ -62,10 +62,10 @@ button {
 }
 /* These two should always be opposite each other */
 div#setpatients {
-    /*display: none;*/
+    display: none;
 }
 div#randompatients {
-    display: none;
+    /*display: none;*/
 }
 i#ownseqvalid {
     display: none;

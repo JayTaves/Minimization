@@ -20,6 +20,7 @@
         this.heldPatients = [];
         this.targetScore = 0;
         this.nonTargetScore = 0;
+        this.targetsGiven = 0;
         this.selectPatient = patient;
         this.targetGroup = group;
         this.heldCounter = function () {
@@ -275,6 +276,7 @@
         var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
         var turn = function () {
             if (patient.number === investigator.selectPatient) {
+                investigator.targetsGiven++;
                 var tryPat = function () {
                     var result = minimize(patient, gatorNumber, study.control, study.treatment);
                     if (result.res === investigator.targetGroup) {
@@ -302,16 +304,19 @@
                 }
                 tryPat();
             } else {
-                for (var index = 0; index < investigator.heldPatients.length; index++) {
-                    var hpat = investigator.heldPatients[index].patient;
-                    var result = minimize(hpat, gatorNumber, study.control, study.treatment);
-                    if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
-                        writeMessage(gatorNumber, patient.number, "discard");
-                        patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, gatorNumber);
-                        investigator.targetScore++;
-                    }
-                } 
+                var tryHeld = function () {
+                    for (var index = 0; index < investigator.heldPatients.length; index++) {
+                        var hpat = investigator.heldPatients[index].patient;
+                        var result = minimize(hpat, gatorNumber, study.control, study.treatment);
+                        if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
+                            patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, gatorNumber);
+                            investigator.targetScore++;
+                        }
+                    } 
+                };
+                tryHeld();
                 patientRes = study.addPatient(patient, gatorNumber);
+                tryHeld();
             }
             nextInvestigator(allInvestigators, allPatients, count, study);
         };
@@ -441,6 +446,9 @@
                 add();
                 endTurn();
             } else {
+                if (patient.number === this.selectPatient) {
+                    investigator.targetsGiven++;
+                }
                 $("div#playerturn").show();
                 $("button#next").hide();
                 $("a.playergator").text(gatorNumber);
@@ -495,9 +503,9 @@
         for (var index = 0; index < allInvestigators.length; index++) {
             var investigator = allInvestigators[index];
             if (investigator.strategyName === "cheat" || investigator.strategyName === "random") {
-                writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore }, "score");
+                writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score");
             } else if (investigator.strategyName === "player") {
-                writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore }, "score", "player");
+                writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score", "player");
             }
         }
     }
@@ -530,11 +538,12 @@
             } else if (action === "score") {
                 var points = patientNum.target;
                 var nonPoints = patientNum.nonTarget;
+                var given = patientNum.given;
                 message = "<a>Investigator " + gatorNum;
                 if (result === "player") {
                     message += " (you)";
                 }
-                message += " got " + points + " into their target group and " + nonPoints + " into the other group.</a><br />";
+                message += " was given " + given + " select patients, got " + points + " into their target group and " + nonPoints + " into the other group.</a><br />";
             } else {
                 console.error("Invalid action");
             }
@@ -723,6 +732,7 @@
             }
         }
         $("input#savesequence").val(textpat);
+        $("p#lastupdated").hide();
         setup(gators, patients);
     });
     $("select[name=seedtype]").change(function () {
