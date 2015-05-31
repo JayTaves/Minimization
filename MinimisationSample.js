@@ -7,11 +7,22 @@
     var minimizeInvestigator = false;
 
     var Patient = function (number, gender, age, risk) {
-        this.number = number;
-        this.gender = gender;
-        this.age = age;
-        this.risk = risk;
-        this.investigator = undefined;
+        if (isNaN(number)) {
+            var patient = number;
+            this.number = patient.number;
+            this.gender = patient.gender;
+            this.age = patient.age;
+            this.risk = patient.risk;
+            this.investigator = patient.investigator;
+            this.tag = patient.tag;
+        } else {
+            this.number = number;
+            this.gender = gender;
+            this.age = age;
+            this.risk = risk;
+            this.investigator = undefined;
+            this.tag = "";
+        }
     };
     var Investigator = function (number, strategy, strategyName, patient, group) {
         this.number = number;
@@ -23,18 +34,24 @@
         this.targetsGiven = 0;
         this.selectPatient = patient;
         this.targetGroup = group;
+        this.tagdex = 0;
+        this.getTag = function () {
+            var alphabet = "abcdefghijklmnopqrstuvwxyz";
+            //val++ returns val and then increments val
+            return alphabet[this.tagdex++ % alphabet.length];
+        };
         this.holdPatient = function (heldPatient) {
             this.heldPatients.push({
                 patient: heldPatient, 
-                turns: heldTurns 
+                turns: heldTurns
             });
-            writeMessage(this.number, heldPatient.number, "hold");
+            writeMessage(this.number, heldPatient, "hold");
         };
         this.heldCounter = function () {
             for (var index = this.heldPatients.length - 1; index >= 0; index--) {
                 var heldPatient = this.heldPatients[index];
                 if (heldPatient.turns === 0) {
-                    writeMessage(this.number, heldPatient.patient.number, "timeout");
+                    writeMessage(this.number, heldPatient.patient, "timeout");
                     this.heldPatients.splice(index, 1);
                 } else {
                     heldPatient.turns--;
@@ -121,12 +138,12 @@
             var result = minimize(patient, investigator.number, this.control, this.treatment);
             if (result.res === "control") {
                 this.control = result.control;
-                writeMessage(patient.investigator, patient.number, "add", "control");
+                writeMessage(patient.investigator, patient, "add", "control");
                 this.control.updateTable();
                 groupRes = "control";
             } else if (result.res === "treatment") {
                 this.treatment = result.treatment;
-                writeMessage(patient.investigator, patient.number, "add", "treatment");
+                writeMessage(patient.investigator, patient, "add", "treatment");
                 this.treatment.updateTable();
                 groupRes = "treatment";
             } else if (result.res === "tie") {
@@ -134,14 +151,12 @@
                 var tie = Math.floor(Math.random() * 2);
                 if (tie === 0) {
                     this.treatment = result.treatment;
-                    //writeMessage("<a>Investigator " + patient.investigator + " added patient " + patient.number + ". After a tie break it was added to the treatment group.</a><br />");
-                    writeMessage(patient.investigator, patient.number, "add", "tietreatment");
+                    writeMessage(patient.investigator, patient, "add", "tietreatment");
                     this.treatment.updateTable();
                     groupRes = "treatment";
                 } else {
                     this.control = result.control;
-                    //writeMessage("<a>Investigator " + patient.investigator + " added patient " + patient.number + ". After a tie break it was added to the control group.</a><br />");
-                    writeMessage(patient.investigator, patient.number, "add", "tiecontrol");
+                    writeMessage(patient.investigator, patient, "add", "tiecontrol");
                     this.control.updateTable();
                     groupRes = "control";
                 } 
@@ -267,6 +282,7 @@
                 var res = study.addPatient(patient, investigator);
                 if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                     investigator.targetsGiven++;
+                    patient.tag = investigator.getTag();
                     if (res === investigator.targetGroup) {
                         investigator.targetScore++;
                     } else {
@@ -293,9 +309,11 @@
     }
     var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) {
         var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
+        var investigator = this;
         var turn = function () {
             tryHeld();
             if (patient.number === investigator.selectPatient) {
+                patient.tag = investigator.getTag();
                 investigator.targetsGiven++;
                 var result = minimize(patient, gatorNumber, study.control, study.treatment);
                 if (result.res === investigator.targetGroup) {
@@ -322,7 +340,6 @@
         if (patient === undefined) {
             endGame(allInvestigators, allPatients);
         } else {
-            var investigator = this;
             if (autoPlay) {
                 turn();
             } else {
@@ -361,7 +378,7 @@
             $("button#playerendturn").show();
         };
         var discard = function () {
-            writeMessage(investigator.number, patient.number, "discard");
+            writeMessage(investigator.number, patient, "discard");
             patientPlaced = true;
             heldTable();
             $("button.actions").hide();
@@ -394,7 +411,7 @@
                     return function () {
                         $("button.discardheld, button.addheld").off("click");
                         var patient = investigator.heldPatients.splice(number, 1)[0].patient;
-                        writeMessage(gatorNumber, patient.number, "discard");
+                        writeMessage(gatorNumber, patient, "discard");
                         currentPatientPrediction();
                         heldTable();
                     };
@@ -442,6 +459,7 @@
                 endTurn();
             } else {
                 if (patient.number === this.selectPatient) {
+                    patient.tag = investigator.getTag();
                     investigator.targetsGiven++;
                 }
                 $("div#playerturn").show();
@@ -504,7 +522,7 @@
             }
         }
     }
-    var writeMessage = function (gatorNum, patientNum, action, result) {
+    var writeMessage = function (gatorNum, patient, action, result) {
         var message;
         if (gatorNum === 0) {
             if (action === "end") {
@@ -512,7 +530,7 @@
             } 
         } else {
             if (action === "add") {
-                message = "<a>Investigator " + gatorNum + " added patient " + patientNum + ".";
+                message = "<a>Investigator " + gatorNum + " added patient " + patient.number + patient.tag + ".";
                 if (result === "treatment") {
                     message += " It was added to the treatment group.</a><br />";
                 } else if (result === "control") {
@@ -525,15 +543,15 @@
                     console.error("Invalid result");
                 }
             } else if (action === "hold") {
-                message = "<a>Investigator " + gatorNum + " held patient " + patientNum + ".</a><br />";
+                message = "<a>Investigator " + gatorNum + " held patient " + patient.number + patient.tag + ".</a><br />";
             } else if (action === "discard") {
-                message = "<a>Investigator " + gatorNum + " discarded patient " + patientNum + " from the study.</a><br />";
+                message = "<a>Investigator " + gatorNum + " discarded patient " + patient.number + patient.tag + " from the study.</a><br />";
             } else if (action === "timeout") {
-                message = "<a>Investigator " + gatorNum + " discarded patient " + patientNum + " because it was held for too long.</a><br />";
+                message = "<a>Investigator " + gatorNum + " discarded patient " + patient.number + patient.tag + " because it was held for too long.</a><br />";
             } else if (action === "score") {
-                var points = patientNum.target;
-                var nonPoints = patientNum.nonTarget;
-                var given = patientNum.given;
+                var points = patient.target;
+                var nonPoints = patient.nonTarget;
+                var given = patient.given;
                 message = "<a>Investigator " + gatorNum;
                 if (result === "player") {
                     message += " (you)";
@@ -691,7 +709,7 @@
                 patients = [];  
                 for (var index = 0; index < studyLength; index++) {
                     var randomNum = Math.floor(Math.random() * allPatients.length);
-                    patients.push(allPatients[randomNum]);
+                    patients.push(new Patient(allPatients[randomNum]));
                 }
             } else {
                 $("input[name=patientslength]").val("");
@@ -708,7 +726,7 @@
                     seq = seq.split(",");
                     for (var index = 0; index < seq.length; index++) {
                         seq[index] = parseInt(seq[index], 10) - 1;
-                        patients.push(allPatients[seq[index]]);
+                        patients.push(new Patient(allPatients[seq[index]]));
                     }
                     patients.reverse();
                 } else {
@@ -727,7 +745,7 @@
             }
         }
         $("input#savesequence").val(textpat);
-        $("p#lastupdated").hide();
+        $("div#someupdates").hide();
         setup(gators, patients);
     });
     $("select[name=seedtype]").change(function () {
