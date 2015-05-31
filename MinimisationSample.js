@@ -294,6 +294,7 @@
     var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) {
         var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
         var turn = function () {
+            tryHeld();
             if (patient.number === investigator.selectPatient) {
                 investigator.targetsGiven++;
                 var result = minimize(patient, gatorNumber, study.control, study.treatment);
@@ -303,20 +304,20 @@
                     investigator.holdPatient(patient);
                 }
             } else {
-                var tryHeld = function () {
-                    for (var index = 0; index < investigator.heldPatients.length; index++) {
-                        var hpat = investigator.heldPatients[index].patient;
-                        var result = minimize(hpat, gatorNumber, study.control, study.treatment);
-                        if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
-                            patientRes = study.addPatient(investigator.heldPatients.splice(index, 1)[0].patient, investigator);
-                        }
-                    } 
-                };
-                tryHeld();
                 patientRes = study.addPatient(patient, investigator);
                 tryHeld();
             }
             nextInvestigator(allInvestigators, allPatients, count, study);
+        };
+        var tryHeld = function () {
+            for (var index = 0; index < investigator.heldPatients.length; index++) {
+                var hpat = investigator.heldPatients[index].patient;
+                var result = minimize(hpat, gatorNumber, study.control, study.treatment);
+                if (result.res === investigator.targetGroup && hpat.number === investigator.selectPatient) {
+                    patientRes = study.addPatient(investigator.heldPatients.shift().patient, investigator);
+                    index--;
+                }
+            }
         };
         if (patient === undefined) {
             endGame(allInvestigators, allPatients);
