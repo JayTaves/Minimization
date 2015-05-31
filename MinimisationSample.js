@@ -23,6 +23,13 @@
         this.targetsGiven = 0;
         this.selectPatient = patient;
         this.targetGroup = group;
+        this.holdPatient = function (heldPatient) {
+            this.heldPatients.push({
+                patient: heldPatient, 
+                turns: heldTurns 
+            });
+            writeMessage(this.number, heldPatient.number, "hold");
+        };
         this.heldCounter = function () {
             for (var index = this.heldPatients.length - 1; index >= 0; index--) {
                 var heldPatient = this.heldPatients[index];
@@ -289,31 +296,12 @@
         var turn = function () {
             if (patient.number === investigator.selectPatient) {
                 investigator.targetsGiven++;
-                var tryPat = function () {
-                    var result = minimize(patient, gatorNumber, study.control, study.treatment);
-                    if (result.res === investigator.targetGroup) {
-                        var patientRes = study.addPatient(patient, investigator);
-                    } else {
-                        if (investigator.heldPatients.length !== 0) {
-                            var heldres = minimize(investigator.heldPatients[0].patient, gatorNumber, study.control, study.treatment);
-                            if (heldres.res !== investigator.targetGroup && heldres.res !== "tie") {
-                                var sacrificepat = investigator.heldPatients.pop().patient;
-                                study.addPatient(sacrificepat, investigator);
-                                tryPat();    
-                            }
-                        } else {
-                            if (investigator.heldPatients.length === allowedLength) {
-                                //Swap to gain more turns on held patient
-                                var discardPatient = investigator.heldPatients.pop().patient;
-                                writeMessage(gatorNumber, discardPatient.number, "discard");
-                            } else {
-                                investigator.heldPatients.push({ patient: patient, turns: heldTurns });
-                                writeMessage(gatorNumber, patient.number, "hold");
-                            }
-                        }
-                    }
+                var result = minimize(patient, gatorNumber, study.control, study.treatment);
+                if (result.res === investigator.targetGroup) {
+                    study.addPatient(patient, investigator);
+                } else {
+                    investigator.holdPatient(patient);
                 }
-                tryPat();
             } else {
                 var tryHeld = function () {
                     for (var index = 0; index < investigator.heldPatients.length; index++) {
@@ -364,11 +352,7 @@
             $("button#playerendturn").show();
         };
         var hold = function () {
-            investigator.heldPatients.push({ 
-                patient: patient, 
-                turns: heldTurns 
-            });
-            writeMessage(gatorNumber, patient.number, "hold");
+            investigator.holdPatient(patient);
             patientPlaced = true;
             heldTable();
             $("button.actions").hide();
