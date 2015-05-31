@@ -283,11 +283,6 @@
                 if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                     investigator.targetsGiven++;
                     patient.tag = investigator.getTag();
-                    if (res === investigator.targetGroup) {
-                        investigator.targetScore++;
-                    } else {
-                        investigator.nonTargetScore++;
-                    }
                 }
                 nextInvestigator(allInvestigators, allPatients, count, study);
             } else {
@@ -296,11 +291,6 @@
                     res = study.addPatient(patient, investigator);
                     if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                         investigator.targetsGiven++;
-                        if (res === investigator.targetGroup) {
-                            investigator.targetScore++;
-                        } else {
-                            investigator.nonTargetScore++;
-                        }
                     }
                     nextInvestigator(allInvestigators, allPatients, count, study);
                 });
@@ -356,13 +346,6 @@
         var patientPlaced = false;
         var add = function () {
             var patientRes = study.addPatient(patient, investigator);
-            if (patient.number === investigator.selectPatient) {
-                if (patientRes === investigator.targetGroup) {
-                    investigator.targetScore++;
-                } else {
-                    investigator.nonTargetScore++;
-                }
-            }
             patientPlaced = true;
             heldTable();
             $("button.actions").hide();
@@ -421,13 +404,6 @@
                         $("button.discardheld, button.addheld").off("click");
                         var patient = investigator.heldPatients.splice(number, 1)[0].patient;
                         var patientRes = study.addPatient(patient, investigator);
-                        if (patient.number === investigator.selectPatient) {
-                            if (patientRes === investigator.targetGroup) {
-                                investigator.targetScore++;
-                            } else {
-                                investigator.nonTargetScore++;
-                            }
-                        }
                         currentPatientPrediction();
                         heldTable();
                     };
