@@ -10,7 +10,7 @@
 <body>
     <div id="studysetup">
         <p class="heading">Choose Investigator Strategies</p>
-        Number of investigators: 
+        Number of investigators:
         <select name="number">
             <option selected="selected">1</option>
             <option>2</option>
@@ -31,7 +31,7 @@
                 <input name="gator0" type="radio" value="random" />Normal
                 <br />
                 <input name="gator0" type="radio" value="cheat" />Cheat (computer): patient
-                
+
                 <select name="computergator0">
                     <option selected="selected">1</option>
                     <option>2</option>
@@ -67,7 +67,7 @@
                     <option>10</option>
                     <option>11</option>
                     <option>12</option>
-                </select> 
+                </select>
                 into the
                 <select name="playergroupgator0">
                     <option selected="selected" value="treatment">Treatment</option>
@@ -103,6 +103,15 @@
             <input name="autoplay" type="radio" value="true" />Player only takes turns that involve a select patient
             <br /><br />
             <input name="minimizeinvestigator" type="checkbox" value="true" />Include investigator in minimization
+            <br /><br />
+            Minimization algorithm exponent
+            <select name="minimizationexponent">
+                <option selected="selected">1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
         </div>
         <p id="patientstitle" class="heading">Choose patients to be seeded</p>
         <div id="patientssettings">
@@ -144,7 +153,7 @@
         <br />
         <button id="start">Start Study</button>
     </div>
-    
+
     <div id="patient">
         <p class="heading">Patient <a id="patientnumber"></a></p>
         <table class="patient">
@@ -279,7 +288,7 @@
                 <button id="playerdiscard" class="player actions">Discard patient</button>
                 <button id="playerendturn" class="player" style="display:none">End Turn</button>
             </div>
-        </div> 
+        </div>
         <div id="messages">
             <p class="heading">Messages</p>
             <div class="border">
@@ -292,6 +301,11 @@
     <div id="someupdates">
         <p class="heading">Latest Updates</p>
         <div class="border">
+            <p class="headingdate">June 6</p>
+            <p class="headingtime">2:30pm</p>
+            <ul>
+                <li>Option to choose the exponent used in summing up category differences</li>
+            </ul>
             <p class="headingdate">May 31</p>
             <p class="headingtime">11:50am</p>
             <ul>

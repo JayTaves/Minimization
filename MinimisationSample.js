@@ -5,6 +5,7 @@
     var playerView = "full";
     var autoPlay = false;
     var minimizeInvestigator = false;
+    var minimizationExponent = 1;
 
     var Patient = function (number, gender, age, risk) {
         if (isNaN(number)) {
@@ -42,7 +43,7 @@
         };
         this.holdPatient = function (heldPatient) {
             this.heldPatients.push({
-                patient: heldPatient, 
+                patient: heldPatient,
                 turns: heldTurns
             });
             writeMessage(this.number, heldPatient, "hold");
@@ -132,7 +133,7 @@
 
         this.control = new Group("Control", $("#control table.maintable"), this.numInvestigators);
         this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
-        
+
         this.addPatient = function (patient, investigator) {
             patient.investigator = investigator.number;
             var result = minimize(patient, investigator.number, this.control, this.treatment);
@@ -159,7 +160,7 @@
                     writeMessage(patient.investigator, patient, "add", "tiecontrol");
                     this.control.updateTable();
                     groupRes = "control";
-                } 
+                }
             } else {
                 console.error("Invalid minimization result");
             }
@@ -176,16 +177,16 @@
     var groupDiff = function (controlGroup, treatmentGroup) {
         var comparison = {};
         for (var prop in controlGroup.characteristics) {
-            comparison[prop] = Math.abs(controlGroup.characteristics[prop].count - treatmentGroup.characteristics[prop].count);
+            comparison[prop] = Math.pow(Math.abs(controlGroup.characteristics[prop].count - treatmentGroup.characteristics[prop].count), minimizationExponent);
         }
         if (minimizeInvestigator) {
             for (var index = 0; index < controlGroup.investigators.length; index++) {
-                comparison["i" + index] = Math.abs(controlGroup.investigators[index].count - treatmentGroup.investigators[index].count);
+                comparison["i" + index] = Math.pow(Math.abs(controlGroup.investigators[index].count - treatmentGroup.investigators[index].count), minimizationExponent);
             }
         }
-        comparison["subjects"] = Math.abs(controlGroup.patients.length - treatmentGroup.patients.length);
+        comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length - treatmentGroup.patients.length), minimizationExponent);
         var diff = 0;
-        for (var prop in comparison) {
+        for (prop in comparison) {
             diff += comparison[prop];
         }
         return diff;
@@ -388,7 +389,7 @@
                 $("a.playerheld").text("");
                 //Both of these are higher-order functions to get around the stupid closure/for loop rules in the loop below
                 //Maybe there is an easier way to solve this problem but I'm not aware of it
-                //Writing function () { discardHeld(index); } as the callback will fail as index will refer to the most recent value 
+                //Writing function () { discardHeld(index); } as the callback will fail as index will refer to the most recent value
                 //  stored in index, not the value it had at that loop iteration
                 var discardHeld = function (number) {
                     return function () {
@@ -415,10 +416,10 @@
                         "<td>" + heldPatient.patient.number + "</td>" +
                         "<td>" + heldPatient.turns + "</td>" +
                         "<td>" + minimize(heldPatient.patient, gatorNumber, study.control, study.treatment).res + "</td>" +
-                        "<td>" + 
+                        "<td>" +
                             "<button class='discardheld " + index + "'>Discard</discard>" +
                         "</td>" +
-                        "<td>" + 
+                        "<td>" +
                             "<button class='addheld " + index + "'>Add</button>" +
                         "</td>" +
                     "</tr>").insertAfter("tr.heldtitle");
@@ -503,7 +504,7 @@
         if (gatorNum === 0) {
             if (action === "end") {
                 message = "<a>" + result + "</a><br />";
-            } 
+            }
         } else {
             if (action === "add") {
                 message = "<a>Investigator " + gatorNum + " added patient " + patient.number + patient.tag + ".";
@@ -542,14 +543,14 @@
         } else if (playerView === "partial") {
             if (action === "add") {
                 $("div#messages div").prepend(message);
-                //There are two elements with a message, <a> and <br /> so we divide the length by two and remove the last two. 
+                //There are two elements with a message, <a> and <br /> so we divide the length by two and remove the last two.
                 //Maching it to three, checks that there are already three messages there (we add the new message before removing the old one)
                 if ($("div#messages div").children().length / 2 === 3) {
                     $("div#messages div").children().slice(-2).remove();
                 }
             } else if (action === "end" || action === "score") {
                 $("div#messages div").prepend(message);
-            } 
+            }
         } else {
             console.error("Invalid setting");
         }
@@ -601,12 +602,12 @@
             nextInvestigator(allInvestigators, studyPatients, count, study);
         });
     };
-    
+
     $("select[name=number]").change(function () {
         $("div#investigators").empty();
         var numGators = parseInt($("select[name=number]").val(), 10);
         for (var index = 0; index < numGators; index++) {
-            var computerSelect = 
+            var computerSelect =
                 "<select name='computergator" + index + "'>" +
                     "<option selected='selected' >1</option>";
             var computerGroupSelect =
@@ -631,11 +632,11 @@
             playerSelect += "</select>";
             $("div#investigators").append(
                 "<div class='strategy'>" +
-                    "<a>Investigator " + (index + 1) + ": </a>" + "<br />" +
+                    "<a>Investigator " + index + 1 + ": </a>" + "<br />" +
                     "<input name='gator" + index + "' type='radio' value='random' checked />Normal" + "<br />" +
                     "<input name='gator" + index + "' type='radio' value='cheat' />Cheat (computer): patient " +
-                    computerSelect + " into the " + computerGroupSelect + " group.<br />" + 
-                    "<input name='gator" + index + "' type='radio' value='player' />Cheat (player): patient " + 
+                    computerSelect + " into the " + computerGroupSelect + " group.<br />" +
+                    "<input name='gator" + index + "' type='radio' value='player' />Cheat (player): patient " +
                     playerSelect + " into the " + playerGroupSelect + " group." +
                 "</div>");
         }
@@ -666,6 +667,7 @@
         playerView = $("input[name=playerview]:checked").val();
         autoPlay = $("input[name=autoplay]:checked").val() === "true";
         minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
+        minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
         if (autoPlay) {
             $("button#next").text("Start");
         }
@@ -682,7 +684,7 @@
             });
             var studyLength = parseInt($("input[name=patientslength]").val(), 10);
             if (!isNaN(studyLength)) {
-                patients = [];  
+                patients = [];
                 for (var index = 0; index < studyLength; index++) {
                     var randomNum = Math.floor(Math.random() * allPatients.length);
                     patients.push(new Patient(allPatients[randomNum]));
