@@ -6,7 +6,7 @@ investigatorBlock =	function (number) {
 					"<br />" +
 					"<input name='gator" + number + "' type='radio' value='normal' />Normal" +
 					"<br />" +
-					"<input name='gator" + number + "' type='radio' value='cheat' />Cheat (computer): patient" +
+					"<input name='gator" + number + "' type='radio' value='computer' />Cheat (computer): patient" +
 					"<select name='computergator" + number + "' >" +
 						"<option selected='selected'>1</option>" +
 						"<option>2</option>" +
@@ -98,7 +98,7 @@ Investigator = function (number, select, group, strategy) {
 					investigatorClosure.selectPatient = 1;
 					investigatorClosure.targetGroup = "treatment";
 					break;
-				case "cheat":
+				case "computer":
 					investigatorClosure.selectPatient = parseInt($(investigatorClosure.computerSelect).val(), 10);
 					investigatorClosure.targetGroup = $(investigatorClosure.computerGroup).val();
 					break;
@@ -121,21 +121,21 @@ $(document).ready(function () {
 	numInvestigators = 1;
 	allInvestigators = [];
 	allInvestigators.push(new Investigator(1, 1, "treatment", "player"));
-	allInvestigators[0].createPanel($("div.strategy"));
+	allInvestigators[0].createPanel($("div#investigators"));
 
 	$("#investigatornumber").on("change", function () {
 		var newNum, index;
 
-		newNum = $(this).val();
+		newNum = parseInt($(this).val());
 		if (newNum > numInvestigators) {
 			for (index = numInvestigators + 1; index <= newNum; index++) {
 				allInvestigators.push(new Investigator(index));
-				allInvestigators[index - 1].createPanel($("div.strategy"));
+				allInvestigators[index - 1].createPanel($("div#investigators"));
 			}
 		} else {
 			for (index = numInvestigators - 1; index >= newNum; index--) {
 				allInvestigators[index].deletePanel();
-				allInvestigators = allInvestigators.splice(index, 1);
+				allInvestigators.splice(index, 1);
 			}
 		}
 		numInvestigators = newNum;
