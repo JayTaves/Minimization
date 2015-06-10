@@ -1,4 +1,6 @@
-var investigatorBlock, numInvestigators, Investigator, allInvestigators;
+var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Patient, patientTypes, allInvestigators;
+
+currentStudy_ = undefined;
 
 investigatorBlock =	function (number) {
 		return	"<div class='strategy'>" +
@@ -116,6 +118,56 @@ Investigator = function (number, select, group, strategy) {
 	};
 };
 
+Study = function () {
+	this.count = 0;
+	this.patients = [patientTypes[0], patientTypes[1], patientTypes[2], patientTypes[3]];
+	this.currentPatObj = {
+		num : $("a#patientnumber"),
+		male : $("tr.patient > td.male"),
+		female : $("tr.patient > td.female"),
+		young : $("tr.patient > td.young"),
+		middle : $("tr.patient > td.middle"),
+		old : $("tr.patient > td.old"),
+		low : $("tr.patient > td.low"),
+		high : $("tr.patient > td.high")
+	};
+	this.deal = function () {
+
+	};
+	this.currentPatient = function (patient) {
+		this.currentPatObj.num.text(patient.number);
+		this.currentPatObj.male.text(patient.gender === "male" ? 1 : 0);
+		this.currentPatObj.female.text(patient.gender === "female" ? 1 : 0);
+		this.currentPatObj.young.text(patient.age === "young" ? 1 : 0);
+		this.currentPatObj.middle.text(patient.age === "middle" ? 1 : 0);
+		this.currentPatObj.old.text(patient.age === "old" ? 1 : 0);
+		this.currentPatObj.low.text(patient.risk === "low" ? 1 : 0);
+		this.currentPatObj.high.text(patient.risk === "high" ? 1 : 0);
+	};
+};
+
+Patient = function (num, gender, age, risk) {
+	this.number = num;
+	this.gender = gender;
+	this.age = age;
+	this.risk = risk;
+};
+
+patientTypes = [
+	new Patient(1, "male", "young", "low"),
+	new Patient(2, "male", "young", "high"),
+	new Patient(3, "male", "middle", "low"),
+	new Patient(4, "male", "middle", "high"),
+	new Patient(5, "male", "old", "low"),
+	new Patient(6, "male", "old", "high"),
+	new Patient(7, "female", "young", "low"),
+	new Patient(8, "female", "young", "high"),
+	new Patient(9, "female", "middle", "low"),
+	new Patient(10, "female", "middle", "high"),
+	new Patient(11, "female", "old", "low"),
+	new Patient(12, "female", "old", "high")
+];
+
 $(document).ready(function () {
 
 	numInvestigators = 1;
@@ -139,5 +191,11 @@ $(document).ready(function () {
 			}
 		}
 		numInvestigators = newNum;
+	});
+	$("button#start").click(function () {
+		$("div#studysetup").hide();
+		$("div#patient").show();
+		$("div#study").show();
+		currentStudy_ = new Study();
 	});
 });
