@@ -121,6 +121,8 @@ Investigator = function (number, select, group, strategy) {
 Study = function () {
 	this.count = 0;
 	this.patients = [patientTypes[0], patientTypes[1], patientTypes[2], patientTypes[3]];
+	this.nextButton = $("button#next");
+
 	this.currentPatObj = {
 		num : $("a#patientnumber"),
 		male : $("tr.patient > td.male"),
@@ -132,7 +134,8 @@ Study = function () {
 		high : $("tr.patient > td.high")
 	};
 	this.deal = function () {
-
+		this.currentPatient(patientTypes[this.count % 12]);
+		this.count++;
 	};
 	this.currentPatient = function (patient) {
 		this.currentPatObj.num.text(patient.number);
@@ -196,6 +199,12 @@ $(document).ready(function () {
 		$("div#studysetup").hide();
 		$("div#patient").show();
 		$("div#study").show();
+
 		currentStudy_ = new Study();
+		currentStudy_.nextButton.show();
+
+		currentStudy_.nextButton.click(function () {
+			currentStudy_.deal();
+		});
 	});
 });
