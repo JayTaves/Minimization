@@ -1,4 +1,4 @@
-var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Patient, patientTypes, allInvestigators;
+var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators;
 
 currentStudy_ = undefined;
 
@@ -123,6 +123,9 @@ Study = function () {
 	this.patients = [patientTypes[0], patientTypes[1], patientTypes[2], patientTypes[3]];
 	this.nextButton = $("button#next");
 
+	this.control = new Group("control", $("#control > .maintable"), 0);
+	this.treatment = new Group("treatment", $("#treatment > .maintable"), 0);
+
 	this.currentPatObj = {
 		num : $("a#patientnumber"),
 		male : $("tr.patient > td.male"),
@@ -146,6 +149,52 @@ Study = function () {
 		this.currentPatObj.old.text(patient.age === "old" ? 1 : 0);
 		this.currentPatObj.low.text(patient.risk === "low" ? 1 : 0);
 		this.currentPatObj.high.text(patient.risk === "high" ? 1 : 0);
+	};
+};
+
+Group = function (name, table, numInvestigators) {
+	var index;
+	this.name = name;
+	this.table = table;
+	this.row = this.table.find(".table." + this.name);
+	this.patients = [];
+
+	this.characteristics = {
+		Male: { name: "male", count: 0, elem: this.row.children(".male"), active: true},
+        Female: { name: "female", count: 0, elem: this.row.children(".female"), active: true},
+        Young: { name: "young", count: 0, elem: this.row.children(".young"), active: true},
+        Middle: { name: "middle", count: 0, elem: this.row.children(".middle"), active: true},
+        Old: { name: "old", count: 0, elem: this.row.children(".old"), active: true},
+        Low: { name: "low", count: 0, elem: this.row.children(".low"), active: true},
+        High: { name: "high", count: 0, elem: this.row.children(".high"), active: true}
+	};
+
+	for (index = 1; index <= numInvestigators; index++) {
+		this.characteristics["gator" + index] =
+			{ count: 0, elem: this.table.children(".i" + index), active: true};
+	}
+
+	this.addPatient = function (patient, gatorNumber) {
+		var variat, prop;
+		this.patients.push(patient);
+		for (prop in this.characteristics) {
+			if (this.characteristics.hasOwnProperty(prop)) {
+				variat = this.characteristics[prop];
+				variat.count = variat.count + patient.indexOf(variat.name) !== -1 ? 1 : 0;
+			}
+		}
+		this.characteristics["gator" + gatorNumber].count += this.characteristics["gator" + gatorNumber] === undefined ? 0 : 1;
+	};
+
+	this.updateTable = function () {
+		var characteristic, prop;
+		for (prop in this.characteristics) {
+			if (this.characteristics.hasOwnProperty(prop)) {
+				characteristic = this.characteristics[prop];
+				characteristic.elem.text(characteristic.count);
+			}
+		}
+
 	};
 };
 
