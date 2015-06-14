@@ -1,4 +1,4 @@
-var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators;
+var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators, stratRandom;
 
 currentStudy_ = undefined;
 
@@ -119,12 +119,36 @@ Investigator = function (number, select, group, strategy) {
 };
 
 Study = function () {
+	var index;
+
 	this.count = 0;
 	this.patients = [patientTypes[0], patientTypes[1], patientTypes[2], patientTypes[3]];
 	this.nextButton = $("button#next");
 
 	this.control = new Group("control", $("#control > .maintable"), 0);
 	this.treatment = new Group("treatment", $("#treatment > .maintable"), 0);
+
+	this.showEverything = $("input[name=playerview]:checked").val() === "full";
+	this.allTurns = $("input[name=autoplay]:checked").val() === "false";
+
+	this.heldTurns = parseInt($("select[name=heldturns]").val(), 10);
+	this.heldPatients = parseInt($("select[name=heldpatients]").val(), 10);
+
+	this.includeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
+	this.diffExp = 1;
+	this.blockSize = 1;
+
+	if (!this.includeInvestigator) {
+		$(".maintable .gator").hide();
+	} else {
+		for (index = 0; index < numInvestigators; index++) {
+			$("#treatment > .maintable .title").append("<td>Investigator " + (index + 1) + "</td>");
+			$("#treatment > .maintable .table").append("<td class='gator" + (index + 1) + "'>0</td>");
+			$("#control > .maintable .title").append("<td>Investigator " + (index + 1) + "</td>");
+			$("#control > .maintable .table").append("<td class='gator" + (index + 1) + "'>0</td>");
+		}
+		$(".maintable .gator").prop("colspan", numInvestigators);
+	}
 
 	this.currentPatObj = {
 		num : $("a#patientnumber"),
@@ -150,6 +174,74 @@ Study = function () {
 		this.currentPatObj.low.text(patient.risk === "low" ? 1 : 0);
 		this.currentPatObj.high.text(patient.risk === "high" ? 1 : 0);
 	};
+
+	this.minimize = function (patient, gatorNumber, fullDets) {
+		var ret, minFn, index, prop, treatDiff, controlDiff, newControl, newTreatment;
+		newControl = jQuery.extend(true, {}, this.control);
+		newTreatment = jQuery.extend(true, {}, this.treatment);
+
+		newControl.addPatient(patient, gatorNumber);
+		newTreatment.addPatient(patient, gatorNumber);
+
+		treatDiff = 0;
+		controlDiff = 0;
+
+		minFn = function (a, b, exp) {
+			return Math.pow(Math.abs(a - b), exp);
+		};
+		for (prop in newControl.characteristics) {
+			if (newControl.characteristics.hasOwnProperty(prop)) {
+				treatDiff += minFn(newTreatment.characteristics[prop].count, this.control.characteristics[prop].count, this.diffExp);
+				controlDiff += minFn(newControl.characteristics[prop].count, this.treatment.characteristics[prop].count, this.diffExp);
+			}
+		}
+		if (this.includeInvestigator) {
+			for (index = 1; index <= numInvestigators; index++) {
+				treatDiff += minFn(newTreatment.characteristics["gator" + index].count, this.control.characteristics["gator" + index].count, this.diffExp);
+				controlDiff += minFn(newControl.characteristics["gator" + index].count, this.treatment.characteristics["gator" + index].count, this.diffExp);
+			}
+		}
+		if (treatDiff > controlDiff) {
+			ret = "control";
+		} else if (controlDiff > treatDiff) {
+			ret = "treatment";
+		} else {
+			ret = "tie";
+		}
+		if (fullDets) {
+			return {
+				treatment : newTreatment,
+				control : newControl,
+				ret : ret,
+				treatDiff : treatDiff,
+				controlDiff : controlDiff
+			};
+		} else {
+			return ret;
+		}
+	};
+
+	this.addPatient = function (patient, gator) {
+		var min, randomPick;
+		if (this.blockSize === 1) {
+			min = this.minimize(patient, gator.number, true);
+			if (min.ret === "control") {
+				this.control = min.control;
+			} else if (min.ret === "treatment") {
+				this.treatment = min.treatment;
+			} else {
+				// 1 is treatment, 0 is control
+				randomPick = Math.floor(Math.random() * 2) === 1;
+				if (randomPick) {
+					this.treatment = min.treatment;
+				} else {
+					this.control = min.control;
+				}
+			}
+		} else {
+			throw "Not implemented yet";
+		}
+	};
 };
 
 Group = function (name, table, numInvestigators) {
@@ -160,13 +252,13 @@ Group = function (name, table, numInvestigators) {
 	this.patients = [];
 
 	this.characteristics = {
-		Male: { name: "male", count: 0, elem: this.row.children(".male"), active: true},
-        Female: { name: "female", count: 0, elem: this.row.children(".female"), active: true},
-        Young: { name: "young", count: 0, elem: this.row.children(".young"), active: true},
-        Middle: { name: "middle", count: 0, elem: this.row.children(".middle"), active: true},
-        Old: { name: "old", count: 0, elem: this.row.children(".old"), active: true},
-        Low: { name: "low", count: 0, elem: this.row.children(".low"), active: true},
-        High: { name: "high", count: 0, elem: this.row.children(".high"), active: true}
+		male: { name: "male", count: 0, elem: this.row.children(".male"), active: true},
+        female: { name: "female", count: 0, elem: this.row.children(".female"), active: true},
+        young: { name: "young", count: 0, elem: this.row.children(".young"), active: true},
+        middle: { name: "middle", count: 0, elem: this.row.children(".middle"), active: true},
+        old: { name: "old", count: 0, elem: this.row.children(".old"), active: true},
+        low: { name: "low", count: 0, elem: this.row.children(".low"), active: true},
+        high: { name: "high", count: 0, elem: this.row.children(".high"), active: true}
 	};
 
 	for (index = 1; index <= numInvestigators; index++) {
@@ -180,10 +272,12 @@ Group = function (name, table, numInvestigators) {
 		for (prop in this.characteristics) {
 			if (this.characteristics.hasOwnProperty(prop)) {
 				variat = this.characteristics[prop];
-				variat.count = variat.count + patient.indexOf(variat.name) !== -1 ? 1 : 0;
+				variat.count = variat.count + patient[variat.name];
 			}
 		}
-		this.characteristics["gator" + gatorNumber].count += this.characteristics["gator" + gatorNumber] === undefined ? 0 : 1;
+		if (this.characteristics["gator" + gatorNumber] !== undefined) {
+			this.characteristics["gator" + gatorNumber].count++;
+		}
 	};
 
 	this.updateTable = function () {
@@ -200,9 +294,25 @@ Group = function (name, table, numInvestigators) {
 
 Patient = function (num, gender, age, risk) {
 	this.number = num;
+	this.male = gender === "male" ? 1 : 0;
+	this.female = gender === "female" ? 1 : 0;
+	this.young = age === "young" ? 1 : 0;
+	this.middle = age === "middle" ? 1 : 0;
+	this.old = age === "old" ? 1 : 0;
+	this.low = risk === "low" ? 1 : 0;
+	this.high = risk === "high" ? 1 : 0;
+
 	this.gender = gender;
 	this.age = age;
 	this.risk = risk;
+};
+
+stratRandom = function (patient) {
+	if (currentStudy_.allTurns) {
+
+	} else {
+		currentStudy_.addPatient(patient);
+	}
 };
 
 patientTypes = [
@@ -244,6 +354,42 @@ $(document).ready(function () {
 		}
 		numInvestigators = newNum;
 	});
+
+    $("select[name=seedtype]").change(function () {
+        if ($("select[name=seedtype]").val() === "Random") {
+            $("div#randompatients").show();
+            $("div#setpatients").hide();
+        } else {
+            $("div#randompatients").hide();
+            $("div#setpatients").show();
+        }
+    });
+
+    $("input[name=includeall]").click(function () {
+        if ($("input[name=includeall]").is(":checked")) {
+            $("input[name=filterpatients]").prop("checked", true);
+            $("input[name=includenone]").prop("checked", false);
+        }
+    });
+
+    $("input[name=includenone]").click(function () {
+        if ($("input[name=includenone]").is(":checked")) {
+            $("input[name=filterpatients]").prop("checked", false);
+            $("input[name=includeall]").prop("checked", false);
+        }
+    });
+
+    $("input[name=filterpatients]").click(function () {
+        var checkedLength = $("input[name=filterpatients]:checked").length;
+        if (checkedLength === 0) {
+            $("input[name=includenone]").prop("checked", true);
+        } else if (checkedLength === 12) {
+            $("input[name=includeall]").prop("checked", true);
+        } else {
+            $("input[name=includeall], input[name=includenone]").prop("checked", false);
+        }
+    });
+
 	$("button#start").click(function () {
 		$("div#studysetup").hide();
 		$("div#patient").show();
