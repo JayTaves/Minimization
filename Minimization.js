@@ -1,7 +1,10 @@
-var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators, stratRandom;
+var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators, stratRandom, messageBlock;
 
 currentStudy_ = undefined;
 
+messageBlock = function (message) {
+	return "<a>" + message + "</a><br />";
+};
 investigatorBlock =	function (number) {
 		return	"<div class='strategy'>" +
 					"<a>Investigator " + number + "</a>" +
@@ -61,6 +64,11 @@ Investigator = function (number, select, group, strategy) {
 	this.selectPatient = select === undefined ? 1 : select;
 	this.strategy = strategy === undefined ? "player" : strategy;
 
+	this.targetScore = 0;
+	this.otherScore = 0;
+
+	this.takeTurn = undefined;
+
 	this.createPanel = function (elem) {
 		var investigatorClosure;
 
@@ -113,6 +121,17 @@ Investigator = function (number, select, group, strategy) {
 			}
 		});
 	};
+	this.init = function () {
+		if (this.strategy === "normal") {
+			this.takeTurn = stratRandom.bind(this);
+		} else if (this.strategy === "computer") {
+			throw "Not implemented yet";
+		} else if (this.strategy === "player") {
+			throw "Not implemented yet";
+		} else {
+			throw "Invalid strategy " + this.strategy;
+		}
+	};
 	this.deletePanel = function () {
 		this.settingsPanel.remove();
 	};
@@ -138,6 +157,8 @@ Study = function () {
 	this.diffExp = 1;
 	this.blockSize = 1;
 
+	this.messages = [];
+
 	if (!this.includeInvestigator) {
 		$(".maintable .gator").hide();
 	} else {
@@ -161,8 +182,19 @@ Study = function () {
 		high : $("tr.patient > td.high")
 	};
 	this.deal = function () {
-		this.currentPatient(patientTypes[this.count % 12]);
-		this.count++;
+		var curPat, curGator;
+		curGator = allInvestigators[this.count % numInvestigators];
+		curPat = this.patients[this.count];
+		if (this.allTurns) {
+			$("button#next").text("Next").show().one("click", function () {
+				currentStudy_.currentPatient(curPat);
+				curGator.takeTurn(curPat);
+				this.count++;
+			});
+		} else {
+			curGator.takeTurn(curPat);
+			this.count++;
+		}
 	};
 	this.currentPatient = function (patient) {
 		this.currentPatObj.num.text(patient.number);
@@ -222,9 +254,11 @@ Study = function () {
 	};
 
 	this.addPatient = function (patient, gator) {
-		var min, randomPick;
+		var min, randomPick, group, isTie;
 		if (this.blockSize === 1) {
 			min = this.minimize(patient, gator.number, true);
+			group = min.ret;
+			isTie = false;
 			if (min.ret === "control") {
 				this.control = min.control;
 			} else if (min.ret === "treatment") {
@@ -232,15 +266,62 @@ Study = function () {
 			} else {
 				// 1 is treatment, 0 is control
 				randomPick = Math.floor(Math.random() * 2) === 1;
+				isTie = true;
 				if (randomPick) {
+					group = "treatment";
 					this.treatment = min.treatment;
 				} else {
+					group = "control";
 					this.control = min.control;
+				}
+			}
+			this.writeMessage("add", {
+				num : gator.number,
+				pat : patient.number,
+				tie : isTie ? isTie : undefined,
+				group : group
+			});
+			if (gator.selectPatient === patient.number) {
+				if (gator.targetGroup === group) {
+					gator.targetScore++;
+				} else {
+					gator.otherScore++;
 				}
 			}
 		} else {
 			throw "Not implemented yet";
 		}
+	};
+
+	this.writeMessage = function (type, params) {
+		var messageBox, msg;
+		messageBox = $("div#messages > .border");
+
+		switch (type) {
+			case "add":
+				if (params.tie !== undefined) {
+					msg = "Investigator " + params.num + " added patient " + params.pat + ", after a tie it was added to " + params.group + ".";
+				} else {
+					msg = "Investigator " + params.num + " added patient " + params.pat + " it was added to " + params.group + ".";
+				}
+				break;
+			case "hold":
+				msg = "Investigator " + params.num + " held patient " + params.pat + ".";
+				break;
+			case "discard":
+				msg = "Investigator " + params.num + " discarded patient " + params.pat + ".";
+				break;
+			case "timeout":
+				msg = "Investigator " + params.num + " was forced to discard patient " + params.pat + ", it was held for too long.";
+				break;
+			case "endgame":
+				msg = "The game is over.";
+				break;
+			default:
+				throw "Invalid message type";
+		}
+		this.messages.push(msg);
+		messageBox.prepend($(messageBlock(msg)));
 	};
 };
 
@@ -309,9 +390,13 @@ Patient = function (num, gender, age, risk) {
 
 stratRandom = function (patient) {
 	if (currentStudy_.allTurns) {
-
+		$("button#next").text("Add").show().one("click", function () {
+			currentStudy_.addPatient(patient, this);
+			currentStudy_.deal();
+		});
 	} else {
-		currentStudy_.addPatient(patient);
+		currentStudy_.addPatient(patient, this);
+		currentStudy_.deal();
 	}
 };
 
@@ -391,14 +476,17 @@ $(document).ready(function () {
     });
 
 	$("button#start").click(function () {
+		var index;
 		$("div#studysetup").hide();
 		$("div#patient").show();
 		$("div#study").show();
 
 		currentStudy_ = new Study();
-		currentStudy_.nextButton.show();
+		for (index = 0; index < allInvestigators.length; index++) {
+			allInvestigators[index].init();
+		}
 
-		currentStudy_.nextButton.click(function () {
+		currentStudy_.nextButton.show().one("click", function () {
 			currentStudy_.deal();
 		});
 	});
