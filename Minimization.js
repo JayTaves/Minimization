@@ -1,6 +1,7 @@
 var currentStudy_, investigatorBlock, numInvestigators, Investigator, Study, Group, Patient, patientTypes, allInvestigators, stratRandom, messageBlock;
 
 currentStudy_ = undefined;
+numInvestigators = 1;
 
 messageBlock = function (message) {
 	return "<a>" + message + "</a><br />";
@@ -137,15 +138,12 @@ Investigator = function (number, select, group, strategy) {
 	};
 };
 
-Study = function () {
+Study = function (patList) {
 	var index;
 
 	this.count = 0;
-	this.patients = [patientTypes[0], patientTypes[1], patientTypes[2], patientTypes[3]];
+	this.patients = patList;
 	this.nextButton = $("button#next");
-
-	this.control = new Group("control", $("#control > .maintable"), 0);
-	this.treatment = new Group("treatment", $("#treatment > .maintable"), 0);
 
 	this.showEverything = $("input[name=playerview]:checked").val() === "full";
 	this.allTurns = $("input[name=autoplay]:checked").val() === "false";
@@ -171,6 +169,9 @@ Study = function () {
 		$(".maintable .gator").prop("colspan", numInvestigators);
 	}
 
+	this.control = new Group("control", $("#control > .maintable"));
+	this.treatment = new Group("treatment", $("#treatment > .maintable"));
+
 	this.currentPatObj = {
 		num : $("a#patientnumber"),
 		male : $("tr.patient > td.male"),
@@ -183,17 +184,25 @@ Study = function () {
 	};
 	this.deal = function () {
 		var curPat, curGator;
+		this.treatment.updateTable();
+		this.control.updateTable();
 		curGator = allInvestigators[this.count % numInvestigators];
 		curPat = this.patients[this.count];
-		if (this.allTurns) {
-			$("button#next").text("Next").show().one("click", function () {
-				currentStudy_.currentPatient(curPat);
-				curGator.takeTurn(curPat);
-				this.count++;
-			});
+		if (curPat === undefined) {
+			this.writeMessage("endgame");
+			this.nextButton.text("Game over");
 		} else {
-			curGator.takeTurn(curPat);
-			this.count++;
+
+			if (this.allTurns) {
+				$("button#next").text("Next").show().one("click", function () {
+					currentStudy_.currentPatient(curPat);
+					currentStudy_.count++;
+					curGator.takeTurn(curPat);
+				});
+			} else {
+				currentStudy_.count++;
+				curGator.takeTurn(curPat);
+			}
 		}
 	};
 	this.currentPatient = function (patient) {
@@ -325,7 +334,7 @@ Study = function () {
 	};
 };
 
-Group = function (name, table, numInvestigators) {
+Group = function (name, table) {
 	var index;
 	this.name = name;
 	this.table = table;
@@ -344,14 +353,14 @@ Group = function (name, table, numInvestigators) {
 
 	for (index = 1; index <= numInvestigators; index++) {
 		this.characteristics["gator" + index] =
-			{ count: 0, elem: this.table.children(".i" + index), active: true};
+			{ count: 0, elem: this.table.find(".gator" + index), active: true};
 	}
 
 	this.addPatient = function (patient, gatorNumber) {
 		var variat, prop;
 		this.patients.push(patient);
 		for (prop in this.characteristics) {
-			if (this.characteristics.hasOwnProperty(prop)) {
+			if (this.characteristics.hasOwnProperty(prop) && prop.indexOf("gator") === -1) {
 				variat = this.characteristics[prop];
 				variat.count = variat.count + patient[variat.name];
 			}
@@ -389,13 +398,15 @@ Patient = function (num, gender, age, risk) {
 };
 
 stratRandom = function (patient) {
+	var gatorClosure;
+	gatorClosure = this;
 	if (currentStudy_.allTurns) {
 		$("button#next").text("Add").show().one("click", function () {
-			currentStudy_.addPatient(patient, this);
+			currentStudy_.addPatient(patient, gatorClosure);
 			currentStudy_.deal();
 		});
 	} else {
-		currentStudy_.addPatient(patient, this);
+		currentStudy_.addPatient(patient, gatorClosure);
 		currentStudy_.deal();
 	}
 };
@@ -417,7 +428,6 @@ patientTypes = [
 
 $(document).ready(function () {
 
-	numInvestigators = 1;
 	allInvestigators = [];
 	allInvestigators.push(new Investigator(1, 1, "treatment", "player"));
 	allInvestigators[0].createPanel($("div#investigators"));
@@ -476,12 +486,28 @@ $(document).ready(function () {
     });
 
 	$("button#start").click(function () {
-		var index;
+		var index, checkedPats, toChooseFrom, patNum, patList, rand;
 		$("div#studysetup").hide();
 		$("div#patient").show();
 		$("div#study").show();
 
-		currentStudy_ = new Study();
+		patList = [];
+		if ($("select[name=seedtype]").val() === "Random") {
+			checkedPats = $("[name=filterpatients]:checked");
+			toChooseFrom = [];
+			for (index = 0; index < checkedPats.length; index++) {
+				patNum = parseInt($(checkedPats[index]).val(), 10);
+				toChooseFrom.push(jQuery.extend(true, {}, patientTypes[patNum - 1]));
+			}
+			for (index = 0; index < parseInt($("input[name=patientslength]").val(), 10); index++) {
+				rand = Math.floor(Math.random() * toChooseFrom.length);
+				patList.push(jQuery.extend(true, {}, toChooseFrom[rand]));
+			}
+		} else {
+			throw "Not implemented yet";
+		}
+
+		currentStudy_ = new Study(patList);
 		for (index = 0; index < allInvestigators.length; index++) {
 			allInvestigators[index].init();
 		}
