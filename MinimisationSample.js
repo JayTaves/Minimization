@@ -95,12 +95,12 @@
             Low: {count: 0, elem: this.table.children(".low")},
             High: { count: 0, elem: this.table.children(".high")}
         };
-        this.addPatient = function (patient, investigator) {
+        this.addPatient = function (patient) {
             this.patients.push(patient);
             this.characteristics[patient.gender.text].count += 1;
             this.characteristics[patient.age.text].count += 1;
             this.characteristics[patient.risk.text].count += 1;
-            this.investigators[investigator - 1].count += 1;
+            this.investigators[patient.investigator - 1].count += 1;
             return this;
         };
         this.updateTable = function () {
@@ -133,47 +133,107 @@
 
         this.control = new Group("Control", $("#control table.maintable"), this.numInvestigators);
         this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
+        this.queue = [];
+        this.queueLength = 2;
 
         this.addPatient = function (patient, investigator) {
+            var pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4, diff1, diff2, diff3, diff4, diffMin;
+
             patient.investigator = investigator.number;
-            var result = minimize(patient, investigator.number, this.control, this.treatment);
-            if (result.res === "control") {
-                this.control = result.control;
-                writeMessage(patient.investigator, patient, "add", "control");
-                this.control.updateTable();
-                groupRes = "control";
-            } else if (result.res === "treatment") {
-                this.treatment = result.treatment;
-                writeMessage(patient.investigator, patient, "add", "treatment");
-                this.treatment.updateTable();
-                groupRes = "treatment";
-            } else if (result.res === "tie") {
-                //var tie = this.tiebreak.pop();
-                var tie = Math.floor(Math.random() * 2);
-                if (tie === 0) {
-                    this.treatment = result.treatment;
-                    writeMessage(patient.investigator, patient, "add", "tietreatment");
-                    this.treatment.updateTable();
-                    groupRes = "treatment";
-                } else {
+
+            pushToGroup = function (patient) {
+                var result, tie, groupRes;
+                result = minimize(patient, investigator.number, this.control, this.treatment);
+                if (result.res === "control") {
                     this.control = result.control;
-                    writeMessage(patient.investigator, patient, "add", "tiecontrol");
+                    writeMessage(patient.investigator, patient, "add", "control");
                     this.control.updateTable();
                     groupRes = "control";
+                } else if (result.res === "treatment") {
+                    this.treatment = result.treatment;
+                    writeMessage(patient.investigator, patient, "add", "treatment");
+                    this.treatment.updateTable();
+                    groupRes = "treatment";
+                } else if (result.res === "tie") {
+                    tie = Math.floor(Math.random() * 2);
+                    if (tie === 0) {
+                        this.treatment = result.treatment;
+                        writeMessage(patient.investigator, patient, "add", "tietreatment");
+                        this.treatment.updateTable();
+                        groupRes = "treatment";
+                    } else {
+                        this.control = result.control;
+                        writeMessage(patient.investigator, patient, "add", "tiecontrol");
+                        this.control.updateTable();
+                        groupRes = "control";
+                    }
+                } else {
+                    console.error("Invalid minimization result");
+                }
+                if (patient.number === investigator.selectPatient) {
+                    if (investigator.targetGroup.toLowerCase() === groupRes) {
+                        investigator.targetScore++;
+                    } else {
+                        investigator.nonTargetScore++;
+                    }
+                }
+                return groupRes;
+            };
+
+            /*  c1 [1, 2]       c2 []           c3 [2]      c4 [1]
+                t1 []           t2 [1, 2]       t3 [1]      t4 [2]
+            */
+            if (this.queueLength === 2) {
+                patient1 = this.queue.pop();
+                patient2 = this.queue.pop();
+
+                c3 = jQuery.extend({}, "", this.control);
+                c3.addPatient(patient2);
+
+                t3 = jQuery.extend({}, "", this.treatment);
+                t3.addPatient(patient1);
+
+                c4 = jQuery.extend({}, "", this.control);
+                c4.addPatient(patient1);
+
+                t4 = jQuery.extend({}, "", this.treatment);
+                t4.addPatient(patient2);
+
+                t2 = jQuery.extend({}, "", t4);
+                t2.addPatient(patient1);
+
+                c1 = jQuery.extend({}, "", c3);
+                c1.addPatient(patient1);
+
+                diff1 = groupDiff(c1, this.treatment);
+                diff2 = groupDiff(this.control, t2);
+                diff3 = groupDiff(c3, t3);
+                diff4 = groupDiff(c4, t4);
+
+                diffMin = Math.min(diff1, diff2, diff3, diff4);
+
+                if (diff1 === diffMin) {
+                    this.control = c1;
+
+                } else if (diff2 === diffMin) {
+                    this.treatment = t2;
+
+                } else if (diff3 === diffMin) {
+                    this.control = c3;
+                    this.treatment = t3;
+
+                } else if (diff4 === diffMin) {
+                    this.control = c4;
+                    this.treatment = t4;
+
+                } else {
+                    throw "Minimum error";
                 }
             } else {
-                console.error("Invalid minimization result");
+                this.queue.push(patient);
             }
-            if (patient.number === investigator.selectPatient) {
-                if (investigator.targetGroup.toLowerCase() === groupRes) {
-                    investigator.targetScore++;
-                } else {
-                    investigator.nonTargetScore++;
-                }
-            }
-            return groupRes;
         };
-    }
+    };
     var groupDiff = function (controlGroup, treatmentGroup) {
         var comparison = {};
         for (var prop in controlGroup.characteristics) {
@@ -632,7 +692,7 @@
             playerSelect += "</select>";
             $("div#investigators").append(
                 "<div class='strategy'>" +
-                    "<a>Investigator " + index + 1 + ": </a>" + "<br />" +
+                    "<a>Investigator " + (index + 1) + ": </a>" + "<br />" +
                     "<input name='gator" + index + "' type='radio' value='random' checked />Normal" + "<br />" +
                     "<input name='gator" + index + "' type='radio' value='cheat' />Cheat (computer): patient " +
                     computerSelect + " into the " + computerGroupSelect + " group.<br />" +
