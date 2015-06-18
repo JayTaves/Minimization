@@ -5,6 +5,7 @@ var playerView = "full";
 var autoPlay = false;
 var minimizeInvestigator = false;
 var minimizationExponent = 1;
+var queueLength = 1;
 
 var Patient = function (number, gender, age, risk) {
     if (isNaN(number)) {
@@ -133,15 +134,18 @@ var Trial = function (investigators) {
     this.control = new Group("Control", $("#control table.maintable"), this.numInvestigators);
     this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
     this.queue = [];
-    this.queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
 
     this.addPatient = function (patient, investigator) {
-        var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4, diff1, diff2, diff3, diff4, diffMin;
+        var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
+            diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2;
 
         patient.investigator = investigator.number;
         trialClosure = this;
 
-        this.queue.push(patient);
+        this.queue.push({
+            pat : patient,
+            gator : investigator
+        });
 
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
@@ -171,7 +175,7 @@ var Trial = function (investigators) {
                     groupRes = "control";
                 }
             } else {
-                console.error("Invalid minimization result");
+
             }
             if (patient.number === investigator.selectPatient) {
                 if (investigator.targetGroup.toLowerCase() === groupRes) {
@@ -186,26 +190,32 @@ var Trial = function (investigators) {
         /*  c1 [1, 2]       c2 []           c3 [2]      c4 [1]
             t1 []           t2 [1, 2]       t3 [1]      t4 [2]
         */
-        if (this.queue.length === this.queueLength && this.queueLength === 2) {
-            patient1 = this.queue.pop();
-            patient2 = this.queue.pop();
+        if (this.queue.length === queueLength && queueLength === 2) {
+            temp1 = this.queue.pop();
+            temp2 = this.queue.pop();
 
-            c3 = jQuery.extend({}, "", this.control);
+            patient1 = temp1.pat;
+            patient2 = temp2.pat;
+
+            investigator1 = temp1.gator;
+            investigator2 = temp2.gator;
+
+            c3 = jQuery.extend(true, {}, this.control);
             c3.addPatient(patient2);
 
-            t3 = jQuery.extend({}, "", this.treatment);
+            t3 = jQuery.extend(true, {}, this.treatment);
             t3.addPatient(patient1);
 
-            c4 = jQuery.extend({}, "", this.control);
+            c4 = jQuery.extend(true, {}, this.control);
             c4.addPatient(patient1);
 
-            t4 = jQuery.extend({}, "", this.treatment);
+            t4 = jQuery.extend(true, {}, this.treatment);
             t4.addPatient(patient2);
 
-            t2 = jQuery.extend({}, "", t4);
+            t2 = jQuery.extend(true, {}, t4);
             t2.addPatient(patient1);
 
-            c1 = jQuery.extend({}, "", c3);
+            c1 = jQuery.extend(true, {}, c3);
             c1.addPatient(patient1);
 
             diff1 = groupDiff(c1, this.treatment);
@@ -218,25 +228,64 @@ var Trial = function (investigators) {
             if (diff1 === diffMin) {
                 this.control = c1;
 
+                writeMessage(investigator2.number, patient2, "add", "control");
+                writeMessage(investigator1.number, patient1, "add", "control");
+
+                res1 = "control";
+                res2 = "control";
             } else if (diff2 === diffMin) {
                 this.treatment = t2;
 
+                writeMessage(investigator2.number, patient2, "add", "treatment");
+                writeMessage(investigator1.number, patient1, "add", "treatment");
+
+                res1 = "treatment";
+                res2 = "treatment";
             } else if (diff3 === diffMin) {
                 this.control = c3;
                 this.treatment = t3;
 
+                writeMessage(investigator2.number, patient2, "add", "control");
+                writeMessage(investigator1.number, patient1, "add", "treatment");
+
+                res1 = "treatment";
+                res2 = "control";
             } else if (diff4 === diffMin) {
                 this.control = c4;
                 this.treatment = t4;
 
+                writeMessage(investigator2.number, patient2, "add", "treatment");
+                writeMessage(investigator1.number, patient1, "add", "control");
+
+                res1 = "control";
+                res2 = "treatment";
             } else {
                 throw "Minimum error";
             }
-        } else if (this.queue.length === this.queueLength && this.queueLength === 1) {
-            pushToGroup(this.queue.pop());
+
+            if (investigator1.selectPatient === patient1.number) {
+                if (investigator1.targetGroup === res1) {
+                    investigator1.targetScore++;
+                } else {
+                    investigator1.nonTargetScore++;
+                }
+            }
+            if (investigator2.selectPatient === patient2.number) {
+                if (investigator2.targetGroup === res2) {
+                    investigator2.targetScore++;
+                } else {
+                    investigator2.nonTargetScore++;
+                }
+            }
+
+            this.control.updateTable();
+            this.treatment.updateTable();
+        } else if (this.queue.length === queueLength && queueLength === 1) {
+            pushToGroup(this.queue.pop().pat);
         } else {
 
         }
+
     };
 };
 var groupDiff = function (controlGroup, treatmentGroup) {
@@ -712,6 +761,8 @@ $(document).ready(function () {
         var gators = [];
         var numGators = parseInt($("select[name=number]").val(), 10);
 
+        queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
+
         for (var index = 0; index < numGators; index++) {
             var selectedStrategy = $("input[name=gator" + index + "]:checked").val();
             if (selectedStrategy === "random") {
@@ -719,7 +770,8 @@ $(document).ready(function () {
             } else if (selectedStrategy === "cheat") {
                 var numPatient = parseInt($("select[name=computergator" + index + "]").val(), 10);
                 var targetGroup = $("select[name=computergroupgator" + index + "]").val();
-                gators.push(new Investigator(index + 1, cheat, "cheat", numPatient, targetGroup));
+                gators.push(new Investigator(index + 1, (queueLength === 2 ? random : cheat),
+                     (queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
             } else if (selectedStrategy === "player") {
                 numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
                 targetGroup = $("select[name=playergroupgator" + index + "]").val();
@@ -735,6 +787,7 @@ $(document).ready(function () {
         autoPlay = $("input[name=autoplay]:checked").val() === "true";
         minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
         minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
+
         if (autoPlay) {
             $("button#next").text("Start");
         }
