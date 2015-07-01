@@ -159,48 +159,16 @@
         <br />
         <button id="start">Start Study</button>
     </div>
-
-    <div id="patient">
-        <p class="heading">Patient <a id="patientnumber"></a></p>
-        <table class="patient">
-            <tr class="patient header">
-                <td colspan="2">Sex</td>
-                <td colspan="3">Age</td>
-                <td colspan="2">Risk</td>
-            </tr>
-            <tr class="patient title">
-                <td>Male</td>
-                <td>Female</td>
-                <td>21-30</td>
-                <td>31-40</td>
-                <td>41-50</td>
-                <td>Low</td>
-                <td>High</td>
-            </tr>
-            <tr class="patient table">
-                <td class="male">0</td>
-                <td class="female">0</td>
-                <td class="young">0</td>
-                <td class="middle">0</td>
-                <td class="old">0</td>
-                <td class="low">0</td>
-                <td class="high">0</td>
-            </tr>
-        </table>
-        <br />
-        Patient sequence (for saving) <input id="savesequence" type="text" size="5" readonly="readonly" />
-    </div>
-    <div id="study">
-        <div id="treatment" class="table">
-            <p class="heading">Treatment Group</p>
-            <table class="maintable">
-                <tr class="treatment header">
+    <div id="tablecontainer">
+        <div id="patient">
+            <p class="heading">Patient <a id="patientnumber"></a></p>
+            <table class="patient">
+                <tr class="patient header">
                     <td colspan="2">Sex</td>
                     <td colspan="3">Age</td>
                     <td colspan="2">Risk</td>
-                    <td class="gator" colspan="1">Investigators</td>
                 </tr>
-                <tr class="treatment title">
+                <tr class="patient title">
                     <td>Male</td>
                     <td>Female</td>
                     <td>21-30</td>
@@ -209,7 +177,7 @@
                     <td>Low</td>
                     <td>High</td>
                 </tr>
-                <tr class="treatment table">
+                <tr class="patient table">
                     <td class="male">0</td>
                     <td class="female">0</td>
                     <td class="young">0</td>
@@ -219,56 +187,89 @@
                     <td class="high">0</td>
                 </tr>
             </table>
-            <table class="totaltable">
-                <tr class="treatment total">
-                    <td class="total title">Total Patients</td>
-                </tr>
-                <tr>
-                    <td class="total table">0</td>
-                </tr>
-            </table>
+            <br />
+            Patient sequence (for saving) <input id="savesequence" type="text" size="5" readonly="readonly" />
         </div>
-        <div id="spacer"> </div>
-        <div id="control" class="table">
-            <p class="heading">Control Group</p>
-            <table class="maintable">
-                <tr class="control header">
-                    <td colspan="2">Sex</td>
-                    <td colspan="3">Age</td>
-                    <td colspan="2">Risk</td>
-                    <td class="gator" colspan="1">Investigators</td>
-                </tr>
-                <tr class="control title">
-                    <td>Male</td>
-                    <td>Female</td>
-                    <td>21-30</td>
-                    <td>31-40</td>
-                    <td>41-50</td>
-                    <td>Low</td>
-                    <td>High</td>
-                </tr>
-                <tr class="control table">
-                    <td class="male">0</td>
-                    <td class="female">0</td>
-                    <td class="young">0</td>
-                    <td class="middle">0</td>
-                    <td class="old">0</td>
-                    <td class="low">0</td>
-                    <td class="high">0</td>
-                </tr>
-            </table>
-            <table class="totaltable">
-                <tr class="control total">
-                    <td class="total title">Total Patients</td>
-                </tr>
-                <tr>
-                    <td class="total table">0</td>
-                </tr>
-            </table>
+        <div id="study">
+            <div id="treatment" class="table">
+                <p class="heading">Treatment Group</p>
+                <table class="maintable">
+                    <tr class="treatment header">
+                        <td colspan="2">Sex</td>
+                        <td colspan="3">Age</td>
+                        <td colspan="2">Risk</td>
+                        <td class="gator" colspan="1">Investigators</td>
+                    </tr>
+                    <tr class="treatment title">
+                        <td>Male</td>
+                        <td>Female</td>
+                        <td>21-30</td>
+                        <td>31-40</td>
+                        <td>41-50</td>
+                        <td>Low</td>
+                        <td>High</td>
+                    </tr>
+                    <tr class="treatment table">
+                        <td class="male">0</td>
+                        <td class="female">0</td>
+                        <td class="young">0</td>
+                        <td class="middle">0</td>
+                        <td class="old">0</td>
+                        <td class="low">0</td>
+                        <td class="high">0</td>
+                    </tr>
+                </table>
+                <table class="totaltable">
+                    <tr class="treatment total">
+                        <td class="total title">Total Patients</td>
+                    </tr>
+                    <tr>
+                        <td class="total table">0</td>
+                    </tr>
+                </table>
+            </div>
+            <div id="spacer"> </div>
+            <div id="control" class="table">
+                <p class="heading">Control Group</p>
+                <table class="maintable">
+                    <tr class="control header">
+                        <td colspan="2">Sex</td>
+                        <td colspan="3">Age</td>
+                        <td colspan="2">Risk</td>
+                        <td class="gator" colspan="1">Investigators</td>
+                    </tr>
+                    <tr class="control title">
+                        <td>Male</td>
+                        <td>Female</td>
+                        <td>21-30</td>
+                        <td>31-40</td>
+                        <td>41-50</td>
+                        <td>Low</td>
+                        <td>High</td>
+                    </tr>
+                    <tr class="control table">
+                        <td class="male">0</td>
+                        <td class="female">0</td>
+                        <td class="young">0</td>
+                        <td class="middle">0</td>
+                        <td class="old">0</td>
+                        <td class="low">0</td>
+                        <td class="high">0</td>
+                    </tr>
+                </table>
+                <table class="totaltable">
+                    <tr class="control total">
+                        <td class="total title">Total Patients</td>
+                    </tr>
+                    <tr>
+                        <td class="total table">0</td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <button id="next" style="display:none">Next Patient</button>
+        <button id="restart">Restart</button>
     </div>
-    <button id="next" style="display:none">Next Patient</button>
-    <button id="restart">Restart</button>
     <div id="cards">
        <div id="playerturn">
             <p class="heading">Your Turn (Investigator <a class="playergator"></a>)</p>
@@ -307,6 +308,11 @@
     <div id="someupdates">
         <p class="heading">Latest Updates</p>
         <div class="border">
+            <p class="headingdate">June 30</p>
+            <p class="headingtime">8:50pm</p>
+            <ul>
+                <li>Counter that tracks and then averages the difference between the groups across a study</li>
+            </ul>
             <p class="headingdate">June 17</p>
             <p class="headingtime">7:39pm</p>
             <ul>

@@ -6,6 +6,7 @@ var autoPlay = false;
 var minimizeInvestigator = false;
 var minimizationExponent = 1;
 var queueLength = 1;
+var diffTally = [];
 
 var Patient = function (number, gender, age, risk) {
     if (isNaN(number)) {
@@ -38,7 +39,6 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
     this.tagdex = 0;
     this.getTag = function () {
         var alphabet = "abcdefghijklmnopqrstuvwxyz";
-        //val++ returns val and then increments val
         return alphabet[this.tagdex++ % alphabet.length];
     };
     this.holdPatient = function (heldPatient) {
@@ -76,8 +76,8 @@ var Risk = {
 var Group = function (name, table, numInvestigators) {
     this.name = name;
     this.patients = [];
-    this.title = table.find("tr.title");
-    this.table = table.find("tr.table");
+    this.title = $("tr.title." + name.toLowerCase());
+    this.table = $(".table." + name.toLowerCase());
     this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
     this.investigators = [];
     for (var index = 0; index < numInvestigators; index++) {
@@ -596,7 +596,12 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
     }
 }
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
+    var diff;
     var currentInvestigator = allInvestigators[count % allInvestigators.length];
+
+    diff = groupDiff(study.treatment, study.control);
+    diffTally.push(diff);
+
     for (var index = 0; index < allInvestigators.length; index++) {
         allInvestigators[index].heldCounter();
     }
@@ -612,12 +617,15 @@ var endGame = function (allInvestigators, allPatients) {
             writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score", "player");
         }
     }
+    writeMessage(0, undefined, "diff");
 }
 var writeMessage = function (gatorNum, patient, action, result) {
     var message;
     if (gatorNum === 0) {
         if (action === "end") {
             message = "<a>" + result + "</a><br />";
+        } else if (action === "diff") {
+            message = "<a>" + "Average difference between the groups was " + mean(diffTally).toString().substr(0, 5) + "</a><br />";
         }
     } else {
         if (action === "add") {
@@ -716,7 +724,30 @@ var setup = function (allInvestigators, studyPatients) {
         nextInvestigator(allInvestigators, studyPatients, count, study);
     });
 };
+var mean = function (arr) {
+    var sum, index;
 
+    sum = 0;
+    for (index = 0; index < arr.length; index++) {
+        sum = sum + arr[index];
+    }
+    return sum / arr.length;
+};
+var median = function (arr) {
+    var compareFn, len;
+
+    len = arr.length;
+    compareFn = function (a, b) {
+        return a - b;
+    };
+
+    arr = arr.sort(compareFn);
+    if (len % 2 !== 0) {
+        return arr[Math.floor(len / 2)];
+    } else {
+        return (arr[len / 2 - 1] + arr[len / 2]) / 2;
+    }
+};
 
 $(document).ready(function () {
     $("select[name=number]").change(function () {
