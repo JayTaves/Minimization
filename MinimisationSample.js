@@ -137,7 +137,7 @@ var Trial = function (investigators) {
 
     this.addPatient = function (patient, investigator) {
         var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
-            diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2;
+            diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2, rawDiff;
 
         patient.investigator = investigator.number;
         trialClosure = this;
@@ -281,6 +281,9 @@ var Trial = function (investigators) {
             this.control.updateTable();
             this.treatment.updateTable();
         } else if (this.queue.length === queueLength && queueLength === 1) {
+            rawDiff = minimize(patient, investigator.number, this.control, this.treatment);
+            diffTally.push(rawDiff);
+
             pushToGroup(this.queue.pop().pat);
         } else {
 
@@ -306,6 +309,7 @@ var groupDiff = function (controlGroup, treatmentGroup) {
     return diff;
 };
 var minimize = function (patient, investigator, control, treatment) {
+    var addDiff;
     var newControlTest = jQuery.extend(true, {}, control);
     var newTreatmentTest = jQuery.extend(true, {}, treatment);
 
@@ -315,24 +319,28 @@ var minimize = function (patient, investigator, control, treatment) {
     var controlDiff = groupDiff(newControlTest, treatment);
     var treatmentDiff = groupDiff(newTreatmentTest, control);
 
+    addDiff = treatmentDiff - controlDiff;
     if (treatmentDiff > controlDiff) {
         return {
             res: "control",
             control: newControlTest,
-            treatment: treatment
+            treatment: treatment,
+            ad: addDiff
         };
     } else if (treatmentDiff < controlDiff) {
         return {
             res: "treatment",
             control: control,
-            treatment: newTreatmentTest
+            treatment: newTreatmentTest,
+            ad: addDiff
         };
     } else {
         return {
             res: "tie",
             control: newControlTest,
-            treatment: newTreatmentTest
-        }
+            treatment: newTreatmentTest,
+            ad: addDiff
+        };
     }
 };
 
@@ -388,6 +396,7 @@ var allPatients = [jQuery.extend(true, {}, one),
 
 //Strategies for investigators
 var random = function (gatorNumber, study, count, allInvestigators, allPatients) {
+    var diff;
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
     if (patient === undefined) {
@@ -596,11 +605,7 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
     }
 }
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
-    var diff;
     var currentInvestigator = allInvestigators[count % allInvestigators.length];
-
-    diff = groupDiff(study.treatment, study.control);
-    diffTally.push(diff);
 
     for (var index = 0; index < allInvestigators.length; index++) {
         allInvestigators[index].heldCounter();
