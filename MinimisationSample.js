@@ -281,7 +281,7 @@ var Trial = function (investigators) {
             this.control.updateTable();
             this.treatment.updateTable();
         } else if (this.queue.length === queueLength && queueLength === 1) {
-            rawDiff = minimize(patient, investigator.number, this.control, this.treatment);
+            rawDiff = minimize(patient, investigator.number, this.control, this.treatment).ad;
             diffTally.push(rawDiff);
 
             pushToGroup(this.queue.pop().pat);
@@ -625,12 +625,15 @@ var endGame = function (allInvestigators, allPatients) {
     writeMessage(0, undefined, "diff");
 }
 var writeMessage = function (gatorNum, patient, action, result) {
-    var message;
+    var message, meanRes;
     if (gatorNum === 0) {
         if (action === "end") {
             message = "<a>" + result + "</a><br />";
         } else if (action === "diff") {
-            message = "<a>" + "Average difference between the groups was " + mean(diffTally).toString().substr(0, 5) + "</a><br />";
+            meanRes = mean(diffTally);
+            message = "<a>Mean difference between the groups was " + meanRes.mean.toString().substr(0, 5) +
+                            ", median difference between the groups was " + median(diffTally) + "</a><br />" +
+                "<a>Maximum difference was " + meanRes.max + ", minimum difference was " + meanRes.min + "</a><br />";
         }
     } else {
         if (action === "add") {
@@ -730,13 +733,21 @@ var setup = function (allInvestigators, studyPatients) {
     });
 };
 var mean = function (arr) {
-    var sum, index;
+    var max, min, sum, index;
 
+    min = Number.MAX_VALUE;
+    max = -1 * min;
     sum = 0;
     for (index = 0; index < arr.length; index++) {
         sum = sum + arr[index];
+        min = arr[index] < min ? arr[index] : min;
+        max = arr[index] > max ? arr[index] : max;
     }
-    return sum / arr.length;
+    return {
+        min: min,
+        max: max,
+        mean: sum / arr.length
+    };
 };
 var median = function (arr) {
     var compareFn, len;
