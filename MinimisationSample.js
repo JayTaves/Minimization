@@ -782,6 +782,27 @@ var median = function (arr) {
         return (arr[len / 2 - 1] + arr[len / 2]) / 2;
     }
 };
+var getNBlock = function (types, length, n) {
+    var i, pick, ndex, bag, startArr, iters, finalArr, iterSize;
+
+    iterSize = n * types;
+    iters = Math.ceil(length / iterSize);
+    finalArr = [];
+
+    for (bag = 0; bag < iters; bag++) {
+        startArr = [];
+        for (i = 0; i < types; i++) {
+            for (ndex = 0; ndex < n; ndex++) {
+                startArr.push(i);
+            }
+        }
+        for (pick = 0; pick < iterSize; pick++) {
+            finalArr.push(startArr.splice(Math.floor(Math.random() * iterSize - pick), 1)[0]);
+        }
+    }
+
+    return finalArr;
+};
 
 $(document).ready(function () {
     $("select[name=number]").change(function () {
@@ -823,7 +844,7 @@ $(document).ready(function () {
         }
     });
     $("button#start").click(function () {
-        var gators, numGators, seq;
+        var gators, numGators, seq, blocksize, textgator;
         gators = [];
         numGators = parseInt($("select[name=number]").val(), 10);
 
@@ -853,6 +874,8 @@ $(document).ready(function () {
         autoPlay = $("input[name=autoplay]:checked").val() === "true";
         minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
         minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
+
+        blocksize = parseInt($("select[name=blocksize]").val(), 10);
 
         if (autoPlay) {
             $("button#next").text("Start");
@@ -912,6 +935,7 @@ $(document).ready(function () {
                 }
                 break;
             case 3:
+                gatorSeq = getNBlock(numGators, studyLength, blocksize);
                 break;
             default:
                 console.error("Invalid state");
@@ -925,7 +949,15 @@ $(document).ready(function () {
                 textpat = textpat + ", ";
             }
         }
+        textgator = "";
+        for (index = 0; index < gatorSeq.length; index++) {
+            textgator = textgator + (gatorSeq[index] + 1);
+            if (index !== gatorSeq.length - 1) {
+                textgator = textgator + ", ";
+            }
+        }
         $("input#savesequence").val(textpat);
+        $("input#gatorsavesequence").val(textgator);
         $("div#someupdates").hide();
         setup(gators, patients);
     });
