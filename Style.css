@@ -11,15 +11,13 @@ div.table {
 div#study, div#patient {
     display: none;
 }
-div#investigators, div#settings, div#patientssettings {
+div#investigators, div#settings, div#patientssettings, div#investigatorsettings {
     border: 1px solid black;
     width: 800px;
     padding: 10px;
 }
-div#settings {
-    border: 1px solid black;
-    width: 800px;
-    padding: 10px;
+.gatorblock {
+    display: none;
 }
 div#cards div {
     display: inline-block;

@@ -156,6 +156,25 @@
                 <i id="ownseqvalid" class="fa fa-check"></i><br />
             </div>
         </div>
+        <p id="investigatortitle" class="heading">Choose investigator seed order</p>
+        <div id="investigatorsettings">
+            <select name="gatorseedtype">
+                <option selected="selected" value="order">Place in order</option>
+                <option value="predetermined">Predetermined</option>
+                <option value="random">Random n-block</option>
+            </select>
+            <br />
+            <br />
+            <div id="randomgators" class="gatorblock">
+                Investigators will be given at least one turn every two turns of the study.
+            </div>
+            <div id="setgators" class="gatorblock">
+                Predetermined investigators
+                <input name="gatorsequence" type="text" placeholder="comma separated sequence" />
+                <i id="gatorsequencevalid" class="fa fa-check"></i>
+                <br />
+            </div>
+        </div>
         <br />
         <button id="start">Start Study</button>
     </div>
@@ -188,7 +207,9 @@
                 </tr>
             </table>
             <br />
-            Patient sequence (for saving) <input id="savesequence" type="text" size="5" readonly="readonly" />
+            Patient sequence <input id="savesequence" type="text" size="5" readonly="readonly" />
+            <br />
+            Investigator sequence <input id="gatorsavesequence" type="text" size="5" readonly="readonly" />
         </div>
         <div id="study">
             <div id="treatment" class="table">

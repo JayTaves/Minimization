@@ -6,7 +6,9 @@ var autoPlay = false;
 var minimizeInvestigator = false;
 var minimizationExponent = 1;
 var queueLength = 1;
+var gatorStreamType = 1; // 1 : order, 2 : predetermined, 3 : n-block
 var diffTally = [];
+var gatorSeq = [];
 
 var Patient = function (number, gender, age, risk) {
     if (isNaN(number)) {
@@ -605,13 +607,22 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
     }
 }
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
-    var currentInvestigator = allInvestigators[count % allInvestigators.length];
+    var currentInvestigator;
+    if (gatorStreamType === 1) {
+        currentInvestigator = allInvestigators[count % allInvestigators.length];
+    } else {
+        currentInvestigator = allInvestigators[gatorSeq[count]];
+    }
 
     for (var index = 0; index < allInvestigators.length; index++) {
         allInvestigators[index].heldCounter();
     }
     count++;
-    currentInvestigator.takeTurn(currentInvestigator.number, study, count, allInvestigators, allPatients);
+    if (currentInvestigator !== undefined) {
+        currentInvestigator.takeTurn(currentInvestigator.number, study, count, allInvestigators, allPatients);
+    } else {
+        endGame(allInvestigators, allPatients);
+    }
 }
 var endGame = function (allInvestigators, allPatients) {
     for (var index = 0; index < allInvestigators.length; index++) {
@@ -698,11 +709,17 @@ var validateSequence = function (sequence) {
     }
     return pass;
 };
-var setup = function (allInvestigators, studyPatients) {
+var validateGatorSequence = function (sequence) {
+    var re;
+    re = /^((\s)*[1-9],(\s)*)*([1-9])(\s)*$/;
+    return re.test(sequence);
+};
+var setup = function (allInvestigators, studyPatients, gatorSeq) {
     var study = new Trial(allInvestigators);
     var count = 0;
     var next;
 
+    /*
     var nextIteration = function () {
         $("button#next").show();
         if (next !== undefined) {
@@ -711,7 +728,7 @@ var setup = function (allInvestigators, studyPatients) {
             currentInvestigator.takeTurn(currentPatient, currentInvestigator.number, study, nextIteration, count);
             count++;
         }
-        var nextInvestigator = allInvestigators[(count) % allInvestigators.length];
+        var nextInvestigator = allInvestigators[count % allInvestigators.length];
         var patientTemp = studyPatients.pop();
         if (studyPatients.length === 0) {
             $("button#next").hide();
@@ -721,6 +738,7 @@ var setup = function (allInvestigators, studyPatients) {
         next = new nextPatient(patientTemp, $("tr.patient.table"));
         next.updateTable();
     };
+    */
     $("div#studysetup").hide();
     $("div#study").show();
     $("div#patient").show();
@@ -729,7 +747,7 @@ var setup = function (allInvestigators, studyPatients) {
     $("button#next").show();
     $("button#next").on("click", function () {
         $("button#next").off("click");
-        nextInvestigator(allInvestigators, studyPatients, count, study);
+        nextInvestigator(allInvestigators, studyPatients, count, study, gatorSeq);
     });
 };
 var mean = function (arr) {
@@ -805,8 +823,9 @@ $(document).ready(function () {
         }
     });
     $("button#start").click(function () {
-        var gators = [];
-        var numGators = parseInt($("select[name=number]").val(), 10);
+        var gators, numGators, seq;
+        gators = [];
+        numGators = parseInt($("select[name=number]").val(), 10);
 
         queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
 
@@ -865,7 +884,7 @@ $(document).ready(function () {
             if ($("input[name=patientlist]:checked").val() === "standard") {
                 patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
             } else if ($("input[name=patientlist]:checked").val() === "own") {
-                var seq = $("input[name=ownsequence]").val();
+                seq = $("input[name=ownsequence]").val();
                 if (validateSequence(seq)) {
                     patients = [];
                     seq = seq.split(",");
@@ -880,6 +899,23 @@ $(document).ready(function () {
             } else {
                 console.error("Something else selected");
             }
+        }
+        // 1 : order, 2 : predetermined, 3 : random
+        switch (gatorStreamType) {
+            case 1:
+                break;
+            case 2:
+                gatorSeq = $("input[name=gatorsequence]").val();
+                gatorSeq = gatorSeq.split(",");
+                for (index = 0; index < gatorSeq.length; index++) {
+                    gatorSeq[index] = parseInt(gatorSeq[index], 10) - 1;
+                }
+                break;
+            case 3:
+                break;
+            default:
+                console.error("Invalid state");
+                break;
         }
         $("input#savesequence").show();
         var textpat = "";
@@ -900,6 +936,29 @@ $(document).ready(function () {
         } else {
             $("div#randompatients").hide();
             $("div#setpatients").show();
+        }
+    });
+    $("select[name=gatorseedtype]").change(function () {
+        var choice;
+        choice = $("select[name=gatorseedtype]").val();
+        switch (choice) {
+            case "order":
+                $("#randomgators, #setgators").hide();
+                gatorStreamType = 1;
+                break;
+            case "predetermined":
+                $("#randomgators").hide();
+                $("#setgators").show();
+                gatorStreamType = 2;
+                break;
+            case "random":
+                $("#setgators").hide();
+                $("#randomgators").show();
+                gatorStreamType = 3;
+                break;
+            default:
+                console.error("Invalid selection");
+                break;
         }
     });
     $("input[name=includeall]").click(function () {
@@ -924,13 +983,23 @@ $(document).ready(function () {
             $("input[name=includeall], input[name=includenone]").prop("checked", false);
         }
     });
-    $("input[name=ownsequence]").on("change keydown paste input", function () {
+    $("input[name=ownsequence]").on("input", function () {
         var seq = $(this).val();
         var selOwn = $("input[name=patientlist]:checked").val() === "own";
         if (!selOwn) {
             $("i#ownseqvalid").hide();
         } else {
             validateSequence(seq);
+        }
+    });
+    $("input[name=gatorsequence]").on("input", function () {
+        var seq = $(this).val();
+        if (validateGatorSequence(seq)) {
+            $("#start").removeAttr("disabled");
+            $("i#gatorsequencevalid").removeClass("fa-exclamation").addClass("fa-check");
+        } else {
+            $("#start").attr("disabled", "disabled");
+            $("i#gatorsequencevalid").removeClass("fa-check").addClass("fa-exclamation");
         }
     });
     $("button#restart").click(function () {
