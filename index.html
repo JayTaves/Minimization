@@ -185,50 +185,17 @@
         <br />
         <button id="start">Start Study</button>
     </div>
-    <div id="tablecontainer">
-        <div id="patient">
-            <p class="heading">Patient <a id="patientnumber"></a></p>
-            <table class="patient">
-                <tr class="patient header">
-                    <td colspan="2">Sex</td>
-                    <td colspan="3">Age</td>
-                    <td colspan="2">Risk</td>
-                </tr>
-                <tr class="patient title">
-                    <td>Male</td>
-                    <td>Female</td>
-                    <td>21-30</td>
-                    <td>31-40</td>
-                    <td>41-50</td>
-                    <td>Low</td>
-                    <td>High</td>
-                </tr>
-                <tr class="patient table">
-                    <td class="male">0</td>
-                    <td class="female">0</td>
-                    <td class="young">0</td>
-                    <td class="middle">0</td>
-                    <td class="old">0</td>
-                    <td class="low">0</td>
-                    <td class="high">0</td>
-                </tr>
-            </table>
-            <br />
-            Patient sequence <input id="savesequence" type="text" size="5" readonly="readonly" />
-            <br />
-            Investigator sequence <input id="gatorsavesequence" type="text" size="5" readonly="readonly" />
-        </div>
-        <div id="study">
-            <div id="treatment" class="table">
-                <p class="heading">Treatment Group</p>
-                <table class="maintable">
-                    <tr class="treatment header">
+    <div>
+        <div id="tablecontainer">
+            <div id="patient">
+                <p class="heading">Patient <a id="patientnumber"></a></p>
+                <table class="patient">
+                    <tr class="patient header">
                         <td colspan="2">Sex</td>
                         <td colspan="3">Age</td>
                         <td colspan="2">Risk</td>
-                        <td class="gator" colspan="1">Investigators</td>
                     </tr>
-                    <tr class="treatment title">
+                    <tr class="patient title">
                         <td>Male</td>
                         <td>Female</td>
                         <td>21-30</td>
@@ -237,7 +204,7 @@
                         <td>Low</td>
                         <td>High</td>
                     </tr>
-                    <tr class="treatment table">
+                    <tr class="patient table">
                         <td class="male">0</td>
                         <td class="female">0</td>
                         <td class="young">0</td>
@@ -247,56 +214,141 @@
                         <td class="high">0</td>
                     </tr>
                 </table>
-                <table class="totaltable">
-                    <tr class="treatment total">
-                        <td class="total title">Total Patients</td>
-                    </tr>
-                    <tr>
-                        <td class="total table">0</td>
-                    </tr>
-                </table>
+                <br />
+                Patient sequence <input id="savesequence" type="text" size="5" readonly="readonly" />
+                <br />
+                Investigator sequence <input id="gatorsavesequence" type="text" size="5" readonly="readonly" />
             </div>
-            <div id="spacer"> </div>
-            <div id="control" class="table">
-                <p class="heading">Control Group</p>
-                <table class="maintable">
-                    <tr class="control header">
-                        <td colspan="2">Sex</td>
-                        <td colspan="3">Age</td>
-                        <td colspan="2">Risk</td>
-                        <td class="gator" colspan="1">Investigators</td>
-                    </tr>
-                    <tr class="control title">
-                        <td>Male</td>
-                        <td>Female</td>
-                        <td>21-30</td>
-                        <td>31-40</td>
-                        <td>41-50</td>
-                        <td>Low</td>
-                        <td>High</td>
-                    </tr>
-                    <tr class="control table">
-                        <td class="male">0</td>
-                        <td class="female">0</td>
-                        <td class="young">0</td>
-                        <td class="middle">0</td>
-                        <td class="old">0</td>
-                        <td class="low">0</td>
-                        <td class="high">0</td>
-                    </tr>
-                </table>
-                <table class="totaltable">
-                    <tr class="control total">
-                        <td class="total title">Total Patients</td>
-                    </tr>
-                    <tr>
-                        <td class="total table">0</td>
-                    </tr>
-                </table>
+            <div id="study">
+                <div id="treatment" class="table">
+                    <p class="heading">Treatment Group</p>
+                    <table class="maintable">
+                        <tr class="treatment header">
+                            <td colspan="2">Sex</td>
+                            <td colspan="3">Age</td>
+                            <td colspan="2">Risk</td>
+                            <td class="gator" colspan="1">Investigators</td>
+                        </tr>
+                        <tr class="treatment title">
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>21-30</td>
+                            <td>31-40</td>
+                            <td>41-50</td>
+                            <td>Low</td>
+                            <td>High</td>
+                        </tr>
+                        <tr class="treatment table">
+                            <td class="male">0</td>
+                            <td class="female">0</td>
+                            <td class="young">0</td>
+                            <td class="middle">0</td>
+                            <td class="old">0</td>
+                            <td class="low">0</td>
+                            <td class="high">0</td>
+                        </tr>
+                    </table>
+                    <table class="totaltable">
+                        <tr class="treatment total">
+                            <td class="total title">Total Patients</td>
+                        </tr>
+                        <tr>
+                            <td class="total table">0</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="spacer"> </div>
+                <div id="control" class="table">
+                    <p class="heading">Control Group</p>
+                    <table class="maintable">
+                        <tr class="control header">
+                            <td colspan="2">Sex</td>
+                            <td colspan="3">Age</td>
+                            <td colspan="2">Risk</td>
+                            <td class="gator" colspan="1">Investigators</td>
+                        </tr>
+                        <tr class="control title">
+                            <td>Male</td>
+                            <td>Female</td>
+                            <td>21-30</td>
+                            <td>31-40</td>
+                            <td>41-50</td>
+                            <td>Low</td>
+                            <td>High</td>
+                        </tr>
+                        <tr class="control table">
+                            <td class="male">0</td>
+                            <td class="female">0</td>
+                            <td class="young">0</td>
+                            <td class="middle">0</td>
+                            <td class="old">0</td>
+                            <td class="low">0</td>
+                            <td class="high">0</td>
+                        </tr>
+                    </table>
+                    <table class="totaltable">
+                        <tr class="control total">
+                            <td class="total title">Total Patients</td>
+                        </tr>
+                        <tr>
+                            <td class="total table">0</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
+            <button id="next" style="display:none">Next Patient</button>
+            <button id="restart">Restart</button>
         </div>
-        <button id="next" style="display:none">Next Patient</button>
-        <button id="restart">Restart</button>
+    </div>
+    <div id="frequencydata">
+        <table id="treatmentfrequency">
+            <tr>
+                <td colspan="13">Treatment</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12">Patient Number</td>
+            </tr>
+            <tr id="treathead">
+                <td>Investigator Number</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+                <td>11</td>
+                <td>12</td>
+            </tr>
+        </table>
+        <table id="controlfrequency">
+            <tr>
+                <td colspan="13">Control</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="12">Patient Number</td>
+            </tr>
+            <tr id="controlhead">
+                <td>Investigator Number</td>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+                <td>11</td>
+                <td>12</td>
+            </tr>
+        </table>
     </div>
     <div id="cards">
        <div id="playerturn">
@@ -336,6 +388,11 @@
     <div id="someupdates">
         <p class="heading">Latest Updates</p>
         <div class="border">
+            <p class="headingdate">July 16</p>
+            <p class="headingtime">9:07pm</p>
+            <ul>
+                <li>Added two tables tallying the frequency of patient number by investigator by group</li>
+            </ul>
             <p class="headingdate">July 1</p>
             <p class="headingtime">11:10pm</p>
             <ul>

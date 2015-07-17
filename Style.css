@@ -56,7 +56,7 @@ div#spacer {
 }
 button {
     display: inline;
-    float: left;
+    /*float: left;*/
     margin: 5px;
 }
 /* These two should always be opposite each other */
@@ -85,4 +85,7 @@ ul {
 }
 div#tablecontainer {
     margin: 10px;
+}
+#frequencydata {
+    display: none;
 }

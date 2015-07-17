@@ -9,6 +9,24 @@ var queueLength = 1;
 var gatorStreamType = 1; // 1 : order, 2 : predetermined, 3 : n-block
 var diffTally = [];
 var gatorSeq = [];
+var study; // This is a global for use at the console
+
+var extraInfoRow = function (count) {
+    return "<td>" + count + "</td>";
+};
+
+var extraInfoString = function (countArr, gatorNum) {
+    var tableString, index;
+
+    tableString = "<tr><td>" + gatorNum + "</td>";
+
+    for (index = 0; index < countArr.length; index++) {
+        tableString += extraInfoRow(countArr[index]);
+    }
+    tableString += "</tr>";
+
+    return tableString;
+};
 
 var Patient = function (number, gender, age, risk) {
     if (isNaN(number)) {
@@ -633,7 +651,7 @@ var endGame = function (allInvestigators, allPatients) {
             writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score", "player");
         }
     }
-    writeMessage(0, undefined, "diff");
+    fillStatsTable();
 }
 var writeMessage = function (gatorNum, patient, action, result) {
     var message, meanRes;
@@ -715,30 +733,9 @@ var validateGatorSequence = function (sequence) {
     return re.test(sequence);
 };
 var setup = function (allInvestigators, studyPatients, gatorSeq) {
-    var study = new Trial(allInvestigators);
+    study = new Trial(allInvestigators);
     var count = 0;
-    var next;
 
-    /*
-    var nextIteration = function () {
-        $("button#next").show();
-        if (next !== undefined) {
-            var currentPatient = next.patient;
-            var currentInvestigator = allInvestigators[count % allInvestigators.length];
-            currentInvestigator.takeTurn(currentPatient, currentInvestigator.number, study, nextIteration, count);
-            count++;
-        }
-        var nextInvestigator = allInvestigators[count % allInvestigators.length];
-        var patientTemp = studyPatients.pop();
-        if (studyPatients.length === 0) {
-            $("button#next").hide();
-            $("div#messages div").prepend("<a>No more patients to sort. Study ended.</a><br />");
-        }
-        patientTemp.investigator = nextInvestigator.number;
-        next = new nextPatient(patientTemp, $("tr.patient.table"));
-        next.updateTable();
-    };
-    */
     $("div#studysetup").hide();
     $("div#study").show();
     $("div#patient").show();
@@ -802,6 +799,51 @@ var getNBlock = function (types, length, n) {
     }
 
     return finalArr;
+};
+
+var countStats = function (group, numGators) {
+    var patsArr, index, pat, j;
+
+    patsArr = [];
+    for (index = 0; index < 12; index++) {
+        patsArr[index] = [];
+        for (j = 0; j < numGators; j++) {
+            patsArr[index].push(0);
+        }
+    }
+
+    for (index = 0; index < group.length; index++) {
+        pat = group[index];
+
+        patsArr[pat.number - 1][pat.investigator - 1]++;
+    }
+
+    return patsArr;
+};
+
+var fillStatsTable = function () {
+    var c, t, cstr, tstr, index, mapFn;
+
+    c = countStats(study.control.patients, study.numInvestigators);
+    t = countStats(study.treatment.patients, study.numInvestigators);
+
+    cstr = "";
+    tstr = "";
+
+    mapFn = function (dex) {
+        return function (elem) {
+            return elem[dex];
+        };
+    };
+
+    for (index = 0; index < study.numInvestigators; index++) {
+        cstr += extraInfoString(c.map(mapFn(index)), index + 1);
+        tstr += extraInfoString(t.map(mapFn(index)), index + 1);
+    }
+
+    $("#controlhead").after(cstr);
+    $("#treathead").after(tstr);
+    $("#frequencydata").show();
 };
 
 $(document).ready(function () {
