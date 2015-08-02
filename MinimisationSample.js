@@ -62,11 +62,15 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
         return alphabet[this.tagdex++ % alphabet.length];
     };
     this.holdPatient = function (heldPatient) {
-        this.heldPatients.push({
-            patient: heldPatient,
-            turns: heldTurns
-        });
-        writeMessage(this.number, heldPatient, "hold");
+        if (heldTurns === 0) {
+            writeMessage(this.number, heldPatient, "discard");
+        } else {
+            this.heldPatients.push({
+                patient: heldPatient,
+                turns: heldTurns
+            });
+            writeMessage(this.number, heldPatient, "hold");
+        }
     };
     this.heldCounter = function () {
         for (var index = this.heldPatients.length - 1; index >= 0; index--) {
@@ -591,13 +595,17 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
             $("button#playerendturn").hide();
             currentPatientPrediction();
             heldTable();
+            if (heldTurns === 0) {
+                $("button#playerhold").prop("disabled", true);
+            } else {
+                $("button#playerhold").on("click", function () {
+                    $("button.actions").off("click");
+                    hold();
+                });
+            }
             $("button#playeradd").on("click", function () {
                 $("button.actions").off("click");
                 add();
-            });
-            $("button#playerhold").on("click", function () {
-                $("button.actions").off("click");
-                hold();
             });
             $("button#playerdiscard").on("click", function () {
                 $("button.actions").off("click");
