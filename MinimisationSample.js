@@ -1,4 +1,4 @@
-﻿//Game parameters
+﻿// Game parameters
 var allowedLength = 1;
 var heldTurns = 4;
 var playerView = "full";
@@ -6,7 +6,9 @@ var autoPlay = false;
 var minimizeInvestigator = false;
 var minimizationExponent = 1;
 var queueLength = 1;
-var gatorStreamType = 1; // 1 : order, 2 : predetermined, 3 : n-block
+
+// 1 : order, 2 : predetermined, 3 : n-block, 4 : alternate
+var gatorStreamType = 1;
 var diffTally = [];
 var gatorSeq = [];
 var study; // This is a global for use at the console
@@ -141,17 +143,29 @@ var Group = function (name, table, numInvestigators) {
         }
     };
 };
-var Trial = function (investigators) {
+var Trial = function (investigators, doOutput) {
+
     this.numInvestigators = investigators.length;
+
     if (minimizeInvestigator) {
         for (var index = 0; index < this.numInvestigators; index++) {
             $("tr.title").append("<td>Investigator " + (index + 1) + "</td>");
             $("tr.table").append("<td class='i" + index + "'></td>");
         }
     }
+
+    this.endGame = doOutput ?
+        endGame :
+        function (investigators, patients, control, treatment) {
+            console.log("Study Ended");
+            console.log(control);
+            console.log(treatment);
+        };
+
     if (!minimizeInvestigator) {
         $("tr.header td.gator").hide();
     }
+
     $("tr.header .gator").prop("colspan", this.numInvestigators);
     $("tr.table").children("td").text("0");
 
@@ -177,25 +191,41 @@ var Trial = function (investigators) {
             result = minimize(patient, investigator.number, trialClosure.control, trialClosure.treatment);
             if (result.res === "control") {
                 trialClosure.control = result.control;
-                writeMessage(patient.investigator, patient, "add", "control");
-                trialClosure.control.updateTable();
+
+                if (doOutput) {
+                    writeMessage(patient.investigator, patient, "add", "control");
+                    trialClosure.control.updateTable();
+                }
+
                 groupRes = "control";
             } else if (result.res === "treatment") {
                 trialClosure.treatment = result.treatment;
-                writeMessage(patient.investigator, patient, "add", "treatment");
-                trialClosure.treatment.updateTable();
+
+                if (doOutput) {
+                    writeMessage(patient.investigator, patient, "add", "treatment");
+                    trialClosure.treatment.updateTable();
+                }
+
                 groupRes = "treatment";
             } else if (result.res === "tie") {
                 tie = Math.floor(Math.random() * 2);
                 if (tie === 0) {
                     trialClosure.treatment = result.treatment;
-                    writeMessage(patient.investigator, patient, "add", "tietreatment");
-                    trialClosure.treatment.updateTable();
+
+                    if (doOutput) {
+                        writeMessage(patient.investigator, patient, "add", "tietreatment");
+                        trialClosure.treatment.updateTable();
+                    }
+
                     groupRes = "treatment";
                 } else {
                     trialClosure.control = result.control;
-                    writeMessage(patient.investigator, patient, "add", "tiecontrol");
-                    trialClosure.control.updateTable();
+
+                    if (doOutput) {
+                        writeMessage(patient.investigator, patient, "add", "tiecontrol");
+                        trialClosure.control.updateTable();
+                    }
+
                     groupRes = "control";
                 }
             } else {
@@ -312,7 +342,6 @@ var Trial = function (investigators) {
         } else {
 
         }
-
     };
 };
 var groupDiff = function (controlGroup, treatmentGroup) {
@@ -448,6 +477,7 @@ var random = function (gatorNumber, study, count, allInvestigators, allPatients)
 var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) {
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
+
     var turn = function () {
         tryHeld();
         if (patient.number === investigator.selectPatient) {
@@ -465,6 +495,7 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
         }
         nextInvestigator(allInvestigators, allPatients, count, study);
     };
+
     var tryHeld = function () {
         for (var index = 0; index < investigator.heldPatients.length; index++) {
             var hpat = investigator.heldPatients[index].patient;
@@ -475,6 +506,7 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
             }
         }
     };
+
     if (patient === undefined) {
         endGame(allInvestigators, allPatients);
     } else {
@@ -617,7 +649,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
             });
         }
     }
-}
+};
 
 var displayPatient = function (allInvestigators, allPatients, count, gatorNumber) {
     if (allPatients.length === 0) {
@@ -634,6 +666,7 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
 }
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     var currentInvestigator;
+
     if (gatorStreamType === 1) {
         currentInvestigator = allInvestigators[count % allInvestigators.length];
     } else {
@@ -643,11 +676,13 @@ var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     for (var index = 0; index < allInvestigators.length; index++) {
         allInvestigators[index].heldCounter();
     }
+
     count++;
+
     if (currentInvestigator !== undefined) {
         currentInvestigator.takeTurn(currentInvestigator.number, study, count, allInvestigators, allPatients);
     } else {
-        endGame(allInvestigators, allPatients);
+        study.endGame(allInvestigators, allPatients);
     }
 }
 var endGame = function (allInvestigators, allPatients) {
@@ -740,8 +775,17 @@ var validateGatorSequence = function (sequence) {
     re = /^((\s)*[1-9],(\s)*)*([1-9])(\s)*$/;
     return re.test(sequence);
 };
+
+var repeatStudy = function (parameters, investigators) {
+    var study = new Trial(investigators, false);
+    var count = 0;
+
+    nextInvestigator(investigators, undefined /* patients */, count, study);
+
+};
+
 var setup = function (allInvestigators, studyPatients, gatorSeq) {
-    study = new Trial(allInvestigators);
+    study = new Trial(allInvestigators, true);
     var count = 0;
 
     $("div#studysetup").hide();
@@ -787,6 +831,29 @@ var median = function (arr) {
         return (arr[len / 2 - 1] + arr[len / 2]) / 2;
     }
 };
+
+var getAlternating = function (types, length) {
+    var blocks, finalArr, forwardArr, backwardArr, blockArr, i, j;
+
+    blocks = Math.ceil( length / (types * 2) );
+    finalArr = [];
+    forwardArr = [];
+    backwardArr = [];
+
+    for (j = types - 1; j >= 0; j--) {
+        forwardArr.push(j);
+        backwardArr.push(j);
+    }
+
+    blockArr = backwardArr.concat(forwardArr.reverse());
+
+    for (i = 0; i < blocks; i++) {
+        finalArr = finalArr.concat(blockArr);
+    }
+
+    return finalArr;
+};
+
 var getNBlock = function (types, length, n) {
     var i, pick, ndex, bag, startArr, iters, finalArr, iterSize;
 
@@ -854,10 +921,41 @@ var fillStatsTable = function () {
     $("#frequencydata").show();
 };
 
+var arrToCSV = function (arrs) {
+    var csv = "";
+
+    for (var i = 0; i < arrs.length; i++) {
+        for (var j = 0; j < arrs[i].length; j++) {
+            csv += '"' + arrs[i][j].toString() + '",';
+        }
+        csv = csv.substr(0, csv.length - 1) + "\n";
+    }
+
+    return csv;
+};
+
+function download(filename, text) {
+    // http://stackoverflow.com/a/18197341
+    var element = document.createElement('a');
+
+    element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename + ".csv");
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
 $(document).ready(function () {
+
     $("select[name=number]").change(function () {
         $("div#investigators").empty();
+
         var numGators = parseInt($("select[name=number]").val(), 10);
+
         for (var index = 0; index < numGators; index++) {
             var computerSelect =
                 "<select name='computergator" + index + "'>" +
@@ -875,13 +973,16 @@ $(document).ready(function () {
                     "<option selected='selected' value='treatment'>Treatment</option>" +
                     "<option value='control'>Control</option>" +
                 "</select>";
+
             for (var c = 2; c < 13; c++) {
                 var option = "<option>" + c + "</option>";
                 computerSelect += option;
                 playerSelect += option;
             }
+
             computerSelect += "</select>";
             playerSelect += "</select>";
+
             $("div#investigators").append(
                 "<div class='strategy'>" +
                     "<a>Investigator " + (index + 1) + ": </a>" + "<br />" +
@@ -893,6 +994,7 @@ $(document).ready(function () {
                 "</div>");
         }
     });
+
     $("button#start").click(function () {
         var gators, numGators, seq, blocksize, textgator;
         gators = [];
@@ -902,16 +1004,20 @@ $(document).ready(function () {
 
         for (var index = 0; index < numGators; index++) {
             var selectedStrategy = $("input[name=gator" + index + "]:checked").val();
+
             if (selectedStrategy === "random") {
                 gators.push(new Investigator(index + 1, random, "random", 1, "treatment"));
             } else if (selectedStrategy === "cheat") {
+
                 var numPatient = parseInt($("select[name=computergator" + index + "]").val(), 10);
                 var targetGroup = $("select[name=computergroupgator" + index + "]").val();
+
                 gators.push(new Investigator(index + 1, (queueLength === 2 ? random : cheat),
                      (queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
             } else if (selectedStrategy === "player") {
                 numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
                 targetGroup = $("select[name=playergroupgator" + index + "]").val();
+
                 gators.push(new Investigator(index + 1, player, "player", numPatient, targetGroup));
             } else {
                 throw Error;
@@ -933,6 +1039,7 @@ $(document).ready(function () {
         var patients;
         if ($("select[name=seedtype]").val() === "Random") {
             var eliminated = 0;
+
             $("input[name=filterpatients]").not(":checked").each(function () {
                 for (var index = 0; index < allPatients.length; index++) {
                     if (parseInt($(this).val(), 10) === allPatients[index].number) {
@@ -941,7 +1048,9 @@ $(document).ready(function () {
                     }
                 }
             });
+
             var studyLength = parseInt($("input[name=patientslength]").val(), 10);
+
             if (!isNaN(studyLength)) {
                 patients = [];
                 for (var index = 0; index < studyLength; index++) {
@@ -987,6 +1096,9 @@ $(document).ready(function () {
             case 3:
                 gatorSeq = getNBlock(numGators, studyLength, blocksize);
                 break;
+            case 4:
+                gatorSeq = getAlternating(numGators, studyLength);
+                break;
             default:
                 console.error("Invalid state");
                 break;
@@ -1025,18 +1137,23 @@ $(document).ready(function () {
         choice = $("select[name=gatorseedtype]").val();
         switch (choice) {
             case "order":
-                $("#randomgators, #setgators").hide();
+                $("#randomgators, #setgators, #alternategators").hide();
                 gatorStreamType = 1;
                 break;
             case "predetermined":
-                $("#randomgators").hide();
+                $("#randomgators, #alternategators").hide();
                 $("#setgators").show();
                 gatorStreamType = 2;
                 break;
             case "random":
-                $("#setgators").hide();
+                $("#setgators, #alternategators").hide();
                 $("#randomgators").show();
                 gatorStreamType = 3;
+                break;
+            case "alternate":
+                $("#setgators, #randomgators").hide();
+                $("#alternategators").show();
+                gatorStreamType = 4;
                 break;
             default:
                 console.error("Invalid selection");

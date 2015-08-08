@@ -100,8 +100,8 @@
             <input name="playerview" type="radio" value="full" checked />Show everything
             <input name="playerview" type="radio" value="partial" />Show last two events
             <br /><br />
-            <input name="autoplay" type="radio" value="false" checked />Player takes all turns
-            <input name="autoplay" type="radio" value="true" />Player only takes turns that involve a select patient
+            <input name="autoplay" type="radio" value="false" />Player takes all turns
+            <input name="autoplay" type="radio" value="true" checked />Player only takes turns that involve a select patient
             <br /><br />
             <input name="minimizeinvestigator" type="checkbox" value="true" />Include investigator in minimization
             <br /><br />
@@ -163,11 +163,13 @@
                 <option selected="selected" value="order">Place in order</option>
                 <option value="predetermined">Predetermined</option>
                 <option value="random">Random n-block</option>
+                <option value="alternate">Alternating</option>
             </select>
             <br />
             <br />
             <div id="randomgators" class="gatorblock">
-                Investigators will be given at least one turn every n turns of the study.
+                Investigators will be given exactly n turns every n * (number of
+                investigators) turns of the study.
                 <select name="blocksize">
                     <option selected="selected">1</option>
                     <option>2</option>
@@ -181,6 +183,14 @@
                 <input name="gatorsequence" type="text" placeholder="comma separated sequence" />
                 <i id="gatorsequencevalid" class="fa fa-check"></i>
                 <br />
+            </div>
+            <div id="alternategators" class="gatorblock">
+                Investigators will alternate between a descending and ascending
+                sequence. e.g. for two investigators 2, 1, 1, 2, 2, 1, 1 ... and
+                for three investigators 3, 2, 1, 1, 2, 3, 3, 2, 1, ...
+                <br />
+                For n investigators we have n, (n - 1), ... 2, 1, 1, 2,  ...
+                (n -1), n.
             </div>
         </div>
         <br />
@@ -389,6 +399,12 @@
     <div id="someupdates">
         <p class="heading">Latest Updates</p>
         <div class="border">
+            <p class="headingdate">August 8</p>
+            <p class="headingtime">8:26am</p>
+            <ul>
+                <li>Added option for alternating order of Investigators</li>
+                <li>Fixed description in N-block section</li>
+            </ul>
             <p class="headingdate">August 1</p>
             <p class="headingtime">5:09pm</p>
             <ul>
