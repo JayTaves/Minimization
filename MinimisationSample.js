@@ -190,8 +190,35 @@ var Trial = function (investigators, doOutput) {
         return noInteraction;
     }).call();
 
-    this.getChiSquares = function () {
+    this.treatmentGroups = [];
+    this.controlGroups = [];
 
+    this.getChiSquares = function () {
+        var control, treatment, diff, res, i, j, chi_square, avg;
+
+        diff = [];
+        chi_square = [];
+
+        res = this.fillStatsTable();
+        control = res.control;
+        treatment = res.treatment;
+
+        for (i = 0; i < control.length; i++) {
+            diff[i] = [];
+            chi_square[i] = [];
+
+            for (j = 0; j < control[i].length; j++) {
+                diff[i][j] = treatment[i][j] - control[i][j];
+                avg = (treatment[i][j] + control[i][j]) / 2;
+
+                chi_square[i][j] = 2 * Math.pow(control[i][j] - avg, 2) / avg;
+            }
+        }
+
+        return {
+            d : diff,
+            chi : chi_square
+        };
     };
 
     this.fillStatsTable = function () {
