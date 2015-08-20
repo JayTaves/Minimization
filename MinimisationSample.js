@@ -59,10 +59,12 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
     this.selectPatient = patient;
     this.targetGroup = group;
     this.tagdex = 0;
+
     this.getTag = function () {
         var alphabet = "abcdefghijklmnopqrstuvwxyz";
         return alphabet[this.tagdex++ % alphabet.length];
     };
+
     this.holdPatient = function (heldPatient) {
         if (heldTurns === 0) {
             writeMessage(this.number, heldPatient, "discard");
@@ -74,6 +76,7 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
             writeMessage(this.number, heldPatient, "hold");
         }
     };
+
     this.heldCounter = function () {
         for (var index = this.heldPatients.length - 1; index >= 0; index--) {
             var heldPatient = this.heldPatients[index];
@@ -172,6 +175,81 @@ var Trial = function (investigators, doOutput) {
     this.control = new Group("Control", $("#control table.maintable"), this.numInvestigators);
     this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
     this.queue = [];
+
+    this.noInteraction = (function () {
+        var i, gator, noInteraction;
+
+        noInteraction = autoPlay;
+
+        for (i = 0; noInteraction && i < investigators.length; i++) {
+
+            gator = investigators[i];
+            noInteraction = gator.strategyName !== "player";
+        }
+
+        return noInteraction;
+    }).call();
+
+    this.getChiSquares = function () {
+
+    };
+
+    this.fillStatsTable = function () {
+        var c, t, cstr, tstr, index, mapFn;
+
+        c = countStats(this.control.patients, this.numInvestigators);
+        t = countStats(this.treatment.patients, this.numInvestigators);
+
+        if (doOutput) {
+            cstr = "";
+            tstr = "";
+
+            mapFn = function (dex) {
+                return function (elem) {
+                    return elem[dex];
+                };
+            };
+
+            for (index = 0; index < this.numInvestigators; index++) {
+                cstr += extraInfoString(c.map(mapFn(index)), index + 1);
+                tstr += extraInfoString(t.map(mapFn(index)), index + 1);
+            }
+
+            $("#controlhead").after(cstr);
+            $("#treathead").after(tstr);
+            $("#frequencydata").show();
+        }
+
+        return {
+            control : c,
+            treatment : t
+        };
+    };
+
+    // This function works almost exactly like nextInvestigator only it performs
+    // a loop rather than waiting for something to call it again
+    this.doStudyNoInteraction = function (isCountMod, allInvestigators,
+        allPatients, gatorSeq) {
+
+        var currentInvestigator, i, j;
+
+        for (i = 0; i < allPatients.length; i++) {
+            currentInvestigator = isCountMod ?
+                allInvestigators[i % allInvestigators.length] :
+                allInvestigators[gatorSeq[i]];
+
+            for (j = 0; j < allInvestigators.length; j++) {
+                allInvestigators[j].heldCounter();
+            }
+
+            if (currentInvestigator !== undefined) {
+                currentInvestigator.takeTurn(currentInvestigator.number, this,
+                    i + 1, allInvestigators, allPatients);
+            } else {
+                this.endGame(allInvestigators, allPatients);
+            }
+        }
+    };
 
     this.addPatient = function (patient, investigator) {
         var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
@@ -453,15 +531,19 @@ var random = function (gatorNumber, study, count, allInvestigators, allPatients)
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
     if (patient === undefined) {
-        endGame(allInvestigators, allPatients);
+        study.endGame(allInvestigators, allPatients);
     } else {
         if (autoPlay) {
+
             var res = study.addPatient(patient, investigator);
             if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                 investigator.targetsGiven++;
                 patient.tag = investigator.getTag();
             }
-            nextInvestigator(allInvestigators, allPatients, count, study);
+
+            if (!study.noInteraction) {
+                nextInvestigator(allInvestigators, allPatients, count, study);
+            }
         } else {
             $("button#next").click(function () {
                 $("button#next").off("click");
@@ -469,17 +551,20 @@ var random = function (gatorNumber, study, count, allInvestigators, allPatients)
                 if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                     investigator.targetsGiven++;
                 }
+
                 nextInvestigator(allInvestigators, allPatients, count, study);
             });
         }
     }
-}
+};
+
 var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) {
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
 
     var turn = function () {
         tryHeld();
+
         if (patient.number === investigator.selectPatient) {
             patient.tag = investigator.getTag();
             investigator.targetsGiven++;
@@ -493,7 +578,10 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
             patientRes = study.addPatient(patient, investigator);
             tryHeld();
         }
-        nextInvestigator(allInvestigators, allPatients, count, study);
+
+        if (!study.noInteraction) {
+            nextInvestigator(allInvestigators, allPatients, count, study);
+        }
     };
 
     var tryHeld = function () {
@@ -508,7 +596,7 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
     };
 
     if (patient === undefined) {
-        endGame(allInvestigators, allPatients);
+        study.endGame(allInvestigators, allPatients);
     } else {
         if (autoPlay) {
             turn();
@@ -520,10 +608,12 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
         }
     }
 };
+
 var player = function (gatorNumber, study, count, allInvestigators, allPatients) {
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
     var patientPlaced = false;
+
     var add = function () {
         var patientRes = study.addPatient(patient, investigator);
         patientPlaced = true;
@@ -532,6 +622,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
         $("span#allottedpatient").hide();
         $("button#playerendturn").show();
     };
+
     var hold = function () {
         investigator.holdPatient(patient);
         patientPlaced = true;
@@ -540,6 +631,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
         $("span#allottedpatient").hide();
         $("button#playerendturn").show();
     };
+
     var discard = function () {
         writeMessage(investigator.number, patient, "discard");
         patientPlaced = true;
@@ -548,16 +640,19 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
         $("span#allottedpatient").hide();
         $("button#playerendturn").show();
     };
+
     var endTurn = function () {
         $("div#playerturn").hide();
         $("button#next").show();
-        //investigator.heldCounter();
+
         nextInvestigator(allInvestigators, allPatients, count, study);
     };
+
     var currentPatientPrediction = function () {
         var result = minimize(patient, gatorNumber, study.control, study.treatment);
         $("a.playergroup").text(result.res);
     };
+
     var heldTable = function () {
         $("button#playerhold").toggle(investigator.heldPatients.length !== allowedLength && !patientPlaced);
         if (investigator.heldPatients.length === 0) {
@@ -608,7 +703,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
         }
     };
     if (patient === undefined) {
-        endGame(allInvestigators, allPatients);
+        study.endGame(allInvestigators, allPatients);
     } else {
         if (autoPlay && patient.number !== this.selectPatient) {
             add();
@@ -663,7 +758,8 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
         next.updateTable();
         return currentPatient;
     }
-}
+};
+
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     var currentInvestigator;
 
@@ -680,11 +776,13 @@ var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     count++;
 
     if (currentInvestigator !== undefined) {
-        currentInvestigator.takeTurn(currentInvestigator.number, study, count, allInvestigators, allPatients);
+        currentInvestigator.takeTurn(currentInvestigator.number, study, count,
+            allInvestigators, allPatients);
     } else {
         study.endGame(allInvestigators, allPatients);
     }
-}
+};
+
 var endGame = function (allInvestigators, allPatients) {
     for (var index = 0; index < allInvestigators.length; index++) {
         var investigator = allInvestigators[index];
@@ -694,8 +792,9 @@ var endGame = function (allInvestigators, allPatients) {
             writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score", "player");
         }
     }
-    fillStatsTable();
-}
+
+    study.fillStatsTable();
+};
 var writeMessage = function (gatorNum, patient, action, result) {
     var message, meanRes;
     if (gatorNum === 0) {
@@ -781,7 +880,6 @@ var repeatStudy = function (parameters, investigators) {
     var count = 0;
 
     nextInvestigator(investigators, undefined /* patients */, count, study);
-
 };
 
 var setup = function (allInvestigators, studyPatients, gatorSeq) {
@@ -796,7 +894,14 @@ var setup = function (allInvestigators, studyPatients, gatorSeq) {
     $("button#next").show();
     $("button#next").on("click", function () {
         $("button#next").off("click");
-        nextInvestigator(allInvestigators, studyPatients, count, study, gatorSeq);
+
+        if (study.noInteraction) {
+            study.doStudyNoInteraction(gatorStreamType === 1, allInvestigators,
+                studyPatients, gatorSeq);
+        } else {
+            nextInvestigator(allInvestigators, studyPatients, count, study,
+                gatorSeq);
+        }
     });
 };
 var mean = function (arr) {
@@ -832,7 +937,7 @@ var median = function (arr) {
     }
 };
 
-var getAlternating = function (types, length) {
+var getAlternating = function (types, length, dir) {
     var blocks, finalArr, forwardArr, backwardArr, blockArr, i, j;
 
     blocks = Math.ceil( length / (types * 2) );
@@ -845,7 +950,11 @@ var getAlternating = function (types, length) {
         backwardArr.push(j);
     }
 
-    blockArr = backwardArr.concat(forwardArr.reverse());
+    if (dir === "ascending") {
+        blockArr = forwardArr.reverse().concat(backwardArr);
+    } else {
+        blockArr = backwardArr.concat(forwardArr.reverse());
+    }
 
     for (i = 0; i < blocks; i++) {
         finalArr = finalArr.concat(blockArr);
@@ -894,31 +1003,6 @@ var countStats = function (group, numGators) {
     }
 
     return patsArr;
-};
-
-var fillStatsTable = function () {
-    var c, t, cstr, tstr, index, mapFn;
-
-    c = countStats(study.control.patients, study.numInvestigators);
-    t = countStats(study.treatment.patients, study.numInvestigators);
-
-    cstr = "";
-    tstr = "";
-
-    mapFn = function (dex) {
-        return function (elem) {
-            return elem[dex];
-        };
-    };
-
-    for (index = 0; index < study.numInvestigators; index++) {
-        cstr += extraInfoString(c.map(mapFn(index)), index + 1);
-        tstr += extraInfoString(t.map(mapFn(index)), index + 1);
-    }
-
-    $("#controlhead").after(cstr);
-    $("#treathead").after(tstr);
-    $("#frequencydata").show();
 };
 
 var arrToCSV = function (arrs) {
@@ -1082,7 +1166,7 @@ $(document).ready(function () {
                 console.error("Something else selected");
             }
         }
-        // 1 : order, 2 : predetermined, 3 : random
+        // 1 : order, 2 : predetermined, 3 : random, 4 : alternating
         switch (gatorStreamType) {
             case 1:
                 break;
@@ -1104,6 +1188,7 @@ $(document).ready(function () {
                 break;
         }
         $("input#savesequence").show();
+
         var textpat = "";
         for (var index = patients.length - 1; index >= 0; index--) {
             textpat = textpat + patients[index].number;
@@ -1111,7 +1196,9 @@ $(document).ready(function () {
                 textpat = textpat + ", ";
             }
         }
+
         textgator = "";
+
         for (index = 0; index < gatorSeq.length; index++) {
             textgator = textgator + (gatorSeq[index] + 1);
             if (index !== gatorSeq.length - 1) {
@@ -1121,8 +1208,10 @@ $(document).ready(function () {
         $("input#savesequence").val(textpat);
         $("input#gatorsavesequence").val(textgator);
         $("div#someupdates").hide();
-        setup(gators, patients);
+
+        setup(gators, patients, gatorSeq);
     });
+
     $("select[name=seedtype]").change(function () {
         if ($("select[name=seedtype]").val() === "Random") {
             $("div#randompatients").show();
