@@ -449,6 +449,7 @@ var Trial = function (investigators, doOutput) {
         }
     };
 };
+
 var groupDiff = function (controlGroup, treatmentGroup) {
     var comparison = {};
     for (var prop in controlGroup.characteristics) {
@@ -466,6 +467,7 @@ var groupDiff = function (controlGroup, treatmentGroup) {
     }
     return diff;
 };
+
 var minimize = function (patient, investigator, control, treatment) {
     var addDiff;
     var newControlTest = jQuery.extend(true, {}, control);
