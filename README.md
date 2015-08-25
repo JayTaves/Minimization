@@ -1,7 +1,7 @@
 # Minimization
-This is code for a minimization tool to demonstrate the effectiveness of this algorithm over pure randomization. Check it out at http://jaytaves.github.io/Minimization/
+This is code for research done with Don Taves on the effectiveness of Minimization in creating balanced treatment and control groups for clinical trials. One of the goals of this tool is to determine if fradulent investigators can be prevented from both imbalancing trial groups (e.g. all the women in one group) and from placing their "select patients" into a particular group. As Minimization is not random and creates the groups entirely deterministically, we also have to be sure that Minimization does not present any additional opportunities for imbalancing the groups that are not present when the groups are randomized. Check out a demo at http://jaytaves.github.io/Minimization/
 
-### Trials
+### This Game
 * The game simulates a (usually clinical) trial being setup with two groups, treatment and control.
 * The goal of a good setup is for the groups to be balanced (e.g. both groups have an equal number of females and other traits).
 * Traditionally this has done by various randomizing strategies, minimization is an algorithm that is much better.
