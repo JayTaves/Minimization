@@ -13,17 +13,17 @@ var diffTally = [];
 var gatorSeq = [];
 var study; // This is a global for use at the console
 
-var extraInfoRow = function (count) {
-    return "<td>" + count + "</td>";
+var extraInfoRow = function (cellEntry) {
+    return "<td>" + cellEntry + "</td>";
 };
 
-var extraInfoString = function (countArr, gatorNum) {
+var extraInfoString = function (arr, header) {
     var tableString, index;
 
-    tableString = "<tr><td>" + gatorNum + "</td>";
+    tableString = "<tr><td>" + header + "</td>";
 
-    for (index = 0; index < countArr.length; index++) {
-        tableString += extraInfoRow(countArr[index]);
+    for (index = 0; index < arr.length; index++) {
+        tableString += extraInfoRow(arr[index]);
     }
     tableString += "</tr>";
 
@@ -897,19 +897,44 @@ var countStats = function (group, numGators) {
 };
 
 var fillStatsTable = function () {
-    var c, t, cstr, tstr, index, mapFn;
+    var c, t, cstr, tstr, index, mapFn, ccount, tcount, diff, sumPats;
 
     c = countStats(study.control.patients, study.numInvestigators);
     t = countStats(study.treatment.patients, study.numInvestigators);
 
     cstr = "";
     tstr = "";
+    ccount = [];
+    tcount = [];
 
     mapFn = function (dex) {
         return function (elem) {
             return elem[dex];
         };
     };
+
+    sumPats = function (currentValue) {
+        var count, index;
+
+        count = 0;
+        for (index = 0; index < currentValue.length; index++) {
+            count += currentValue[index];
+        }
+
+        return count;
+    };
+
+    ccount = c.map(sumPats);
+    tcount = t.map(sumPats);
+    diff = [];
+
+    for (index = 0; index < ccount.length; index++) {
+        diff[index] = tcount[index] - ccount[index];
+    }
+
+    $("#patbygrouphead").after(extraInfoString(diff, "Difference"));
+    $("#patbygrouphead").after(extraInfoString(ccount, "Control"));
+    $("#patbygrouphead").after(extraInfoString(tcount, "Treatment"));
 
     for (index = 0; index < study.numInvestigators; index++) {
         cstr += extraInfoString(c.map(mapFn(index)), index + 1);
