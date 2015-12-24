@@ -105,6 +105,9 @@
             <br /><br />
             <input name="minimizeinvestigator" type="checkbox" value="true" />Include investigator in minimization
             <br /><br />
+            <input name="investigatortiebreak" type="checkbox" checked value="true"/>
+            Use investigator balance for tie break
+            <br /><br />
             Minimization algorithm exponent
             <select name="minimizationexponent">
                 <option selected="selected">1</option>
@@ -229,6 +232,9 @@
                 Patient sequence <input id="savesequence" type="text" size="5" readonly="readonly" />
                 <br />
                 Investigator sequence <input id="gatorsavesequence" type="text" size="5" readonly="readonly" />
+                <br />
+                Tiebreak sequence <input id="tiebreaksequence" type="text" size="5"
+                readonly="readonly" />
             </div>
             <div id="study">
                 <div id="treatment" class="table">
@@ -360,9 +366,10 @@
                 <td>12</td>
             </tr>
         </table>
+        <br /><br />
         <table id="patientbygroup">
             <tr>
-                <td colspan="13">Patient Frequency</td>
+                <td colspan="13">Difference Between Patients</td>
             </tr>
             <tr>
                 <td></td>
@@ -383,6 +390,12 @@
                 <td>11</td>
                 <td>12</td>
             </tr>
+        </table>
+        <table>
+            <tr>
+                <td colspan="8">Difference Between Variates</td>
+            </tr>
+            <tr>
         </table>
     </div>
     <div id="cards">

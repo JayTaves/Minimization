@@ -187,7 +187,7 @@ var Trial = function (investigators, doOutput) {
 
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
-            var result, tie, groupRes;
+            var result, tie, groupRes, tiestr;
             result = minimize(patient, investigator.number, trialClosure.control, trialClosure.treatment);
             if (result.res === "control") {
                 trialClosure.control = result.control;
@@ -208,6 +208,18 @@ var Trial = function (investigators, doOutput) {
 
                 groupRes = "treatment";
             } else if (result.res === "tie") {
+                tie = trialClosure.tb.pop();
+                tiestr = tie === -1 ? "control" : "treatment";
+                trialClosure[tiestr] = result[tiestr];
+
+                if (doOutput) {
+                    writeMessage(patient.investigator, patient, "add", "tie" + tiestr);
+                    trialClosure[tiestr].updateTable();
+                }
+
+                groupRes = tiestr;
+
+                /*
                 tie = Math.floor(Math.random() * 2);
                 if (tie === 0) {
                     trialClosure.treatment = result.treatment;
@@ -228,6 +240,7 @@ var Trial = function (investigators, doOutput) {
 
                     groupRes = "control";
                 }
+                */
             } else {
 
             }
@@ -473,7 +486,7 @@ var random = function (gatorNumber, study, count, allInvestigators, allPatients)
             });
         }
     }
-}
+};
 var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) {
     var patient = displayPatient(allInvestigators, allPatients, count, gatorNumber);
     var investigator = this;
@@ -784,8 +797,10 @@ var repeatStudy = function (parameters, investigators) {
 
 };
 
-var setup = function (allInvestigators, studyPatients, gatorSeq) {
+var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
     study = new Trial(allInvestigators, true);
+    study.tb = tiebreakSequence.arr;
+
     var count = 0;
 
     $("div#studysetup").hide();
@@ -796,7 +811,7 @@ var setup = function (allInvestigators, studyPatients, gatorSeq) {
     $("button#next").show();
     $("button#next").on("click", function () {
         $("button#next").off("click");
-        nextInvestigator(allInvestigators, studyPatients, count, study, gatorSeq);
+        nextInvestigator(allInvestigators, studyPatients, count, study);
     });
 };
 var mean = function (arr) {
@@ -1021,7 +1036,9 @@ $(document).ready(function () {
     });
 
     $("button#start").click(function () {
-        var gators, numGators, seq, blocksize, textgator;
+        var gators, numGators, seq, blocksize, textgator, studyLength,
+            tiebreakSequence;
+
         gators = [];
         numGators = parseInt($("select[name=number]").val(), 10);
 
@@ -1074,7 +1091,7 @@ $(document).ready(function () {
                 }
             });
 
-            var studyLength = parseInt($("input[name=patientslength]").val(), 10);
+            studyLength = parseInt($("input[name=patientslength]").val(), 10);
 
             if (!isNaN(studyLength)) {
                 patients = [];
@@ -1107,6 +1124,34 @@ $(document).ready(function () {
                 console.error("Something else selected");
             }
         }
+
+        tiebreakSequence = (function (length) {
+            var rand, index, arr, str, obj;
+
+            arr = [];
+            str = "";
+
+            for (index = 0; index < length; index++) {
+                rand = Math.floor(Math.random() * 2);
+                rand = rand === 0 ? -1 : rand;
+                arr.push(rand);
+            }
+
+            str += arr[0];
+            for (index = 1; index < length; index++) {
+                str += ", " + arr[index];
+            }
+
+            obj = {
+                arr : arr.reverse(),
+                str : str
+            };
+
+            return obj;
+        })(studyLength);
+
+        $("input#tiebreaksequence").val(tiebreakSequence.str);
+
         // 1 : order, 2 : predetermined, 3 : random
         switch (gatorStreamType) {
             case 1:
@@ -1130,7 +1175,7 @@ $(document).ready(function () {
         }
         $("input#savesequence").show();
         var textpat = "";
-        for (var index = patients.length - 1; index >= 0; index--) {
+        for (index = patients.length - 1; index >= 0; index--) {
             textpat = textpat + patients[index].number;
             if (index !== 0) {
                 textpat = textpat + ", ";
@@ -1146,8 +1191,9 @@ $(document).ready(function () {
         $("input#savesequence").val(textpat);
         $("input#gatorsavesequence").val(textgator);
         $("div#someupdates").hide();
-        setup(gators, patients);
+        setup(gators, patients, tiebreakSequence);
     });
+
     $("select[name=seedtype]").change(function () {
         if ($("select[name=seedtype]").val() === "Random") {
             $("div#randompatients").show();
@@ -1157,6 +1203,7 @@ $(document).ready(function () {
             $("div#setpatients").show();
         }
     });
+
     $("select[name=gatorseedtype]").change(function () {
         var choice;
         choice = $("select[name=gatorseedtype]").val();
