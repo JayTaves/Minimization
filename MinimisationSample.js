@@ -1256,15 +1256,31 @@ $(document).ready(function () {
         if ($("select[name=seedtype]").val() === "Random") {
             $("div#randompatients").show();
             $("div#setpatients").hide();
+
+            sequenceValid.patient = true;
+            disableStartButton();
         } else {
             $("div#randompatients").hide();
             $("div#setpatients").show();
+
+            sequenceValid.patient = validateSequence($("input[name=ownsequence]").val());
+            disableStartButton();
         }
     });
 
     $("select[name=gatorseedtype]").change(function () {
         var choice;
+
         choice = $("select[name=gatorseedtype]").val();
+
+        if (choice === "predetermined") {
+            sequenceValid.gator = validateGatorSequence($("input[name=gatorsequence]").val());
+            disableStartButton();
+        } else {
+            sequenceValid.gator = true;
+            disableStartButton();
+        }
+
         switch (choice) {
             case "order":
                 $("#randomgators, #setgators, #alternategators").hide();
@@ -1330,8 +1346,10 @@ $(document).ready(function () {
         seq = $("input[name=tiebreaksequencestr]").val();
 
         if ($(this).is(":checked")) {
+            $("i#tiebreaksequencevalid").show();
             sequenceValid.tie = validateTieSequence(seq);
         } else {
+            $("i#tiebreaksequencevalid").hide();
             sequenceValid.tie = true;
         }
 
@@ -1354,6 +1372,14 @@ $(document).ready(function () {
 
         sequenceValid.gator = validateGatorSequence(seq);
         disableStartButton();
+    });
+
+    $("input[name=minimizeinvestigator]").on("click", function () {
+        if ($(this).is(":checked")) {
+            $("input[name=investigatortiebreak]").attr("disabled", "disabled");
+        } else {
+            $("input[name=investigatortiebreak]").removeAttr("disabled");
+        }
     });
 
     disableStartButton = function () {
