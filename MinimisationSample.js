@@ -771,22 +771,53 @@ var writeMessage = function (gatorNum, patient, action, result) {
     }
 };
 var validateSequence = function (sequence) {
-    var re = /^(\s)*(([1-9]|1[0-2]),(\s)*)*([1-9]|1[0-2])(\s)*$/;
-    var pass = re.test(sequence);
+    var re, pass;
+
+    re = /^(\s)*(([1-9]|1[0-2]),(\s)*)*([1-9]|1[0-2])(\s)*$/;
+    pass = re.test(sequence);
+
     $("i#ownseqvalid").show();
+
     if (pass) {
         $("i#ownseqvalid").attr("class", "fa fa-check");
-        $("button#start").removeAttr("disabled");
     } else {
         $("i#ownseqvalid").attr("class", "fa fa-exclamation");
-        $("button#start").attr("disabled", "disabled");
     }
+
     return pass;
 };
+
+var validateTieSequence = function (sequence) {
+    var re, pass;
+
+    re = /^(\s)*((-1|1),(\s)*)*(-1|1)(\s)*$/;
+    pass = re.test(sequence);
+    $("i#tiebreaksequencevalid").show();
+
+    if (pass) {
+        $("i#tiebreaksequencevalid").attr("class", "fa fa-check");
+    } else {
+        $("i#tiebreaksequencevalid").attr("class", "fa fa-exclamation");
+    }
+
+    return pass;
+};
+
 var validateGatorSequence = function (sequence) {
-    var re;
+    var re, pass;
+
     re = /^((\s)*[1-9],(\s)*)*([1-9])(\s)*$/;
-    return re.test(sequence);
+    pass = re.test(sequence);
+
+    $("i#gatorsequencevalid").show();
+
+    if (pass) {
+        $("i#gatorsequencevalid").removeClass("fa-exclamation").addClass("fa-check");
+    } else {
+        $("i#gatorsequencevalid").removeClass("fa-check").addClass("fa-exclamation");
+    }
+
+    return pass;
 };
 
 var repeatStudy = function (parameters, investigators) {
@@ -814,6 +845,7 @@ var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
         nextInvestigator(allInvestigators, studyPatients, count, study);
     });
 };
+
 var mean = function (arr) {
     var max, min, sum, index;
 
@@ -990,6 +1022,13 @@ function download(filename, text) {
 }
 
 $(document).ready(function () {
+    var sequenceValid, disableStartButton;
+
+    sequenceValid = {
+        gator : true,
+        patient : true,
+        tie : true
+    };
 
     $("select[name=number]").change(function () {
         $("div#investigators").empty();
@@ -1125,30 +1164,49 @@ $(document).ready(function () {
             }
         }
 
-        tiebreakSequence = (function (length) {
-            var rand, index, arr, str, obj;
+        if ($("input[name=usetiebreaksequence]").is(":checked")) {
+            tiebreakSequence = (function () {
+                var arr, str, obj;
 
-            arr = [];
-            str = "";
+                str = $("input[name=tiebreaksequencestr]").val();
 
-            for (index = 0; index < length; index++) {
-                rand = Math.floor(Math.random() * 2);
-                rand = rand === 0 ? -1 : rand;
-                arr.push(rand);
-            }
+                arr = str.split(",").map(function (elem) {
+                    return parseInt(elem, 10);
+                });
 
-            str += arr[0];
-            for (index = 1; index < length; index++) {
-                str += ", " + arr[index];
-            }
+                obj = {
+                    arr : arr.reverse(),
+                    str : str
+                };
 
-            obj = {
-                arr : arr.reverse(),
-                str : str
-            };
+                return obj;
+            })();
+        } else {
+            tiebreakSequence = (function (length) {
+                var rand, index, arr, str, obj;
 
-            return obj;
-        })(studyLength);
+                arr = [];
+                str = "";
+
+                for (index = 0; index < length; index++) {
+                    rand = Math.floor(Math.random() * 2);
+                    rand = rand === 0 ? -1 : rand;
+                    arr.push(rand);
+                }
+
+                str += arr[0];
+                for (index = 1; index < length; index++) {
+                    str += ", " + arr[index];
+                }
+
+                obj = {
+                    arr : arr.reverse(),
+                    str : str
+                };
+
+                return obj;
+            })(studyLength);
+        }
 
         $("input#tiebreaksequence").val(tiebreakSequence.str);
 
@@ -1257,22 +1315,59 @@ $(document).ready(function () {
     $("input[name=ownsequence]").on("input", function () {
         var seq = $(this).val();
         var selOwn = $("input[name=patientlist]:checked").val() === "own";
+
         if (!selOwn) {
             $("i#ownseqvalid").hide();
         } else {
-            validateSequence(seq);
+            sequenceValid.patient = validateSequence(seq);
+            disableStartButton();
         }
     });
+
+    $("input[name=usetiebreaksequence]").click(function () {
+        var seq;
+
+        seq = $("input[name=tiebreaksequencestr]").val();
+
+        if ($(this).is(":checked")) {
+            sequenceValid.tie = validateTieSequence(seq);
+        } else {
+            sequenceValid.tie = true;
+        }
+
+        disableStartButton();
+    });
+
+    $("input[name=tiebreaksequencestr]").on("input", function() {
+        var seq = $(this).val();
+
+        if (jQuery.trim(seq) !== "") {
+            $("input[name=usetiebreaksequence]").prop("checked", true);
+        }
+
+        sequenceValid.tie = validateTieSequence(seq);
+        disableStartButton();
+    });
+
     $("input[name=gatorsequence]").on("input", function () {
         var seq = $(this).val();
-        if (validateGatorSequence(seq)) {
+
+        sequenceValid.gator = validateGatorSequence(seq);
+        disableStartButton();
+    });
+
+    disableStartButton = function () {
+        var s;
+
+        s = sequenceValid;
+
+        if (s.tie && s.gator && s.patient) {
             $("#start").removeAttr("disabled");
-            $("i#gatorsequencevalid").removeClass("fa-exclamation").addClass("fa-check");
         } else {
             $("#start").attr("disabled", "disabled");
-            $("i#gatorsequencevalid").removeClass("fa-check").addClass("fa-exclamation");
         }
-    });
+    };
+
     $("button#restart").click(function () {
         window.location.reload();
     });

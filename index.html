@@ -108,6 +108,11 @@
             <input name="investigatortiebreak" type="checkbox" checked value="true"/>
             Use investigator balance for tie break
             <br /><br />
+            <input name="usetiebreaksequence" type="checkbox" value="true" />
+            Use predetermined tiebreak order
+            <input name="tiebreaksequencestr" type="text" placeholder="tiebreak sequence" />
+            <i id="tiebreaksequencevalid" class="fa fa-check"></i>
+            <br /><br />
             Minimization algorithm exponent
             <select name="minimizationexponent">
                 <option selected="selected">1</option>
@@ -436,6 +441,15 @@
     <div id="someupdates">
         <p class="heading">Latest Updates</p>
         <div class="border">
+            <p class="headingdate">December 24</p>
+            <p class="headingtime">2:55pm</p>
+            <ul>
+                <li>Added output of tiebreak order</li>
+            </ul>
+            <p class="headingtime">5:20pm</p>
+            <ul>
+                <li>Allow user input of tiebreak order</li>
+            </ul>
             <p class="headingdate">December 22</p>
             <p class="headingtime">11:57pm</p>
             <ul>

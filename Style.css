@@ -89,3 +89,9 @@ div#tablecontainer {
 #frequencydata {
     display: none;
 }
+.fa-check {
+    color: green;
+}
+.fa-exclamation {
+    color: red;
+}
