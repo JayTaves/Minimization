@@ -4,6 +4,7 @@ var heldTurns = 4;
 var playerView = "full";
 var autoPlay = false;
 var minimizeInvestigator = false;
+var tiebreakInvestigator = true;
 var minimizationExponent = 1;
 var queueLength = 1;
 
@@ -188,12 +189,18 @@ var Trial = function (investigators, doOutput) {
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
             var result, tie, groupRes, tiestr;
+
             result = minimize(patient, investigator.number, trialClosure.control, trialClosure.treatment);
+
             if (result.res === "control") {
                 trialClosure.control = result.control;
 
                 if (doOutput) {
-                    writeMessage(patient.investigator, patient, "add", "control");
+                    if (result.tb) {
+                        writeMessage(patient.investigator, patient, "add", "itiecontrol");
+                    } else {
+                        writeMessage(patient.investigator, patient, "add", "control");
+                    }
                     trialClosure.control.updateTable();
                 }
 
@@ -202,7 +209,12 @@ var Trial = function (investigators, doOutput) {
                 trialClosure.treatment = result.treatment;
 
                 if (doOutput) {
-                    writeMessage(patient.investigator, patient, "add", "treatment");
+                    if (result.tb) {
+                        writeMessage(patient.investigator, patient, "add", "itietreatment");
+                    } else {
+                        writeMessage(patient.investigator, patient, "add", "treatment");
+                    }
+
                     trialClosure.treatment.updateTable();
                 }
 
@@ -219,30 +231,8 @@ var Trial = function (investigators, doOutput) {
 
                 groupRes = tiestr;
 
-                /*
-                tie = Math.floor(Math.random() * 2);
-                if (tie === 0) {
-                    trialClosure.treatment = result.treatment;
-
-                    if (doOutput) {
-                        writeMessage(patient.investigator, patient, "add", "tietreatment");
-                        trialClosure.treatment.updateTable();
-                    }
-
-                    groupRes = "treatment";
-                } else {
-                    trialClosure.control = result.control;
-
-                    if (doOutput) {
-                        writeMessage(patient.investigator, patient, "add", "tiecontrol");
-                        trialClosure.control.updateTable();
-                    }
-
-                    groupRes = "control";
-                }
-                */
             } else {
-
+                console.error("Unreachable branch reached");
             }
             if (patient.number === investigator.selectPatient) {
                 if (investigator.targetGroup.toLowerCase() === groupRes) {
@@ -285,10 +275,10 @@ var Trial = function (investigators, doOutput) {
             c1 = jQuery.extend(true, {}, c3);
             c1.addPatient(patient1);
 
-            diff1 = groupDiff(c1, this.treatment);
-            diff2 = groupDiff(this.control, t2);
-            diff3 = groupDiff(c3, t3);
-            diff4 = groupDiff(c4, t4);
+            diff1 = groupDiff(c1, this.treatment, minimizeInvestigator);
+            diff2 = groupDiff(this.control, t2, minimizeInvestigator);
+            diff3 = groupDiff(c3, t3, minimizeInvestigator);
+            diff4 = groupDiff(c4, t4, minimizeInvestigator);
 
             diffMin = Math.min(diff1, diff2, diff3, diff4);
 
@@ -357,55 +347,96 @@ var Trial = function (investigators, doOutput) {
         }
     };
 };
-var groupDiff = function (controlGroup, treatmentGroup) {
-    var comparison = {};
+
+/* Computes the difference between two groups, with or without taking into
+account investigators */
+var groupDiff = function (controlGroup, treatmentGroup, useInvestigator) {
+    var comparison, diff;
+
+    comparison = {};
+
     for (var prop in controlGroup.characteristics) {
         comparison[prop] = Math.pow(Math.abs(controlGroup.characteristics[prop].count - treatmentGroup.characteristics[prop].count), minimizationExponent);
     }
-    if (minimizeInvestigator) {
+
+    if (useInvestigator) {
         for (var index = 0; index < controlGroup.investigators.length; index++) {
             comparison["i" + index] = Math.pow(Math.abs(controlGroup.investigators[index].count - treatmentGroup.investigators[index].count), minimizationExponent);
         }
     }
+
     comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length - treatmentGroup.patients.length), minimizationExponent);
-    var diff = 0;
+
+    diff = 0;
+
     for (prop in comparison) {
         diff += comparison[prop];
     }
+
     return diff;
 };
+
 var minimize = function (patient, investigator, control, treatment) {
-    var addDiff;
-    var newControlTest = jQuery.extend(true, {}, control);
-    var newTreatmentTest = jQuery.extend(true, {}, treatment);
+    var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
+        controlTieDiff, treatmentTieDiff;
+
+    newControlTest = jQuery.extend(true, {}, control);
+    newTreatmentTest = jQuery.extend(true, {}, treatment);
 
     newControlTest.addPatient(patient, investigator);
     newTreatmentTest.addPatient(patient, investigator);
 
-    var controlDiff = groupDiff(newControlTest, treatment);
-    var treatmentDiff = groupDiff(newTreatmentTest, control);
+    controlDiff = groupDiff(newControlTest, treatment, minimizeInvestigator);
+    treatmentDiff = groupDiff(newTreatmentTest, control, minimizeInvestigator);
 
     addDiff = treatmentDiff - controlDiff;
+
     if (treatmentDiff > controlDiff) {
         return {
             res: "control",
             control: newControlTest,
             treatment: treatment,
-            ad: addDiff
+            ad: addDiff,
+            tb: false
         };
     } else if (treatmentDiff < controlDiff) {
         return {
             res: "treatment",
             control: control,
             treatment: newTreatmentTest,
-            ad: addDiff
+            ad: addDiff,
+            tb: false
         };
     } else {
+        if (!minimizeInvestigator && tiebreakInvestigator) {
+            controlTieDiff = groupDiff(newControlTest, treatment, true);
+            treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
+
+            if (treatmentTieDiff > controlTieDiff) {
+                return {
+                    res: "control",
+                    control: newControlTest,
+                    treatment: treatment,
+                    ad: addDiff,
+                    tb: true
+                }
+            } else if (treatmentTieDiff < controlTieDiff) {
+                return {
+                    res: "treatment",
+                    control: control,
+                    treatment: newTreatmentTest,
+                    ad: addDiff,
+                    tb: true
+                }
+            }
+        }
+
         return {
             res: "tie",
             control: newControlTest,
             treatment: newTreatmentTest,
-            ad: addDiff
+            ad: addDiff,
+            tb: true
         };
     }
 };
@@ -492,11 +523,16 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
     var investigator = this;
 
     var turn = function () {
+        var result;
+
         tryHeld();
+
         if (patient.number === investigator.selectPatient) {
             patient.tag = investigator.getTag();
             investigator.targetsGiven++;
-            var result = minimize(patient, gatorNumber, study.control, study.treatment);
+
+            result = minimize(patient, gatorNumber, study.control, study.treatment);
+
             if (result.res === investigator.targetGroup) {
                 study.addPatient(patient, investigator);
             } else {
@@ -731,6 +767,10 @@ var writeMessage = function (gatorNum, patient, action, result) {
                 message += " After a tie break it was added to the control group.</a><br />";
             } else if (result === "tietreatment") {
                 message += " After a tie break it was added to the treatment group.</a><br />";
+            } else if (result === "itiecontrol") {
+                message += " After an investigator tie break it was added to the control group.</a><br />";
+            } else if (result === "itietreatment") {
+                message += " After an investigator tie break it was added to the treatment group.</a><br />";
             } else {
                 console.error("Invalid result");
             }
@@ -1110,6 +1150,7 @@ $(document).ready(function () {
         playerView = $("input[name=playerview]:checked").val();
         autoPlay = $("input[name=autoplay]:checked").val() === "true";
         minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
+        tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
         minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
 
         blocksize = parseInt($("select[name=blocksize]").val(), 10);
