@@ -984,7 +984,7 @@ var countStats = function (group, numGators) {
 };
 
 var fillStatsTable = function () {
-    var c, t, cstr, tstr, index, mapFn, ccount, tcount, diff, sumPats;
+    var c, t, cstr, tstr, index, mapFn, ccount, tcount, diff, sumPats, sumVars;
 
     c = countStats(study.control.patients, study.numInvestigators);
     t = countStats(study.treatment.patients, study.numInvestigators);
@@ -1018,6 +1018,52 @@ var fillStatsTable = function () {
     for (index = 0; index < ccount.length; index++) {
         diff[index] = tcount[index] - ccount[index];
     }
+
+    sumVars = {
+        control: [],
+        treatment: [],
+        diff: []
+    };
+
+    // This is a pretty tedious and dumb way of tallying these counts
+    // Males
+    sumVars.control[0] = ccount[0] + ccount[1] + ccount[2] + ccount[3] + ccount[4] + ccount[5];
+    sumVars.treatment[0] = tcount[0] + tcount[1] + tcount[2] + tcount[3] + tcount[4] + tcount[5];
+    sumVars.diff[0] = sumVars.treatment[0] - sumVars.control[0];
+
+    // Females
+    sumVars.control[1] = study.control.patients.length - sumVars.control[0];
+    sumVars.treatment[1] = study.treatment.patients.length - sumVars.treatment[0];
+    sumVars.diff[1] = sumVars.treatment[1] - sumVars.control[1];
+
+    // Young
+    sumVars.control[2] = ccount[0] + ccount[1] + ccount[6] + ccount[7];
+    sumVars.treatment[2] = tcount[0] + tcount[1] + tcount[6] + tcount[7];
+    sumVars.diff[2] = sumVars.treatment[2] - sumVars.control[2];
+
+    // Middle
+    sumVars.control[3] = ccount[2] + ccount[3] + ccount[8] + ccount[9];
+    sumVars.treatment[3] = tcount[2] + tcount[3] + tcount[8] + tcount[9];
+    sumVars.diff[3] = sumVars.treatment[3] - sumVars.control[3];
+
+    // Old
+    sumVars.control[4] = study.control.patients.length - (sumVars.control[3] + sumVars.control[2]);
+    sumVars.treatment[4] = study.treatment.patients.length - (sumVars.treatment[3] + sumVars.treatment[2]);
+    sumVars.diff[4] = sumVars.treatment[4] - sumVars.control[4];
+
+    // Low
+    sumVars.control[5] = ccount[0] + ccount[2] + ccount[4] + ccount[6] + ccount[8] + ccount[10];
+    sumVars.treatment[5] = tcount[0] + tcount[2] + tcount[4] + tcount[6] + tcount[8] + tcount[10];
+    sumVars.diff[5] = sumVars.treatment[5] - sumVars.control[5];
+
+    // High
+    sumVars.control[6] = study.control.patients.length - sumVars.control[5];
+    sumVars.treatment[6] = study.treatment.patients.length - sumVars.treatment[5];
+    sumVars.diff[6] = sumVars.treatment[6] - sumVars.control[6];
+
+    $("#variatebygroup").after(extraInfoString(sumVars.diff, "Difference"));
+    $("#variatebygroup").after(extraInfoString(sumVars.control, "Control"));
+    $("#variatebygroup").after(extraInfoString(sumVars.treatment, "Treatment"));
 
     $("#patbygrouphead").after(extraInfoString(diff, "Difference"));
     $("#patbygrouphead").after(extraInfoString(ccount, "Control"));
