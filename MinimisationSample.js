@@ -174,6 +174,16 @@ var Trial = function (investigators, doOutput) {
     this.treatment = new Group("Treatment", $("#treatment table.maintable"), this.numInvestigators);
     this.queue = [];
 
+    /* current keeps track of the current balance of patient assignments, it is
+        given by '# to treatment - # to control'. The two arrays keep track of
+        the frequency of any given count, control holds the negative numbers and
+        zero, treatment holds the positive numbers, streak.treatment[0] = 0 always
+    */
+    this.streak = {
+        freq : [],
+        current : 0
+    };
+
     this.addPatient = function (patient, investigator) {
         var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
             diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2, rawDiff;
@@ -344,6 +354,14 @@ var Trial = function (investigators, doOutput) {
             pushToGroup(this.queue.pop().pat);
         } else {
 
+        }
+
+        this.streak.current = this.treatment.patients.length - this.control.patients.length;
+
+        if (this.streak.freq[this.streak.current] === undefined) {
+            this.streak.freq[this.streak.current] = 1;
+        } else {
+            this.streak.freq[this.streak.current]++;
         }
     };
 };
@@ -984,7 +1002,8 @@ var countStats = function (group, numGators) {
 };
 
 var fillStatsTable = function () {
-    var c, t, cstr, tstr, index, mapFn, ccount, tcount, diff, sumPats, sumVars;
+    var c, t, cstr, tstr, index, mapFn, ccount, tcount, diff, sumPats, sumVars,
+        streakArr, freqArr;
 
     c = countStats(study.control.patients, study.numInvestigators);
     t = countStats(study.treatment.patients, study.numInvestigators);
@@ -1019,6 +1038,7 @@ var fillStatsTable = function () {
         diff[index] = tcount[index] - ccount[index];
     }
 
+    // For variate table
     sumVars = {
         control: [],
         treatment: [],
@@ -1073,6 +1093,20 @@ var fillStatsTable = function () {
         cstr += extraInfoString(c.map(mapFn(index)), index + 1);
         tstr += extraInfoString(t.map(mapFn(index)), index + 1);
     }
+
+    // Streak frequency data
+    streakArr = [];
+    freqArr = [];
+
+    index = study.streak.freq.length - 1;
+    while (study.streak.freq[index] !== undefined) {
+        streakArr.push(index);
+        freqArr.push(study.streak.freq[index]);
+        index--;
+    }
+
+    $("#streakfrequency").after(extraInfoString(streakArr, "Count"));
+    $("#streakfrequency").after(extraInfoString(freqArr, "Frequency"));
 
     $("#controlhead").after(cstr);
     $("#treathead").after(tstr);
