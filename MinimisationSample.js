@@ -1,18 +1,18 @@
-﻿// Game parameters
-var allowedLength = 1;
-var heldTurns = 4;
-var playerView = "full";
-var autoPlay = false;
-var minimizeInvestigator = false;
-var tiebreakInvestigator = true;
-var minimizationExponent = 1;
-var queueLength = 1;
+﻿var study, settings;
 
-// 1 : order, 2 : predetermined, 3 : n-block, 4 : alternate
-var gatorStreamType = 1;
-var diffTally = [];
-var gatorSeq = [];
-var study; // This is a global for use at the console
+settings = {
+    allowedLength : 1,
+    heldTurns : 4,
+    playerView : "full",
+    autoPlay : false,
+    minimizeInvestigator : false,
+    tiebreakInvestigator : true,
+    minimizationExponent : 1,
+    queueLength : 1,
+    // 1 : order, 2 : predetermined, 3 : n-block, 4 : alternate
+    gatorStreamType : 1,
+    gatorSeq : []
+};
 
 var extraInfoRow = function (cellEntry) {
     return "<td>" + cellEntry + "</td>";
@@ -60,21 +60,24 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
     this.selectPatient = patient;
     this.targetGroup = group;
     this.tagdex = 0;
+
     this.getTag = function () {
         var alphabet = "abcdefghijklmnopqrstuvwxyz";
         return alphabet[this.tagdex++ % alphabet.length];
     };
+
     this.holdPatient = function (heldPatient) {
-        if (heldTurns === 0) {
+        if (study.s.heldTurns === 0) {
             writeMessage(this.number, heldPatient, "discard");
         } else {
             this.heldPatients.push({
                 patient: heldPatient,
-                turns: heldTurns
+                turns: study.s.heldTurns
             });
             writeMessage(this.number, heldPatient, "hold");
         }
     };
+
     this.heldCounter = function () {
         for (var index = this.heldPatients.length - 1; index >= 0; index--) {
             var heldPatient = this.heldPatients[index];
@@ -87,19 +90,23 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
         }
     };
 };
+
 var Gender = {
     Male: {value: 1, text: "Male"},
     Female: { value: 1, text: "Female" }
 };
+
 var AgeBuckets = {
     Young: {value: 1, text: "Young"},
     Middle: {value: 1, text: "Middle"},
     Old: { value: 1, text: "Old" }
 };
+
 var Risk = {
     Low: { value: 1, text: "Low" },
     High: { value: 1, text: "High" }
 };
+
 var Group = function (name, table, numInvestigators) {
     this.name = name;
     this.patients = [];
@@ -107,12 +114,14 @@ var Group = function (name, table, numInvestigators) {
     this.table = $(".table." + name.toLowerCase());
     this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
     this.investigators = [];
+
     for (var index = 0; index < numInvestigators; index++) {
         this.investigators[index] = {
             count: 0,
             elem: this.table.children(".i" + index)
         };
     }
+
     this.characteristics = {
         Male: {count: 0, elem: this.table.children(".male")},
         Female: {count: 0, elem: this.table.children(".female")},
@@ -136,7 +145,7 @@ var Group = function (name, table, numInvestigators) {
             char.elem.text(char.count);
         }
         this.patientsElem.text(this.patients.length);
-        if (minimizeInvestigator) {
+        if (study.s.minimizeInvestigator) {
             for (var index = 0; index < this.investigators.length; index++) {
                 var current = this.investigators[index];
                 current.elem.text(current.count);
@@ -144,15 +153,23 @@ var Group = function (name, table, numInvestigators) {
         }
     };
 };
-var Trial = function (investigators, doOutput) {
+
+var Trial = function (investigators, doOutput, settings) {
 
     this.numInvestigators = investigators.length;
 
-    if (minimizeInvestigator) {
+    this.s = settings;
+    this.stats = {
+        diffTally : []
+    };
+
+    if (this.s.minimizeInvestigator) {
         for (var index = 0; index < this.numInvestigators; index++) {
             $("tr.title").append("<td>Investigator " + (index + 1) + "</td>");
             $("tr.table").append("<td class='i" + index + "'></td>");
         }
+    } else {
+        $("tr.header td.gator").hide();
     }
 
     this.endGame = doOutput ?
@@ -162,10 +179,6 @@ var Trial = function (investigators, doOutput) {
             console.log(control);
             console.log(treatment);
         };
-
-    if (!minimizeInvestigator) {
-        $("tr.header td.gator").hide();
-    }
 
     $("tr.header .gator").prop("colspan", this.numInvestigators);
     $("tr.table").children("td").text("0");
@@ -257,7 +270,7 @@ var Trial = function (investigators, doOutput) {
         /*  c1 [1, 2]       c2 []           c3 [2]      c4 [1]
             t1 []           t2 [1, 2]       t3 [1]      t4 [2]
         */
-        if (this.queue.length === queueLength && queueLength === 2) {
+        if (this.queue.length === study.s.queueLength && study.s.queueLength === 2) {
             temp1 = this.queue.pop();
             temp2 = this.queue.pop();
 
@@ -285,10 +298,10 @@ var Trial = function (investigators, doOutput) {
             c1 = jQuery.extend(true, {}, c3);
             c1.addPatient(patient1);
 
-            diff1 = groupDiff(c1, this.treatment, minimizeInvestigator);
-            diff2 = groupDiff(this.control, t2, minimizeInvestigator);
-            diff3 = groupDiff(c3, t3, minimizeInvestigator);
-            diff4 = groupDiff(c4, t4, minimizeInvestigator);
+            diff1 = groupDiff(c1, this.treatment, this.s.minimizeInvestigator);
+            diff2 = groupDiff(this.control, t2, this.s.minimizeInvestigator);
+            diff3 = groupDiff(c3, t3, this.s.minimizeInvestigator);
+            diff4 = groupDiff(c4, t4, this.s.minimizeInvestigator);
 
             diffMin = Math.min(diff1, diff2, diff3, diff4);
 
@@ -347,9 +360,9 @@ var Trial = function (investigators, doOutput) {
 
             this.control.updateTable();
             this.treatment.updateTable();
-        } else if (this.queue.length === queueLength && queueLength === 1) {
+        } else if (this.queue.length === study.s.queueLength && study.s.queueLength === 1) {
             rawDiff = minimize(patient, investigator.number, this.control, this.treatment).ad;
-            diffTally.push(rawDiff);
+            study.s.diffTally.push(rawDiff);
 
             pushToGroup(this.queue.pop().pat);
         } else {
@@ -374,16 +387,16 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator) {
     comparison = {};
 
     for (var prop in controlGroup.characteristics) {
-        comparison[prop] = Math.pow(Math.abs(controlGroup.characteristics[prop].count - treatmentGroup.characteristics[prop].count), minimizationExponent);
+        comparison[prop] = Math.pow(Math.abs(controlGroup.characteristics[prop].count - treatmentGroup.characteristics[prop].count), study.s.minimizationExponent);
     }
 
     if (useInvestigator) {
         for (var index = 0; index < controlGroup.investigators.length; index++) {
-            comparison["i" + index] = Math.pow(Math.abs(controlGroup.investigators[index].count - treatmentGroup.investigators[index].count), minimizationExponent);
+            comparison["i" + index] = Math.pow(Math.abs(controlGroup.investigators[index].count - treatmentGroup.investigators[index].count), study.s.minimizationExponent);
         }
     }
 
-    comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length - treatmentGroup.patients.length), minimizationExponent);
+    comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length - treatmentGroup.patients.length), study.s.minimizationExponent);
 
     diff = 0;
 
@@ -404,8 +417,8 @@ var minimize = function (patient, investigator, control, treatment) {
     newControlTest.addPatient(patient, investigator);
     newTreatmentTest.addPatient(patient, investigator);
 
-    controlDiff = groupDiff(newControlTest, treatment, minimizeInvestigator);
-    treatmentDiff = groupDiff(newTreatmentTest, control, minimizeInvestigator);
+    controlDiff = groupDiff(newControlTest, treatment, study.s.minimizeInvestigator);
+    treatmentDiff = groupDiff(newTreatmentTest, control, study.s.minimizeInvestigator);
 
     addDiff = treatmentDiff - controlDiff;
 
@@ -426,7 +439,7 @@ var minimize = function (patient, investigator, control, treatment) {
             tb: false
         };
     } else {
-        if (!minimizeInvestigator && tiebreakInvestigator) {
+        if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
             controlTieDiff = groupDiff(newControlTest, treatment, true);
             treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
 
@@ -517,7 +530,7 @@ var random = function (gatorNumber, study, count, allInvestigators, allPatients)
     if (patient === undefined) {
         endGame(allInvestigators, allPatients);
     } else {
-        if (autoPlay) {
+        if (study.s.autoPlay) {
             var res = study.addPatient(patient, investigator);
             if (investigator.selectPatient !== undefined && investigator.targetGroup !== undefined && patient.number === investigator.selectPatient) {
                 investigator.targetsGiven++;
@@ -577,7 +590,7 @@ var cheat = function (gatorNumber, study, count, allInvestigators, allPatients) 
     if (patient === undefined) {
         endGame(allInvestigators, allPatients);
     } else {
-        if (autoPlay) {
+        if (study.s.autoPlay) {
             turn();
         } else {
             $("button#next").click(function () {
@@ -626,7 +639,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
         $("a.playergroup").text(result.res);
     };
     var heldTable = function () {
-        $("button#playerhold").toggle(investigator.heldPatients.length !== allowedLength && !patientPlaced);
+        $("button#playerhold").toggle(investigator.heldPatients.length !== study.s.allowedLength && !patientPlaced);
         if (investigator.heldPatients.length === 0) {
             $("table#gatorheldpatients").hide();
             $("a.playerheld").text("You are currently holding no patients.");
@@ -677,7 +690,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
     if (patient === undefined) {
         endGame(allInvestigators, allPatients);
     } else {
-        if (autoPlay && patient.number !== this.selectPatient) {
+        if (study.s.autoPlay && patient.number !== this.selectPatient) {
             add();
             endTurn();
         } else {
@@ -694,7 +707,7 @@ var player = function (gatorNumber, study, count, allInvestigators, allPatients)
             $("button#playerendturn").hide();
             currentPatientPrediction();
             heldTable();
-            if (heldTurns === 0) {
+            if (study.s.heldTurns === 0) {
                 $("button#playerhold").prop("disabled", true);
             } else {
                 $("button#playerhold").on("click", function () {
@@ -734,10 +747,10 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     var currentInvestigator;
 
-    if (gatorStreamType === 1) {
+    if (study.s.gatorStreamType === 1) {
         currentInvestigator = allInvestigators[count % allInvestigators.length];
     } else {
-        currentInvestigator = allInvestigators[gatorSeq[count]];
+        currentInvestigator = allInvestigators[study.s.gatorSeq[count]];
     }
 
     for (var index = 0; index < allInvestigators.length; index++) {
@@ -769,9 +782,9 @@ var writeMessage = function (gatorNum, patient, action, result) {
         if (action === "end") {
             message = "<a>" + result + "</a><br />";
         } else if (action === "diff") {
-            meanRes = mean(diffTally);
+            meanRes = mean(study.s.diffTally);
             message = "<a>Mean difference between the groups was " + meanRes.mean.toString().substr(0, 5) +
-                            ", median difference between the groups was " + median(diffTally) + "</a><br />" +
+                            ", median difference between the groups was " + median(study.s.diffTally) + "</a><br />" +
                 "<a>Maximum difference was " + meanRes.max + ", minimum difference was " + meanRes.min + "</a><br />";
         }
     } else {
@@ -811,9 +824,9 @@ var writeMessage = function (gatorNum, patient, action, result) {
             console.error("Invalid action");
         }
     }
-    if (playerView === "full") {
+    if (study.s.playerView === "full") {
         $("div#messages div").prepend(message);
-    } else if (playerView === "partial") {
+    } else if (study.s.playerView === "partial") {
         if (action === "add") {
             $("div#messages div").prepend(message);
             //There are two elements with a message, <a> and <br /> so we divide the length by two and remove the last two.
@@ -887,7 +900,7 @@ var repeatStudy = function (parameters, investigators) {
 };
 
 var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
-    study = new Trial(allInvestigators, true);
+    study = new Trial(allInvestigators, true, settings);
     study.tb = tiebreakSequence.arr;
 
     var count = 0;
@@ -1201,7 +1214,7 @@ $(document).ready(function () {
         gators = [];
         numGators = parseInt($("select[name=number]").val(), 10);
 
-        queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
+        settings.queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
 
         for (var index = 0; index < numGators; index++) {
             var selectedStrategy = $("input[name=gator" + index + "]:checked").val();
@@ -1213,8 +1226,8 @@ $(document).ready(function () {
                 var numPatient = parseInt($("select[name=computergator" + index + "]").val(), 10);
                 var targetGroup = $("select[name=computergroupgator" + index + "]").val();
 
-                gators.push(new Investigator(index + 1, (queueLength === 2 ? random : cheat),
-                     (queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
+                gators.push(new Investigator(index + 1, (settings.queueLength === 2 ? random : cheat),
+                     (settings.queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
             } else if (selectedStrategy === "player") {
                 numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
                 targetGroup = $("select[name=playergroupgator" + index + "]").val();
@@ -1225,17 +1238,17 @@ $(document).ready(function () {
             }
         }
 
-        allowedLength = parseInt($("select[name=heldpatients]").val(), 10);
-        heldTurns = parseInt($("select[name=heldturns]").val(), 10);
-        playerView = $("input[name=playerview]:checked").val();
-        autoPlay = $("input[name=autoplay]:checked").val() === "true";
-        minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
-        tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
-        minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
+        settings.allowedLength = parseInt($("select[name=heldpatients]").val(), 10);
+        settings.heldTurns = parseInt($("select[name=heldturns]").val(), 10);
+        settings.playerView = $("input[name=playerview]:checked").val();
+        settings.autoPlay = $("input[name=autoplay]:checked").val() === "true";
+        settings.minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
+        settings.tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
+        settings.minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
 
         blocksize = parseInt($("select[name=blocksize]").val(), 10);
 
-        if (autoPlay) {
+        if (settings.autoPlay) {
             $("button#next").text("Start");
         }
         var patients;
@@ -1332,21 +1345,21 @@ $(document).ready(function () {
         $("input#tiebreaksequence").val(tiebreakSequence.str);
 
         // 1 : order, 2 : predetermined, 3 : random
-        switch (gatorStreamType) {
+        switch (settings.gatorStreamType) {
             case 1:
                 break;
             case 2:
-                gatorSeq = $("input[name=gatorsequence]").val();
-                gatorSeq = gatorSeq.split(",");
-                for (index = 0; index < gatorSeq.length; index++) {
-                    gatorSeq[index] = parseInt(gatorSeq[index], 10) - 1;
+                settings.gatorSeq = $("input[name=gatorsequence]").val();
+                settings.gatorSeq = settings.gatorSeq.split(",");
+                for (index = 0; index < settings.gatorSeq.length; index++) {
+                    settings.gatorSeq[index] = parseInt(settings.gatorSeq[index], 10) - 1;
                 }
                 break;
             case 3:
-                gatorSeq = getNBlock(numGators, studyLength, blocksize);
+                settings.gatorSeq = getNBlock(numGators, studyLength, blocksize);
                 break;
             case 4:
-                gatorSeq = getAlternating(numGators, studyLength);
+                settings.gatorSeq = getAlternating(numGators, studyLength);
                 break;
             default:
                 console.error("Invalid state");
@@ -1361,9 +1374,9 @@ $(document).ready(function () {
             }
         }
         textgator = "";
-        for (index = 0; index < gatorSeq.length; index++) {
-            textgator = textgator + (gatorSeq[index] + 1);
-            if (index !== gatorSeq.length - 1) {
+        for (index = 0; index < settings.gatorSeq.length; index++) {
+            textgator = textgator + (settings.gatorSeq[index] + 1);
+            if (index !== settings.gatorSeq.length - 1) {
                 textgator = textgator + ", ";
             }
         }
@@ -1405,22 +1418,22 @@ $(document).ready(function () {
         switch (choice) {
             case "order":
                 $("#randomgators, #setgators, #alternategators").hide();
-                gatorStreamType = 1;
+                settings.gatorStreamType = 1;
                 break;
             case "predetermined":
                 $("#randomgators, #alternategators").hide();
                 $("#setgators").show();
-                gatorStreamType = 2;
+                settings.gatorStreamType = 2;
                 break;
             case "random":
                 $("#setgators, #alternategators").hide();
                 $("#randomgators").show();
-                gatorStreamType = 3;
+                settings.gatorStreamType = 3;
                 break;
             case "alternate":
                 $("#setgators, #randomgators").hide();
                 $("#alternategators").show();
-                gatorStreamType = 4;
+                settings.gatorStreamType = 4;
                 break;
             default:
                 console.error("Invalid selection");
