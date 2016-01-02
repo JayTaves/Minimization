@@ -1,23 +1,27 @@
-﻿var study, settings;
+﻿var study, settings, newSettings;
 
 settings = {
     numGators : 1,
-    studyLength : 1,
     gators : [],
+
     allowedLength : 1,
     heldTurns : 4,
     playerView : "full",
     autoPlay : false,
     minimizeInvestigator : false,
     tiebreakInvestigator : true,
+    tiebreakSequence : [],
     minimizationExponent : 1,
     queueLength : 1,
+
+    studyLength : 1,
     patients : [],
+    patStr : "",
+
     // 1 : order, 2 : predetermined, 3 : n-block, 4 : alternate
     gatorStreamType : 1,
     blocksize : 1,
     gatorSeq : [],
-    tiebreakSequence : []
 };
 
 var extraInfoRow = function (cellEntry) {
@@ -368,7 +372,7 @@ var Trial = function (investigators, doOutput, settings) {
             this.treatment.updateTable();
         } else if (this.queue.length === study.s.queueLength && study.s.queueLength === 1) {
             rawDiff = minimize(patient, investigator.number, this.control, this.treatment).ad;
-            study.s.diffTally.push(rawDiff);
+            study.stats.diffTally.push(rawDiff);
 
             pushToGroup(this.queue.pop().pat);
         } else {
@@ -753,11 +757,7 @@ var displayPatient = function (allInvestigators, allPatients, count, gatorNumber
 var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     var currentInvestigator;
 
-    if (study.s.gatorStreamType === 1) {
-        currentInvestigator = allInvestigators[count % allInvestigators.length];
-    } else {
-        currentInvestigator = allInvestigators[study.s.gatorSeq[count]];
-    }
+    currentInvestigator = allInvestigators[study.s.gatorSeq[count]];
 
     for (var index = 0; index < allInvestigators.length; index++) {
         allInvestigators[index].heldCounter();
@@ -788,9 +788,9 @@ var writeMessage = function (gatorNum, patient, action, result) {
         if (action === "end") {
             message = "<a>" + result + "</a><br />";
         } else if (action === "diff") {
-            meanRes = mean(study.s.diffTally);
+            meanRes = mean(study.stats.diffTally);
             message = "<a>Mean difference between the groups was " + meanRes.mean.toString().substr(0, 5) +
-                            ", median difference between the groups was " + median(study.s.diffTally) + "</a><br />" +
+                            ", median difference between the groups was " + median(study.stats.diffTally) + "</a><br />" +
                 "<a>Maximum difference was " + meanRes.max + ", minimum difference was " + meanRes.min + "</a><br />";
         }
     } else {
@@ -908,6 +908,8 @@ var repeatStudy = function (parameters, investigators) {
 var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
     study = new Trial(allInvestigators, true, settings);
     study.tb = tiebreakSequence.arr;
+
+    $("#allsettings").val(JSON.stringify(study.s));
 
     var count = 0;
 
@@ -1366,6 +1368,9 @@ $(document).ready(function () {
         // 1 : order, 2 : predetermined, 3 : random
         switch (settings.gatorStreamType) {
             case 1:
+                for (index = 0; index < settings.studyLength; index++) {
+                    settings.gatorSeq[index] = index % settings.gators.length;
+                }
                 break;
             case 2:
                 settings.gatorSeq = $("input[name=gatorsequence]").val();
@@ -1396,6 +1401,8 @@ $(document).ready(function () {
                 textpat = textpat + ", ";
             }
         }
+
+        settings.patstr = textpat;
 
         textgator = "";
         for (index = 0; index < settings.gatorSeq.length; index++) {
@@ -1540,6 +1547,58 @@ $(document).ready(function () {
         } else {
             $("input[name=investigatortiebreak]").removeAttr("disabled");
         }
+    });
+
+    $("input#import").click(function () {
+        var str, gator, index;
+
+        str = $("input#importdata").val();
+        newSettings = JSON.parse(str);
+
+        // Investigator number drop down
+        $("select[name=number]").val(newSettings.numGators).trigger("change");
+
+        // Set investigator properties
+        for (index = 0; index < newSettings.gators.length; index++) {
+            gator = newSettings.gators[index];
+
+            $("input[name=gator" + index + "]").val([gator.strategyName]);
+
+            if (gator.strategyName === "player") {
+                $("select[name=playergator" + index + "]").val(gator.selectPatient);
+                $("select[name=playergroupgator" + index + "]").val(gator.targetGroup);
+            } else if (gator.strategyName === "cheat") {
+                $("select[name=computergator" + index + "]").val(gator.selectPatient);
+                $("select[name=computergroupgator" + index + "]").val(gator.targetGroup);
+            } else {
+                // Strategy is random, nothing else to fill out
+            }
+        }
+
+        // Held patients
+        $("select[name=heldpatients]").val(newSettings.allowedLength);
+
+        // Held patient turns
+        $("select[name=heldturns]").val(newSettings.heldTurns);
+
+        // Full or last two lines
+        $("input[name=playerview]").val([newSettings.playerView]);
+
+        // Take turns without select patient
+        $("input[name=autoplay]").val([newSettings.autoPlay]);
+
+        // Minimize Investigator
+        $("input[name=minimizeinvestigator]").val([newSettings.minimizeInvestigator])
+            .trigger("click").trigger("click");
+
+        // Use investigator for tie break
+        $("input[name=investigatortiebreak]").val([newSettings.tiebreakInvestigator]);
+
+        // Tiebreak sequence, always set so that the sequence stays the same
+        $("input[name=usetiebreaksequence]").val([true]);
+
+        $("input[name=tiebreaksequencestr]").val(newSettings.tiebreakSequence.str)
+            .trigger("change");
     });
 
     disableStartButton = function () {
