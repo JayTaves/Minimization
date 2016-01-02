@@ -1,6 +1,9 @@
 ﻿var study, settings;
 
 settings = {
+    numGators : 1,
+    studyLength : 1,
+    gators : [],
     allowedLength : 1,
     heldTurns : 4,
     playerView : "full",
@@ -9,9 +12,12 @@ settings = {
     tiebreakInvestigator : true,
     minimizationExponent : 1,
     queueLength : 1,
+    patients : [],
     // 1 : order, 2 : predetermined, 3 : n-block, 4 : alternate
     gatorStreamType : 1,
-    gatorSeq : []
+    blocksize : 1,
+    gatorSeq : [],
+    tiebreakSequence : []
 };
 
 var extraInfoRow = function (cellEntry) {
@@ -1166,9 +1172,9 @@ $(document).ready(function () {
     $("select[name=number]").change(function () {
         $("div#investigators").empty();
 
-        var numGators = parseInt($("select[name=number]").val(), 10);
+        settings.numGators = parseInt($("select[name=number]").val(), 10);
 
-        for (var index = 0; index < numGators; index++) {
+        for (var index = 0; index < settings.numGators; index++) {
             var computerSelect =
                 "<select name='computergator" + index + "'>" +
                     "<option selected='selected' >1</option>";
@@ -1208,35 +1214,40 @@ $(document).ready(function () {
     });
 
     $("button#start").click(function () {
-        var gators, numGators, seq, blocksize, textgator, studyLength,
-            tiebreakSequence;
+        var seq, textgator, textpat;
 
-        gators = [];
-        numGators = parseInt($("select[name=number]").val(), 10);
-
+        settings.numGators = parseInt($("select[name=number]").val(), 10);
         settings.queueLength = parseInt($("select[name=minimizationqueuelength]").val(), 10);
 
-        for (var index = 0; index < numGators; index++) {
-            var selectedStrategy = $("input[name=gator" + index + "]:checked").val();
+        settings.gators = (function () {
+            var index, selectedStrategy, numPatient, targetGroup, gators;
 
-            if (selectedStrategy === "random") {
-                gators.push(new Investigator(index + 1, random, "random", 1, "treatment"));
-            } else if (selectedStrategy === "cheat") {
+            gators = [];
 
-                var numPatient = parseInt($("select[name=computergator" + index + "]").val(), 10);
-                var targetGroup = $("select[name=computergroupgator" + index + "]").val();
+            for (index = 0; index < settings.numGators; index++) {
+                selectedStrategy = $("input[name=gator" + index + "]:checked").val();
 
-                gators.push(new Investigator(index + 1, (settings.queueLength === 2 ? random : cheat),
-                     (settings.queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
-            } else if (selectedStrategy === "player") {
-                numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
-                targetGroup = $("select[name=playergroupgator" + index + "]").val();
+                if (selectedStrategy === "random") {
+                    gators.push(new Investigator(index + 1, random, "random", 1, "treatment"));
+                } else if (selectedStrategy === "cheat") {
 
-                gators.push(new Investigator(index + 1, player, "player", numPatient, targetGroup));
-            } else {
-                throw Error;
+                    numPatient = parseInt($("select[name=computergator" + index + "]").val(), 10);
+                    targetGroup = $("select[name=computergroupgator" + index + "]").val();
+
+                    gators.push(new Investigator(index + 1, (settings.queueLength === 2 ? random : cheat),
+                         (settings.queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
+                } else if (selectedStrategy === "player") {
+                    numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
+                    targetGroup = $("select[name=playergroupgator" + index + "]").val();
+
+                    gators.push(new Investigator(index + 1, player, "player", numPatient, targetGroup));
+                } else {
+                    throw Error;
+                }
             }
-        }
+
+            return gators;
+        })();
 
         settings.allowedLength = parseInt($("select[name=heldpatients]").val(), 10);
         settings.heldTurns = parseInt($("select[name=heldturns]").val(), 10);
@@ -1246,60 +1257,68 @@ $(document).ready(function () {
         settings.tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
         settings.minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
 
-        blocksize = parseInt($("select[name=blocksize]").val(), 10);
+        settings.blocksize = parseInt($("select[name=blocksize]").val(), 10);
 
         if (settings.autoPlay) {
             $("button#next").text("Start");
         }
-        var patients;
-        if ($("select[name=seedtype]").val() === "Random") {
-            var eliminated = 0;
 
-            $("input[name=filterpatients]").not(":checked").each(function () {
-                for (var index = 0; index < allPatients.length; index++) {
-                    if (parseInt($(this).val(), 10) === allPatients[index].number) {
-                        allPatients.splice(index, 1);
-                        return;
+        settings.patients = (function () {
+            var eliminated, index, randomNum
+
+            patients = [];
+
+            if ($("select[name=seedtype]").val() === "Random") {
+                eliminated = 0;
+
+                $("input[name=filterpatients]").not(":checked").each(function () {
+                    for (index = 0; index < allPatients.length; index++) {
+                        if (parseInt($(this).val(), 10) === allPatients[index].number) {
+                            allPatients.splice(index, 1);
+                            return;
+                        }
                     }
-                }
-            });
+                });
 
-            studyLength = parseInt($("input[name=patientslength]").val(), 10);
+                settings.studyLength = parseInt($("input[name=patientslength]").val(), 10);
 
-            if (!isNaN(studyLength)) {
-                patients = [];
-                for (var index = 0; index < studyLength; index++) {
-                    var randomNum = Math.floor(Math.random() * allPatients.length);
-                    patients.push(new Patient(allPatients[randomNum]));
-                }
-            } else {
-                $("input[name=patientslength]").val("");
-                console.error("Not a number");
-                return;
-            }
-        } else {
-            if ($("input[name=patientlist]:checked").val() === "standard") {
-                patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
-            } else if ($("input[name=patientlist]:checked").val() === "own") {
-                seq = $("input[name=ownsequence]").val();
-                if (validateSequence(seq)) {
+                if (!isNaN(settings.studyLength)) {
                     patients = [];
-                    seq = seq.split(",");
-                    for (var index = 0; index < seq.length; index++) {
-                        seq[index] = parseInt(seq[index], 10) - 1;
-                        patients.push(new Patient(allPatients[seq[index]]));
+                    for (index = 0; index < settings.studyLength; index++) {
+                        randomNum = Math.floor(Math.random() * allPatients.length);
+                        patients.push(new Patient(allPatients[randomNum]));
                     }
-                    patients.reverse();
                 } else {
+                    $("input[name=patientslength]").val("");
+                    console.error("Not a number");
                     return;
                 }
             } else {
-                console.error("Something else selected");
+                if ($("input[name=patientlist]:checked").val() === "standard") {
+                    patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
+                } else if ($("input[name=patientlist]:checked").val() === "own") {
+                    seq = $("input[name=ownsequence]").val();
+                    if (validateSequence(seq)) {
+                        patients = [];
+                        seq = seq.split(",");
+                        for (var index = 0; index < seq.length; index++) {
+                            seq[index] = parseInt(seq[index], 10) - 1;
+                            patients.push(new Patient(allPatients[seq[index]]));
+                        }
+                        patients.reverse();
+                    } else {
+                        return;
+                    }
+                } else {
+                    console.error("Something else selected");
+                }
             }
-        }
+
+            return patients;
+        })();
 
         if ($("input[name=usetiebreaksequence]").is(":checked")) {
-            tiebreakSequence = (function () {
+            settings.tiebreakSequence = (function () {
                 var arr, str, obj;
 
                 str = $("input[name=tiebreaksequencestr]").val();
@@ -1316,7 +1335,7 @@ $(document).ready(function () {
                 return obj;
             })();
         } else {
-            tiebreakSequence = (function (length) {
+            settings.tiebreakSequence = (function (length) {
                 var rand, index, arr, str, obj;
 
                 arr = [];
@@ -1339,10 +1358,10 @@ $(document).ready(function () {
                 };
 
                 return obj;
-            })(studyLength);
+            })(settings.studyLength);
         }
 
-        $("input#tiebreaksequence").val(tiebreakSequence.str);
+        $("input#tiebreaksequence").val(settings.tiebreakSequence.str);
 
         // 1 : order, 2 : predetermined, 3 : random
         switch (settings.gatorStreamType) {
@@ -1356,23 +1375,28 @@ $(document).ready(function () {
                 }
                 break;
             case 3:
-                settings.gatorSeq = getNBlock(numGators, studyLength, blocksize);
+                settings.gatorSeq = getNBlock(settings.numGators,
+                    settings.studyLength, settings.blocksize);
                 break;
             case 4:
-                settings.gatorSeq = getAlternating(numGators, studyLength);
+                settings.gatorSeq = getAlternating(settings.numGators,
+                    settings.studyLength);
                 break;
             default:
                 console.error("Invalid state");
                 break;
         }
+
         $("input#savesequence").show();
-        var textpat = "";
-        for (index = patients.length - 1; index >= 0; index--) {
-            textpat = textpat + patients[index].number;
+        textpat = "";
+
+        for (index = settings.patients.length - 1; index >= 0; index--) {
+            textpat = textpat + settings.patients[index].number;
             if (index !== 0) {
                 textpat = textpat + ", ";
             }
         }
+
         textgator = "";
         for (index = 0; index < settings.gatorSeq.length; index++) {
             textgator = textgator + (settings.gatorSeq[index] + 1);
@@ -1380,10 +1404,12 @@ $(document).ready(function () {
                 textgator = textgator + ", ";
             }
         }
+
         $("input#savesequence").val(textpat);
         $("input#gatorsavesequence").val(textgator);
         $("div#someupdates").hide();
-        setup(gators, patients, tiebreakSequence);
+
+        setup(settings.gators, settings.patients, settings.tiebreakSequence);
     });
 
     $("select[name=seedtype]").change(function () {
