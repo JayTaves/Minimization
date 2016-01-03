@@ -1352,7 +1352,9 @@ $(document).ready(function () {
                     targetGroup = $("select[name=computergroupgator" + index + "]").val();
 
                     gators.push(new Investigator(index + 1, (settings.queueLength === 2 ? random : cheat),
-                         (settings.queueLength === 2 ? "random" : "cheat"), numPatient, targetGroup));
+                         (settings.queueLength === 2 ? "random" : "cheat"),
+                         (settings.queueLength === 2 ? 1 : numPatient),
+                         (settings.queueLangth === 2 ? "treatment" : targetGroup)));
                 } else if (selectedStrategy === "player") {
                     numPatient = parseInt($("select[name=playergator" + index + "]").val(), 10);
                     targetGroup = $("select[name=playergroupgator" + index + "]").val();
@@ -1725,6 +1727,9 @@ $(document).ready(function () {
 
         $("input[name=tiebreaksequencestr]").val(newSettings.tiebreakSequence.str)
             .trigger("change");
+
+        $("select[name=minimizationexponent]").val(newSettings.minimizationExponent);
+        $("select[name=minimizationqueuelength]").val(newSettings.queueLength);
 
         // Always change to predetermined instead of re-generating the sequence
         $("select[name=seedtype]").val("Predetermined").trigger("change");
