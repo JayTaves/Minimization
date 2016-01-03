@@ -1,4 +1,4 @@
-﻿var study, settings, newSettings;
+﻿var study, settings, newSettings, validateSettings;
 
 settings = {
     numGators : 1,
@@ -10,7 +10,7 @@ settings = {
     autoPlay : false,
     minimizeInvestigator : false,
     tiebreakInvestigator : true,
-    tiebreakSequence : [],
+    tiebreakSequence : {},
     minimizationExponent : 1,
     queueLength : 1,
 
@@ -1162,6 +1162,121 @@ function download(filename, text) {
     document.body.removeChild(element);
 }
 
+validateSettings = function (str) {
+    var s, testInt, testGator, testBoolean, index, tie, num;
+
+    testInt = function (obj, prop, min, max) {
+        // test if s[prop] is an int between the specified bounds
+        if (obj[prop] !== parseInt(obj[prop], 10) || obj[prop] < min || obj[prop] > max) {
+            throw {
+                msg : "Error parsing " + prop + ", " + obj[prop] +
+                    " is not a an integer or is less than " + min +
+                    " or is greater than " + max,
+                type : "SettingsValidate"
+            };
+        }
+    };
+
+    testGator = function (gator) {
+        var strat, group;
+
+        strat = gator.strategyName;
+        group = gator.targetGroup;
+
+        if (strat !== "player" && strat !== "random" && strat !== "cheat") {
+            throw {
+                msg : strat + " is not a valid investigator strategy",
+                type : "SettingsValidate"
+            };
+        }
+
+        if (group !== "control" && group !== "treatment") {
+            throw {
+                msg : group + " is not a valid target group",
+                type : "SettingsValidate"
+            };
+        }
+
+        testInt(gator, "selectPatient", 1, 12);
+    };
+
+    testBoolean = function (prop) {
+        if (s[prop] !== false && s[prop] !== true) {
+            throw {
+                msg : prop + " is not a boolean",
+                type : "SettingsValidate"
+            };
+        }
+    };
+
+    try {
+        s = JSON.parse(str);
+    } catch (e) {
+        if (e instanceof SyntaxError) {
+            throw {
+                msg : "Parse Error",
+                type : "SettingsValidate"
+            };
+        } else {
+            throw e;
+        }
+    }
+
+    testInt(s, "numGators", 1, 10);
+
+    for (index = 0; index < s.gators.length; index++) {
+        testGator(s.gators[index]);
+    }
+
+    testInt(s, "allowedLength", 1, 5);
+    testInt(s, "heldTurns", 0, 5);
+
+    if (s.playerView !== "full" && s.playerView !== "partial") {
+        throw {
+            msg : s.playerView + " is not a valid option",
+            type : "SettingsValidate"
+        };
+    }
+
+    testBoolean("autoPlay");
+    testBoolean("minimizeInvestigator");
+    testBoolean("tiebreakInvestigator");
+
+    // Note there is no check on tiebreakSequence.str
+    for (index = 0; index < s.tiebreakSequence.arr.length; index++) {
+        tie = s.tiebreakSequence.arr[index];
+
+        if (tie !== 1 && tie !== -1) {
+            throw {
+                msg : "Invalid number " + tie + " in tiebreak sequence",
+                type : "SettingsValidate"
+            };
+        }
+    }
+
+    testInt(s, "minimizationExponent", 1, 5);
+    testInt(s, "queueLength", 1, 2);
+    testInt(s, "studyLength", 1, 1000000);
+
+    for (index = 0; index < s.patients.length; index++) {
+        testInt(s.patients[index], "number", 1, 12);
+
+        // This replaces all the patients with a new one so the numbers always
+        // match and we don't have to check each property of the patient
+        num = s.patients[index].number;
+        s.patients[index] = allPatients[num - 1];
+    }
+
+    testInt(s, "gatorStreamType", 1, 4);
+    testInt(s, "blocksize", 1, 5);
+
+    for (index = 0; index < s.gatorSeq.length; index++) {
+        testInt(s.gatorSeq, index, 0, s.numGators - 1);
+    }
+
+    return s;
+};
+
 $(document).ready(function () {
     var sequenceValid, disableStartButton;
 
@@ -1402,7 +1517,7 @@ $(document).ready(function () {
             }
         }
 
-        settings.patstr = textpat;
+        settings.patStr = textpat;
 
         textgator = "";
         for (index = 0; index < settings.gatorSeq.length; index++) {
@@ -1411,6 +1526,8 @@ $(document).ready(function () {
                 textgator = textgator + ", ";
             }
         }
+
+        settings.gatorStr = textgator;
 
         $("input#savesequence").val(textpat);
         $("input#gatorsavesequence").val(textgator);
@@ -1553,7 +1670,16 @@ $(document).ready(function () {
         var str, gator, index;
 
         str = $("input#importdata").val();
-        newSettings = JSON.parse(str);
+
+        try {
+            newSettings = validateSettings(str)
+        } catch (err) {
+            if (err.type === "SettingsValidate") {
+                console.error(err.msg);
+            } else {
+                throw err;
+            }
+        }
 
         // Investigator number drop down
         $("select[name=number]").val(newSettings.numGators).trigger("change");
@@ -1599,6 +1725,15 @@ $(document).ready(function () {
 
         $("input[name=tiebreaksequencestr]").val(newSettings.tiebreakSequence.str)
             .trigger("change");
+
+        // Always change to predetermined instead of re-generating the sequence
+        $("select[name=seedtype]").val("Predetermined").trigger("change");
+        $("input[name=patientlist]").val(["own"]);
+        $("input[name=ownsequence]").val(newSettings.patStr).trigger("input");
+
+        // Always change to own sequence instead of re-generating
+        $("select[name=gatorseedtype]").val("predetermined").trigger("change");
+        $("input[name=gatorsequence]").val(newSettings.gatorStr).trigger("input");
     });
 
     disableStartButton = function () {
