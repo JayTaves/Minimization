@@ -1,4 +1,5 @@
-var arrToCSV, download, Patient, generateVariates, categories;
+var arrToCSV, download, Patient, Group, generateVariates, categories, patients,
+    control, treatment;
 
 arrToCSV = function (arrs) {
     var csv = "";
@@ -120,6 +121,12 @@ Patient = function (id, categories) {
             variate = cat.variates[Math.floor(Math.random() * cat.length)];
             this.properties[variate.id] = 1;
         }
+
+        for (index = 0; index < this.variates.length; index++) {
+            if (this.properties[index] === undefined) {
+                this.properties[index] = 0;
+            }
+        }
     };
 
     this.printProperties = function () {
@@ -128,7 +135,7 @@ Patient = function (id, categories) {
         str = "";
 
         for (index = 0; index < this.properties.length; index++) {
-            if (this.properties[index] !== undefined) {
+            if (this.properties[index] === 1) {
                 variate = this.variates[index];
                 cat = variate.category;
 
@@ -142,14 +149,64 @@ Patient = function (id, categories) {
     };
 };
 
+Group = function (name, categories) {
+
+    this.name = name;
+    this.patients = [];
+
+    this.properties = (function () {
+        var index, variates;
+
+        variates = [];
+
+        for (index = 0; index < categories.variates.length; index++) {
+            variates[index] = 0;
+        }
+
+        return variates;
+    })();
+
+    this.addPatient = function (pat) {
+        var index;
+
+        this.patients.push(pat);
+        for (index = 0; index < this.properties.length; index++) {
+            this.properties[index] += pat.properties[index];
+        }
+    };
+
+    this.printProperties = function () {
+        var index, str;
+
+        str = "";
+        for (index = 0; index < this.properties.length; index++) {
+            str += categories.variates[index].name + ": " +
+                this.properties[index] + ", ";
+        }
+
+        str = str.substring(0, str.length - 1);
+
+        return str;
+    }
+};
+
 $(document).ready(function () {
-    var pat;
+    var index, pat;
 
     categories = generateVariates(7, 3, [2, 3, 2],
         ["Male", "Female", "Young", "Middle", "Old", "Low", "High"],
         ["Gender", "Age", "Risk"]);
 
-    pat = new Patient(0, categories);
-    pat.generateProperties();
-    console.log(pat.printProperties());
+    patients = [];
+
+    for (index = 0; index < 100; index++) {
+        pat = new Patient(index, categories);
+        pat.generateProperties();
+
+        patients.push(pat);
+    }
+
+    control = new Group("Control", categories);
+    treatment = new Group("Treatment", categories);
+
 });
