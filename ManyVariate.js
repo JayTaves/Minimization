@@ -1,4 +1,4 @@
-var arrToCSV, download, Group, generateVariates;
+var arrToCSV, download, Patient, generateVariates, categories;
 
 arrToCSV = function (arrs) {
     var csv = "";
@@ -28,31 +28,128 @@ download = function(filename, text) {
     document.body.removeChild(element);
 };
 
-generateVariates = function () {
+generateVariates = function (numVariates, numCategories, distribution, varNames, catNames) {
+    var variates, index, categories, catLength, len, cat, count, currentCat;
 
+    variates = [];
+    categories = [];
+
+    catLength = Math.ceil(numVariates / numCategories);
+
+    // Make sure distribution matches numVariates
+    if (distribution !== undefined) {
+        if (distribution.length !== numCategories) {
+            console.error("Distribution had length " + distribution.length +
+                " but the number of categories was specified as " + numCategories);
+        }
+
+        count = 0;
+
+        for (index = 0; index < distribution.length; index++) {
+            count += distribution[index];
+        }
+
+        if (count !== numVariates) {
+            console.error("Distribution had " + count + " variates but numVariates set to " +
+                numVariates);
+        }
+    }
+
+    for (index = 0; index < numCategories; index++) {
+        if (distribution === undefined) {
+            len = index === numCategories - 1 ?
+                numVariates - catLength * (numCategories - 1) : catLength;
+        } else {
+            len = distribution[index];
+        }
+
+        categories[index] = {
+            name : catNames[index] === undefined ? "Category " + index : catNames[index],
+            length : len,
+            variates : []
+        };
+    }
+
+    // Keeps track of which category we are on
+    currentCat = 0;
+
+    for (index = 0; index < numVariates; index++) {
+        if (distribution === undefined) {
+            cat = categories[Math.floor(index / catLength)];
+        } else {
+            distribution[0]--;
+            cat = categories[currentCat];
+
+            if (distribution[0] === 0) {
+                currentCat++;
+                distribution = distribution.reverse();
+                distribution.pop();
+                distribution = distribution.reverse();
+            }
+        }
+
+        variates[index] = {
+            id : index,
+            name : varNames[index] === undefined ? "Variate " + index : varNames[index],
+            count : 0,
+            category : cat
+        };
+
+        cat.variates.push(variates[index]);
+    }
+
+    return {
+        categories : categories,
+        variates : variates
+    };
 };
 
-Group = function (name) {
-    this.name = name;
-    this.patients = [];
-    this.investigators = [];
+Patient = function (id, categories) {
+    this.id = id;
+    this.categories = categories.categories;
+    this.variates = categories.variates;
 
-    this.characteristics = {
-        Male: {count: 0, elem: this.table.children(".male")},
-        Female: {count: 0, elem: this.table.children(".female")},
-        Young: {count: 0, elem: this.table.children(".young")},
-        Middle: {count: 0, elem: this.table.children(".middle")},
-        Old: {count: 0, elem: this.table.children(".old")},
-        Low: {count: 0, elem: this.table.children(".low")},
-        High: { count: 0, elem: this.table.children(".high")}
+    this.properties = [];
+
+    this.generateProperties = function () {
+        var index, cat, variate;
+
+        for (index = 0; index < this.categories.length; index++) {
+            cat = this.categories[index];
+
+            variate = cat.variates[Math.floor(Math.random() * cat.length)];
+            this.properties[variate.id] = 1;
+        }
     };
 
-    this.addPatient = function (patient) {
-        this.patients.push(patient);
-        this.characteristics[patient.gender.text].count += 1;
-        this.characteristics[patient.age.text].count += 1;
-        this.characteristics[patient.risk.text].count += 1;
-        this.investigators[patient.investigator - 1].count += 1;
-        return this;
+    this.printProperties = function () {
+        var index, str, cat, variate;
+
+        str = "";
+
+        for (index = 0; index < this.properties.length; index++) {
+            if (this.properties[index] !== undefined) {
+                variate = this.variates[index];
+                cat = variate.category;
+
+                str += cat.name + ": " + variate.name + ", ";
+            }
+        }
+
+        str = str.substring(0, str.length - 1);
+
+        return str;
     };
 };
+
+$(document).ready(function () {
+    var pat;
+
+    categories = generateVariates(7, 3, [2, 3, 2],
+        ["Male", "Female", "Young", "Middle", "Old", "Low", "High"],
+        ["Gender", "Age", "Risk"]);
+
+    pat = new Patient(0, categories);
+    pat.generateProperties();
+    console.log(pat.printProperties());
+});
