@@ -207,6 +207,10 @@ var Trial = function (investigators, doOutput, settings) {
         current : 0
     };
 
+    // Used for keeping data to put into the csv file
+    this.exportArr = [];
+    this.assignmentNo = 1;
+
     this.addPatient = function (patient, investigator) {
         var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
             diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2, rawDiff;
@@ -221,9 +225,10 @@ var Trial = function (investigators, doOutput, settings) {
 
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
-            var result, tie, groupRes, tiestr;
+            var result, tie, groupRes, tiestr, tchars, cchars;
 
-            result = minimize(patient, investigator.number, trialClosure.control, trialClosure.treatment);
+            result = minimize(patient, investigator, trialClosure.control,
+                trialClosure.treatment, trialClosure);
 
             if (result.res === "control") {
                 trialClosure.control = result.control;
@@ -267,6 +272,7 @@ var Trial = function (investigators, doOutput, settings) {
             } else {
                 console.error("Unreachable branch reached");
             }
+
             if (patient.number === investigator.selectPatient) {
                 if (investigator.targetGroup.toLowerCase() === groupRes) {
                     investigator.targetScore++;
@@ -417,9 +423,9 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator) {
     return diff;
 };
 
-var minimize = function (patient, investigator, control, treatment) {
+var minimize = function (patient, investigator, control, treatment, trial) {
     var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
-        controlTieDiff, treatmentTieDiff;
+        controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar;
 
     newControlTest = jQuery.extend(true, {}, control);
     newTreatmentTest = jQuery.extend(true, {}, treatment);
@@ -431,6 +437,60 @@ var minimize = function (patient, investigator, control, treatment) {
     treatmentDiff = groupDiff(newTreatmentTest, control, study.s.minimizeInvestigator);
 
     addDiff = treatmentDiff - controlDiff;
+
+    ntchar = newTreatmentTest.characteristics;
+    ncchar = newControlTest.characteristics;
+
+    if (trial !== undefined) {
+        trial.exportArr.push(["assign #", "inv", "pt", "rx",
+            "Trial"]);
+
+        tchars = treatment.characteristics;
+        cchars = control.characteristics;
+
+        trial.exportArr.push(["", "", "", "", "T", tchars.Male.count,
+            tchars.Female.count, tchars.Young.count, tchars.Middle.count,
+            tchars.Old.count, tchars.Low.count, tchars.High.count]);
+
+        trial.exportArr.push([trial.assignmentNo,
+            investigator.number, patient.number,
+            treatmentDiff > controlDiff ? -1 : 1, "",
+            patient.gender.text === "Male" ? 1 : "",
+            patient.gender.text === "Female" ? 1 : "",
+            patient.age.text === "Young" ? 1 : "",
+            patient.age.text === "Middle" ? 1 : "",
+            patient.age.text === "Old" ? 1 : "",
+            patient.risk.text === "Low" ? 1 : "",
+            patient.risk.text === "High" ? 1 : ""]);
+
+        trial.exportArr.push(["", "", "", "", "T+", ntchar.Male.count,
+            ntchar.Female.count, ntchar.Young.count, ntchar.Middle.count,
+            ntchar.Old.count, ntchar.Low.count, ntchar.High.count]);
+
+        trial.exportArr.push([""]);
+        trial.exportArr.push([""]);
+
+        trial.exportArr.push(["", "", "", "", "C", cchars.Male.count,
+            cchars.Female.count, cchars.Young.count, cchars.Middle.count,
+            cchars.Old.count, cchars.Low.count, cchars.High.count]);
+
+        trial.exportArr.push([trial.assignmentNo,
+            investigator.number, patient.number,
+            treatmentDiff > controlDiff ? -1 : 1, "",
+            patient.gender.text === "Male" ? 1 : "",
+            patient.gender.text === "Female" ? 1 : "",
+            patient.age.text === "Young" ? 1 : "",
+            patient.age.text === "Middle" ? 1 : "",
+            patient.age.text === "Old" ? 1 : "",
+            patient.risk.text === "Low" ? 1 : "",
+            patient.risk.text === "High" ? 1 : ""]);
+
+        trial.exportArr.push(["", "", "", "", "C+", ncchar.Male.count,
+            ncchar.Female.count, ncchar.Young.count, ncchar.Middle.count,
+            ncchar.Old.count, ncchar.Low.count, ncchar.High.count]);
+
+        trial.assignmentNo++;
+    }
 
     if (treatmentDiff > controlDiff) {
         return {

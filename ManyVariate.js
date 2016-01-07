@@ -1,5 +1,5 @@
 var arrToCSV, download, Patient, Group, generateVariates, categories, patients,
-    control, treatment;
+    study, Trial;
 
 arrToCSV = function (arrs) {
     var csv = "";
@@ -190,6 +190,69 @@ Group = function (name, categories) {
     }
 };
 
+Trial = function (categories) {
+    this.control = new Group("Control", categories);
+    this.treatment = new Group("Treatment", categories);
+
+    this.groupDiff = function (a, b, exponent) {
+        var diff, index;
+
+        if (a.properties.length !== b.properties.length) {
+            console.error("incompatible groups");
+        }
+
+        diff = 0;
+
+        for (index = 0; index < a.properties.length; index++) {
+            diff += Math.pow(Math.abs(a.properties[index] - b.properties[index]),
+                exponent);
+        }
+
+        return diff;
+    };
+
+    this.minimize = function (control, treatment, exponent, patient) {
+        var newControl, newTreatment, controlDiff, treatmentDiff, diff, res,
+            finalControl, finalTreatment, tb;
+
+        newControl = jQuery.extend(true, {}, control);
+        newTreatment = jQuery.extend(true, {}, treatment);
+
+        newControl.addPatient(patient);
+        newTreatment.addPatient(patient);
+
+        controlDiff = this.groupDiff(newControl, treatment, exponent);
+        treatmentDiff = this.groupDiff(newTreatment, control, exponent);
+
+        diff = treatmentDiff - controlDiff;
+
+        tb = false;
+        if (treatmentDiff > controlDiff) {
+            res = "control";
+            finalControl = newControl;
+            finalTreatment = treatment;
+        } else if (controlDiff > treatmentDiff) {
+            res = "treatment";
+            finalControl = control;
+            finalTreatment = newTreatment;
+        } else {
+            // Whatever calls minimize handles the tiebreak depending on settings
+            res = "tie";
+            finalControl = newControl;
+            finalTreatment = newTreatment;
+            tb = true;
+        }
+
+        return {
+            res : res,
+            control : finalControl,
+            treatment : finalTreatment,
+            ad : diff,
+            tb : tb
+        };
+    };
+};
+
 $(document).ready(function () {
     var index, pat;
 
@@ -206,7 +269,18 @@ $(document).ready(function () {
         patients.push(pat);
     }
 
-    control = new Group("Control", categories);
-    treatment = new Group("Treatment", categories);
+    study = new Trial(categories);
 
+    for (index = 0; index < patients.length; index++) {
+        if (index % 2 === 0) {
+            study.control.addPatient(patients[index]);
+        } else {
+            study.treatment.addPatient(patients[index]);
+        }
+    }
+
+    console.log(study.control.printProperties());
+    console.log(study.treatment.printProperties());
+
+    console.log(study.groupDiff(study.control, study.treatment, 1));
 });
