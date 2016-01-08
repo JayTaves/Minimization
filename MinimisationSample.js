@@ -61,6 +61,7 @@ var Patient = function (number, gender, age, risk) {
         this.tag = "";
     }
 };
+
 var Investigator = function (number, strategy, strategyName, patient, group) {
     this.number = number;
     this.takeTurn = strategy;
@@ -72,6 +73,9 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
     this.selectPatient = patient;
     this.targetGroup = group;
     this.tagdex = 0;
+
+    this.control = new Group("Investigator " + number + " control");
+    this.treatment = new Group("Investigator " + number + " treatment");
 
     this.getTag = function () {
         var alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -124,7 +128,10 @@ var Group = function (name, table, numInvestigators) {
     this.patients = [];
     this.title = $("tr.title." + name.toLowerCase());
     this.table = $(".table." + name.toLowerCase());
-    this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
+
+    if (table !== undefined) {
+        this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
+    }
     this.investigators = [];
 
     for (var index = 0; index < numInvestigators; index++) {
@@ -143,6 +150,7 @@ var Group = function (name, table, numInvestigators) {
         Low: {count: 0, elem: this.table.children(".low")},
         High: { count: 0, elem: this.table.children(".high")}
     };
+
     this.addPatient = function (patient) {
         this.patients.push(patient);
         this.characteristics[patient.gender.text].count += 1;
@@ -151,6 +159,7 @@ var Group = function (name, table, numInvestigators) {
         this.investigators[patient.investigator - 1].count += 1;
         return this;
     };
+
     this.updateTable = function () {
         for (var characteristic in this.characteristics) {
             var char = this.characteristics[characteristic];
