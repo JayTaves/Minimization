@@ -9,10 +9,12 @@ settings = {
     playerView : "full",
     autoPlay : false,
     minimizeInvestigator : false,
+    minimizeLength : false,
     tiebreakInvestigator : true,
     tiebreakSequence : {},
     minimizationExponent : 1,
     queueLength : 1,
+    exportExcel : false,
 
     studyLength : 1,
     patients : [],
@@ -397,7 +399,7 @@ var Trial = function (investigators, doOutput, settings) {
 
 /* Computes the difference between two groups, with or without taking into
 account investigators */
-var groupDiff = function (controlGroup, treatmentGroup, useInvestigator) {
+var groupDiff = function (controlGroup, treatmentGroup, useInvestigator, useLength) {
     var comparison, diff;
 
     comparison = {};
@@ -412,7 +414,10 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator) {
         }
     }
 
-    comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length - treatmentGroup.patients.length), study.s.minimizationExponent);
+    if (useLength) {
+        comparison.subjects = Math.pow(Math.abs(controlGroup.patients.length -
+            treatmentGroup.patients.length), study.s.minimizationExponent);
+    }
 
     diff = 0;
 
@@ -433,15 +438,17 @@ var minimize = function (patient, investigator, control, treatment, trial) {
     newControlTest.addPatient(patient, investigator);
     newTreatmentTest.addPatient(patient, investigator);
 
-    controlDiff = groupDiff(newControlTest, treatment, study.s.minimizeInvestigator);
-    treatmentDiff = groupDiff(newTreatmentTest, control, study.s.minimizeInvestigator);
+    controlDiff = groupDiff(newControlTest, treatment,
+        study.s.minimizeInvestigator, study.s.minimizeLength);
+    treatmentDiff = groupDiff(newTreatmentTest, control,
+        study.s.minimizeInvestigator, study.s.minimizeLength);
 
     addDiff = treatmentDiff - controlDiff;
 
     ntchar = newTreatmentTest.characteristics;
     ncchar = newControlTest.characteristics;
 
-    if (trial !== undefined) {
+    if (trial !== undefined && trial.s.exportExcel) {
         trial.exportArr.push(["assign #", "inv", "pt", "rx",
             "Trial"]);
 
@@ -450,7 +457,8 @@ var minimize = function (patient, investigator, control, treatment, trial) {
 
         trial.exportArr.push(["", "", "", "", "T", tchars.Male.count,
             tchars.Female.count, tchars.Young.count, tchars.Middle.count,
-            tchars.Old.count, tchars.Low.count, tchars.High.count]);
+            tchars.Old.count, tchars.Low.count, tchars.High.count,
+            "", "diff score"]);
 
         trial.exportArr.push([trial.assignmentNo,
             investigator.number, patient.number,
@@ -488,6 +496,32 @@ var minimize = function (patient, investigator, control, treatment, trial) {
         trial.exportArr.push(["", "", "", "", "C+", ncchar.Male.count,
             ncchar.Female.count, ncchar.Young.count, ncchar.Middle.count,
             ncchar.Old.count, ncchar.Low.count, ncchar.High.count]);
+
+        trial.exportArr.push([""]);
+
+        trial.exportArr.push(["", "", "", "abs diff T+, C", "",
+            Math.abs(ntchar.Male.count - cchars.Male.count),
+            Math.abs(ntchar.Female.count - cchars.Female.count),
+            Math.abs(ntchar.Young.count - cchars.Young.count),
+            Math.abs(ntchar.Middle.count - cchars.Middle.count),
+            Math.abs(ntchar.Old.count - cchars.Old.count),
+            Math.abs(ntchar.Low.count - cchars.Low.count),
+            Math.abs(ntchar.High.count - cchars.High.count)
+            ]);
+
+        trial.exportArr.push(["", "", "", "abs diff C+, T", "",
+            Math.abs(ncchar.Male.count - tchars.Male.count),
+            Math.abs(ncchar.Female.count - tchars.Female.count),
+            Math.abs(ncchar.Young.count - tchars.Young.count),
+            Math.abs(ncchar.Middle.count - tchars.Middle.count),
+            Math.abs(ncchar.Old.count - tchars.Old.count),
+            Math.abs(ncchar.Low.count - tchars.Low.count),
+            Math.abs(ncchar.High.count - tchars.High.count),
+            addDiff, addDiff > 0 ? "C" : (addDiff === 0 ? "Tie" : "T")
+            ]);
+
+        trial.exportArr.push([""]);
+        trial.exportArr.push([""]);
 
         trial.assignmentNo++;
     }
@@ -832,16 +866,41 @@ var nextInvestigator = function (allInvestigators, allPatients, count, study) {
     }
 }
 var endGame = function (allInvestigators, allPatients) {
-    for (var index = 0; index < allInvestigators.length; index++) {
-        var investigator = allInvestigators[index];
+    var index, investigator, str;
+
+    for (index = 0; index < allInvestigators.length; index++) {
+        investigator = allInvestigators[index];
         if (investigator.strategyName === "cheat" || investigator.strategyName === "random") {
             writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score");
         } else if (investigator.strategyName === "player") {
             writeMessage(investigator.number, { target: investigator.targetScore, nonTarget: investigator.nonTargetScore, given: investigator.targetsGiven }, "score", "player");
         }
     }
+
+    if (study.s.exportExcel) {
+        str = prettyDate() + "_inv-" + study.s.numGators + "_pat-" +
+            study.s.studyLength;
+
+        download(str, arrToCSV(study.exportArr));
+    }
     fillStatsTable();
 }
+
+prettyDate = function () {
+    var today, dd, mm, yyyy, hh;
+
+    today = new Date();
+    dd = today.getDate();
+    mm = today.getMonth() + 1; // Starts at 0
+    yyyy = today.getFullYear();
+
+    // pad with a zero
+    dd = dd < 10 ? "0" + dd : dd;
+    mm = mm < 10 ? "0" + mm : mm;
+
+    return mm + "-" + dd + "-" + yyyy;
+};
+
 var writeMessage = function (gatorNum, patient, action, result) {
     var message, meanRes;
     if (gatorNum === 0) {
@@ -1317,6 +1376,7 @@ validateSettings = function (str) {
     testInt(s, "minimizationExponent", 1, 5);
     testInt(s, "queueLength", 1, 2);
     testInt(s, "studyLength", 1, 1000000);
+    testBoolean("exportExcel");
 
     for (index = 0; index < s.patients.length; index++) {
         testInt(s.patients[index], "number", 1, 12);
@@ -1433,8 +1493,10 @@ $(document).ready(function () {
         settings.playerView = $("input[name=playerview]:checked").val();
         settings.autoPlay = $("input[name=autoplay]:checked").val() === "true";
         settings.minimizeInvestigator = $("input[name=minimizeinvestigator]").is(":checked");
+        settings.minimizeLength = $("input[name=minimizelength]").is(":checked");
         settings.tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
         settings.minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
+        settings.exportExcel = $("input[name=exportexcel]").is(":checked");
 
         settings.blocksize = parseInt($("select[name=blocksize]").val(), 10);
 
@@ -1474,9 +1536,14 @@ $(document).ready(function () {
                 }
             } else {
                 if ($("input[name=patientlist]:checked").val() === "standard") {
-                    patients = [eleven, two, nine, six, eleven, five, three, eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
+                    patients = [eleven, two, nine, six, eleven, five, three,
+                    eleven, six, four, eleven, eight, eleven, one, twelve, four, eleven];
+
+                    settings.studyLength = 17;
                 } else if ($("input[name=patientlist]:checked").val() === "own") {
+
                     seq = $("input[name=ownsequence]").val();
+
                     if (validateSequence(seq)) {
                         patients = [];
                         seq = seq.split(",");
@@ -1484,6 +1551,9 @@ $(document).ready(function () {
                             seq[index] = parseInt(seq[index], 10) - 1;
                             patients.push(new Patient(allPatients[seq[index]]));
                         }
+
+                        settings.studyLength = seq.length;
+
                         patients.reverse();
                     } else {
                         return;
@@ -1775,9 +1845,13 @@ $(document).ready(function () {
         // Take turns without select patient
         $("input[name=autoplay]").val([newSettings.autoPlay]);
 
-        // Minimize Investigator
+        // Minimize Investigator (pretty lame to trigger two clicks to preserve
+        // the state)
         $("input[name=minimizeinvestigator]").val([newSettings.minimizeInvestigator])
             .trigger("click").trigger("click");
+
+        // Use group length in minimization
+        $("input[name=minimizelength]").val([newSettings.minimizeLength]);
 
         // Use investigator for tie break
         $("input[name=investigatortiebreak]").val([newSettings.tiebreakInvestigator]);
@@ -1790,6 +1864,9 @@ $(document).ready(function () {
 
         $("select[name=minimizationexponent]").val(newSettings.minimizationExponent);
         $("select[name=minimizationqueuelength]").val(newSettings.queueLength);
+
+        // Export to Excel
+        $("input[name=exportexcel]").val([newSettings.exportExcel]);
 
         // Always change to predetermined instead of re-generating the sequence
         $("select[name=seedtype]").val("Predetermined").trigger("change");
