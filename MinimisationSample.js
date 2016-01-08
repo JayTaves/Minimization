@@ -24,6 +24,7 @@ settings = {
     gatorStreamType : 1,
     blocksize : 1,
     gatorSeq : [],
+    gatorStr : ""
 };
 
 var extraInfoRow = function (cellEntry) {
