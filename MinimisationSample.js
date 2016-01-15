@@ -1798,16 +1798,23 @@ $(document).ready(function () {
             $("input[name=includeall], input[name=includenone]").prop("checked", false);
         }
     });
-    $("input[name=ownsequence]").on("input", function () {
-        var seq = $(this).val();
-        var selOwn = $("input[name=patientlist]:checked").val() === "own";
 
-        if (!selOwn) {
+    $("input[name=patientlist]").on("click", function () {
+        if ($("input[name=patientlist]:checked").val() === "standard") {
             $("i#ownseqvalid").hide();
         } else {
-            sequenceValid.patient = validateSequence(seq);
-            disableStartButton();
+            $("i#ownseqvalid").show();
         }
+    });
+
+    $("input[name=ownsequence]").on("input", function () {
+        var seq;
+
+        seq = $(this).val();
+        $("input[name=patientlist]").val(["own"]);
+
+        sequenceValid.patient = validateSequence(seq);
+        disableStartButton();
     });
 
     $("input[name=usetiebreaksequence]").click(function () {
