@@ -1,4 +1,4 @@
-﻿var study, settings, newSettings, validateSettings;
+﻿var study, settings, newSettings, validateSettings, buildExcelCTBlock;
 
 settings = {
     numGators : 1,
@@ -250,8 +250,6 @@ var Trial = function (investigators, doOutput, settings) {
             result = minimize(patient, investigator, trialClosure.control,
                 trialClosure.treatment, trialClosure, invResult);
 
-            console.log("Individual Minimization: " + invResult.ad + ", Overall Minimization: " + result.ad);
-
             if (result.res === "control") {
                 trialClosure.control = result.control;
 
@@ -463,7 +461,7 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator, useLeng
 var minimize = function (patient, investigator, control, treatment, trial, dualMin) {
 
     var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
-        controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar;
+        controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar, arr;
 
     newControlTest = jQuery.extend(true, {}, control);
     newTreatmentTest = jQuery.extend(true, {}, treatment);
@@ -478,83 +476,12 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
 
     addDiff = treatmentDiff - controlDiff;
 
-    ntchar = newTreatmentTest.characteristics;
-    ncchar = newControlTest.characteristics;
-
     if (trial !== undefined && trial.s.exportExcel) {
-        trial.exportArr.push(["assign #", "inv", "pt", "rx",
-            "Trial"]);
+        arr = buildExcelCTBlock(treatment, control, newTreatmentTest,
+            newControlTest, trial, investigator, patient, treatmentDiff,
+            controlDiff);
 
-        tchars = treatment.characteristics;
-        cchars = control.characteristics;
-
-        trial.exportArr.push(["", "", "", "", "T", tchars.Male.count,
-            tchars.Female.count, tchars.Young.count, tchars.Middle.count,
-            tchars.Old.count, tchars.Low.count, tchars.High.count,
-            "", "diff score"]);
-
-        trial.exportArr.push([trial.assignmentNo,
-            investigator.number, patient.number,
-            treatmentDiff > controlDiff ? -1 : 1, "",
-            patient.gender.text === "Male" ? 1 : "",
-            patient.gender.text === "Female" ? 1 : "",
-            patient.age.text === "Young" ? 1 : "",
-            patient.age.text === "Middle" ? 1 : "",
-            patient.age.text === "Old" ? 1 : "",
-            patient.risk.text === "Low" ? 1 : "",
-            patient.risk.text === "High" ? 1 : ""]);
-
-        trial.exportArr.push(["", "", "", "", "T+", ntchar.Male.count,
-            ntchar.Female.count, ntchar.Young.count, ntchar.Middle.count,
-            ntchar.Old.count, ntchar.Low.count, ntchar.High.count]);
-
-        trial.exportArr.push([""]);
-        trial.exportArr.push([""]);
-
-        trial.exportArr.push(["", "", "", "", "C", cchars.Male.count,
-            cchars.Female.count, cchars.Young.count, cchars.Middle.count,
-            cchars.Old.count, cchars.Low.count, cchars.High.count]);
-
-        trial.exportArr.push([trial.assignmentNo,
-            investigator.number, patient.number,
-            treatmentDiff > controlDiff ? -1 : 1, "",
-            patient.gender.text === "Male" ? 1 : "",
-            patient.gender.text === "Female" ? 1 : "",
-            patient.age.text === "Young" ? 1 : "",
-            patient.age.text === "Middle" ? 1 : "",
-            patient.age.text === "Old" ? 1 : "",
-            patient.risk.text === "Low" ? 1 : "",
-            patient.risk.text === "High" ? 1 : ""]);
-
-        trial.exportArr.push(["", "", "", "", "C+", ncchar.Male.count,
-            ncchar.Female.count, ncchar.Young.count, ncchar.Middle.count,
-            ncchar.Old.count, ncchar.Low.count, ncchar.High.count]);
-
-        trial.exportArr.push([""]);
-
-        trial.exportArr.push(["", "", "", "abs diff T+, C", "",
-            Math.abs(ntchar.Male.count - cchars.Male.count),
-            Math.abs(ntchar.Female.count - cchars.Female.count),
-            Math.abs(ntchar.Young.count - cchars.Young.count),
-            Math.abs(ntchar.Middle.count - cchars.Middle.count),
-            Math.abs(ntchar.Old.count - cchars.Old.count),
-            Math.abs(ntchar.Low.count - cchars.Low.count),
-            Math.abs(ntchar.High.count - cchars.High.count)
-            ]);
-
-        trial.exportArr.push(["", "", "", "abs diff C+, T", "",
-            Math.abs(ncchar.Male.count - tchars.Male.count),
-            Math.abs(ncchar.Female.count - tchars.Female.count),
-            Math.abs(ncchar.Young.count - tchars.Young.count),
-            Math.abs(ncchar.Middle.count - tchars.Middle.count),
-            Math.abs(ncchar.Old.count - tchars.Old.count),
-            Math.abs(ncchar.Low.count - tchars.Low.count),
-            Math.abs(ncchar.High.count - tchars.High.count),
-            addDiff, addDiff > 0 ? "C" : (addDiff === 0 ? "Tie" : "T")
-            ]);
-
-        trial.exportArr.push([""]);
-        trial.exportArr.push([""]);
+        trial.exportArr = trial.exportArr.concat(arr);
 
         trial.assignmentNo++;
     }
@@ -627,6 +554,94 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
             tb: true
         };
     }
+};
+
+buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
+    trial, investigator, patient, treatmentDiff, controlDiff) {
+
+    var arr, addDiff;
+
+    arr = [];
+    addDiff = treatmentDiff - controlDiff;
+
+    arr.push(["assign #", "inv", "pt", "rx",
+        "Trial"]);
+
+    tchars = treatment.characteristics;
+    cchars = control.characteristics;
+
+    ntchar = newTreatment.characteristics;
+    ncchar = newControl.characteristics;
+
+    arr.push(["", "", "", "", "T", tchars.Male.count,
+        tchars.Female.count, tchars.Young.count, tchars.Middle.count,
+        tchars.Old.count, tchars.Low.count, tchars.High.count,
+        "", "diff score"]);
+
+    arr.push([trial.assignmentNo,
+        investigator.number, patient.number,
+        treatmentDiff > controlDiff ? -1 : 1, "",
+        patient.gender.text === "Male" ? 1 : "",
+        patient.gender.text === "Female" ? 1 : "",
+        patient.age.text === "Young" ? 1 : "",
+        patient.age.text === "Middle" ? 1 : "",
+        patient.age.text === "Old" ? 1 : "",
+        patient.risk.text === "Low" ? 1 : "",
+        patient.risk.text === "High" ? 1 : ""]);
+
+    arr.push(["", "", "", "", "T+", ntchar.Male.count,
+        ntchar.Female.count, ntchar.Young.count, ntchar.Middle.count,
+        ntchar.Old.count, ntchar.Low.count, ntchar.High.count]);
+
+    arr.push([""]);
+    arr.push([""]);
+
+    arr.push(["", "", "", "", "C", cchars.Male.count,
+        cchars.Female.count, cchars.Young.count, cchars.Middle.count,
+        cchars.Old.count, cchars.Low.count, cchars.High.count]);
+
+    arr.push([trial.assignmentNo,
+        investigator.number, patient.number,
+        treatmentDiff > controlDiff ? -1 : 1, "",
+        patient.gender.text === "Male" ? 1 : "",
+        patient.gender.text === "Female" ? 1 : "",
+        patient.age.text === "Young" ? 1 : "",
+        patient.age.text === "Middle" ? 1 : "",
+        patient.age.text === "Old" ? 1 : "",
+        patient.risk.text === "Low" ? 1 : "",
+        patient.risk.text === "High" ? 1 : ""]);
+
+    arr.push(["", "", "", "", "C+", ncchar.Male.count,
+        ncchar.Female.count, ncchar.Young.count, ncchar.Middle.count,
+        ncchar.Old.count, ncchar.Low.count, ncchar.High.count]);
+
+    arr.push([""]);
+
+    arr.push(["", "", "", "abs diff T+, C", "",
+        Math.abs(ntchar.Male.count - cchars.Male.count),
+        Math.abs(ntchar.Female.count - cchars.Female.count),
+        Math.abs(ntchar.Young.count - cchars.Young.count),
+        Math.abs(ntchar.Middle.count - cchars.Middle.count),
+        Math.abs(ntchar.Old.count - cchars.Old.count),
+        Math.abs(ntchar.Low.count - cchars.Low.count),
+        Math.abs(ntchar.High.count - cchars.High.count)
+        ]);
+
+    arr.push(["", "", "", "abs diff C+, T", "",
+        Math.abs(ncchar.Male.count - tchars.Male.count),
+        Math.abs(ncchar.Female.count - tchars.Female.count),
+        Math.abs(ncchar.Young.count - tchars.Young.count),
+        Math.abs(ncchar.Middle.count - tchars.Middle.count),
+        Math.abs(ncchar.Old.count - tchars.Old.count),
+        Math.abs(ncchar.Low.count - tchars.Low.count),
+        Math.abs(ncchar.High.count - tchars.High.count),
+        addDiff, addDiff > 0 ? "C" : (addDiff === 0 ? "Tie" : "T")
+        ]);
+
+    arr.push([""]);
+    arr.push([""]);
+
+    return arr;
 };
 
 var nextPatient = function (patient, table) {
