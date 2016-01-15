@@ -321,8 +321,8 @@ var Trial = function (investigators, doOutput, settings) {
             t1 []           t2 [1, 2]       t3 [1]      t4 [2]
         */
         if (this.queue.length === study.s.queueLength && study.s.queueLength === 2) {
-            temp1 = this.queue.pop();
             temp2 = this.queue.pop();
+            temp1 = this.queue.pop();
 
             patient1 = temp1.pat;
             patient2 = temp2.pat;
