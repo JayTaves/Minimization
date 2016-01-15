@@ -15,6 +15,7 @@ settings = {
     minimizationExponent : 1,
     queueLength : 1,
     exportExcel : false,
+    dualMinimization : true,
 
     studyLength : 1,
     patients : [],
@@ -62,6 +63,7 @@ var Patient = function (number, gender, age, risk) {
         this.tag = "";
     }
 };
+
 var Investigator = function (number, strategy, strategyName, patient, group) {
     this.number = number;
     this.takeTurn = strategy;
@@ -73,6 +75,11 @@ var Investigator = function (number, strategy, strategyName, patient, group) {
     this.selectPatient = patient;
     this.targetGroup = group;
     this.tagdex = 0;
+
+    this.control = new Group("Investigator " + number + " control",
+        undefined, settings.numGators);
+    this.treatment = new Group("Investigator " + number + " treatment",
+        undefined, settings.numGators);
 
     this.getTag = function () {
         var alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -125,7 +132,10 @@ var Group = function (name, table, numInvestigators) {
     this.patients = [];
     this.title = $("tr.title." + name.toLowerCase());
     this.table = $(".table." + name.toLowerCase());
-    this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
+
+    if (table !== undefined) {
+        this.patientsElem = table.siblings("table.totaltable").find("td.total.table");
+    }
     this.investigators = [];
 
     for (var index = 0; index < numInvestigators; index++) {
@@ -144,6 +154,7 @@ var Group = function (name, table, numInvestigators) {
         Low: {count: 0, elem: this.table.children(".low")},
         High: { count: 0, elem: this.table.children(".high")}
     };
+
     this.addPatient = function (patient) {
         this.patients.push(patient);
         this.characteristics[patient.gender.text].count += 1;
@@ -152,6 +163,7 @@ var Group = function (name, table, numInvestigators) {
         this.investigators[patient.investigator - 1].count += 1;
         return this;
     };
+
     this.updateTable = function () {
         for (var characteristic in this.characteristics) {
             var char = this.characteristics[characteristic];
@@ -228,13 +240,24 @@ var Trial = function (investigators, doOutput, settings) {
 
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
-            var result, tie, groupRes, tiestr, tchars, cchars;
+            var invResult, result, tie, groupRes, tiestr, tchars, cchars;
+
+            if (trialClosure.s.dualMinimization) {
+                invResult = minimize(patient, investigator, investigator.control,
+                    investigator.treatment, trialClosure);
+            }
 
             result = minimize(patient, investigator, trialClosure.control,
-                trialClosure.treatment, trialClosure);
+                trialClosure.treatment, trialClosure, invResult);
+
+            console.log("Individual Minimization: " + invResult.ad + ", Overall Minimization: " + result.ad);
 
             if (result.res === "control") {
                 trialClosure.control = result.control;
+
+                if (trialClosure.s.dualMinimization) {
+                    investigator.control.addPatient(patient);
+                }
 
                 if (doOutput) {
                     if (result.tb) {
@@ -248,6 +271,10 @@ var Trial = function (investigators, doOutput, settings) {
                 groupRes = "control";
             } else if (result.res === "treatment") {
                 trialClosure.treatment = result.treatment;
+
+                if (trialClosure.s.dualMinimization) {
+                    investigator.treatment.addPatient(patient);
+                }
 
                 if (doOutput) {
                     if (result.tb) {
@@ -264,6 +291,10 @@ var Trial = function (investigators, doOutput, settings) {
                 tie = trialClosure.tb.pop();
                 tiestr = tie === -1 ? "control" : "treatment";
                 trialClosure[tiestr] = result[tiestr];
+
+                if (trialClosure.s.dualMinimization) {
+                    investigator[tiestr].addPatient(patient);
+                }
 
                 if (doOutput) {
                     writeMessage(patient.investigator, patient, "add", "tie" + tiestr);
@@ -429,7 +460,8 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator, useLeng
     return diff;
 };
 
-var minimize = function (patient, investigator, control, treatment, trial) {
+var minimize = function (patient, investigator, control, treatment, trial, dualMin) {
+
     var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
         controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar;
 
@@ -525,6 +557,26 @@ var minimize = function (patient, investigator, control, treatment, trial) {
         trial.exportArr.push([""]);
 
         trial.assignmentNo++;
+    }
+
+    if (dualMin !== undefined && Math.abs(dualMin.ad) > Math.abs(addDiff)) {
+        if (dualMin.res === "control") {
+            return {
+                res: "control",
+                control: newControlTest,
+                treatment: treatment,
+                ad: addDiff,
+                tb: false
+            };
+        } else if (dualMin.res === "treatment") {
+            return {
+                res: "treatment",
+                control: control,
+                treatment: newTreatmentTest,
+                ad: addDiff,
+                tb: false
+            };
+        }
     }
 
     if (treatmentDiff > controlDiff) {
@@ -1498,6 +1550,7 @@ $(document).ready(function () {
         settings.tiebreakInvestigator = $("input[name=investigatortiebreak]").is(":checked");
         settings.minimizationExponent = parseInt($("select[name=minimizationexponent]").val(), 10);
         settings.exportExcel = $("input[name=exportexcel]").is(":checked");
+        settings.dualMinimization = $("input[name=dualminimization]").is(":checked");
 
         settings.blocksize = parseInt($("select[name=blocksize]").val(), 10);
 
@@ -1868,6 +1921,9 @@ $(document).ready(function () {
 
         // Export to Excel
         $("input[name=exportexcel]").val([newSettings.exportExcel]);
+
+        // Dual Minimization
+        $("input[name=dualminimization]").val([newSettings.dualMinimization]);
 
         // Always change to predetermined instead of re-generating the sequence
         $("select[name=seedtype]").val("Predetermined").trigger("change");
