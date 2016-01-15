@@ -1509,11 +1509,17 @@ $(document).ready(function () {
             $("div#investigators").append(
                 "<div class='strategy'>" +
                     "<a>Investigator " + (index + 1) + ": </a>" + "<br />" +
+                    "<span class='clickme'>" +
                     "<input name='gator" + index + "' type='radio' value='random' checked />Normal" + "<br />" +
+                    "</span>" +
+                    "<span class='clickme'>" +
                     "<input name='gator" + index + "' type='radio' value='cheat' />Cheat (computer): patient " +
                     computerSelect + " into the " + computerGroupSelect + " group.<br />" +
+                    "</span>" +
+                    "<span class='clickme'>" +
                     "<input name='gator" + index + "' type='radio' value='player' />Cheat (player): patient " +
                     playerSelect + " into the " + playerGroupSelect + " group." +
+                    "</span>" +
                 "</div>");
         }
     });
@@ -1971,5 +1977,11 @@ $(document).ready(function () {
 
     $("button#restart").click(function () {
         window.location.reload();
+    });
+
+    $(document).on("click", "span.clickme", function () {
+        $(this).children("input").click();
+    }).on("click", "span.clickme input", function (e) {
+        e.stopPropagation();
     });
 });

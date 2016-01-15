@@ -28,9 +28,14 @@
             <div class="strategy">
                 <a>Investigator 1: </a>
                 <br />
-                <input name="gator0" type="radio" value="random" />Normal
+                <span class="clickme">
+                    <input name="gator0" type="radio" value="random" />Normal
+                </span>
                 <br />
-                <input name="gator0" type="radio" value="cheat" />Cheat (computer): patient
+                <span class="clickme">
+                    <input name="gator0" type="radio" value="cheat" />
+                    Cheat (computer): patient
+                </span>
 
                 <select name="computergator0">
                     <option selected="selected">1</option>
@@ -53,7 +58,10 @@
                 </select>
                 group.
                 <br />
-                <input name="gator0" type="radio" value="player" checked />Cheat (player): patient
+                <span class="clickme">
+                    <input name="gator0" type="radio" value="player" checked />
+                    Cheat (player): patient
+                </span>
                 <select name="playergator0">
                     <option selected="selected">1</option>
                     <option>2</option>
@@ -97,26 +105,42 @@
                 <option>5</option>
             </select>
             <br /><br />
-            <input name="playerview" type="radio" value="full" checked />Show everything
-            <input name="playerview" type="radio" value="partial" />Show last two events
+            <span class="clickme">
+                <input name="playerview" type="radio" value="full" checked />Show everything
+            </span>
+            <span class="clickme">
+                <input name="playerview" type="radio" value="partial" />Show last two events
+            </span>
             <br /><br />
-            <input name="autoplay" type="radio" value="false" />Player takes all turns
-            <input name="autoplay" type="radio" value="true" checked />Player only takes turns that involve a select patient
+            <span class="clickme">
+                <input name="autoplay" type="radio" value="false" />Player takes all turns
+            </span>
+            <span class="clickme">
+                <input name="autoplay" type="radio" value="true" checked />
+                Player only takes turns that involve a select patient
+            </span>
             <br /><br />
-            <input name="minimizeinvestigator" type="checkbox" value="true" />Include investigator in minimization
+            <span class="clickme">
+                <input name="minimizeinvestigator" type="checkbox" value="true" />
+                Include investigator in minimization
+            </span>
             <br /><br />
-            <input name="minimizelength" type="checkbox" />Include the number of
-            patients in minimization
+            <span class="clickme">
+                <input name="minimizelength" type="checkbox" />Include the number of
+            patients in minimization </span>
             <br /><br />
-            <input name="investigatortiebreak" type="checkbox" checked value="true"/>
-            Use investigator balance for tie break
+            <span class="clickme">
+                <input name="investigatortiebreak" type="checkbox" checked value="true"/>
+            Use investigator balance for tie break</span>
             <br /><br />
-            <input name="usetiebreaksequence" type="checkbox" value="true" />
-            Use predetermined tiebreak order
+            <span class="clickme">
+                <input name="usetiebreaksequence" type="checkbox" value="true" />
+            Use predetermined tiebreak order</span>
             <input name="tiebreaksequencestr" type="text" placeholder="tiebreak sequence" />
             <i id="tiebreaksequencevalid" class="fa fa-check"></i>
             <br /><br />
-            Minimization algorithm exponent
+            <span class="clickme">
+            Minimization algorithm exponent</span>
             <select name="minimizationexponent">
                 <option selected="selected">1</option>
                 <option>2</option>
@@ -125,17 +149,20 @@
                 <option>5</option>
             </select>
             <br /><br />
-            Number of patients minimized at a time
+            <span class="clickme">
+            Number of patients minimized at a time</span>
             <select name="minimizationqueuelength">
                 <option value="1" selected="selected">1</option>
                 <option value="2" >2</option>
             </select>
             <br /><br />
-            <input name="exportexcel" type="checkbox" value="true" />Export
-            Minimization results to Excel
+            <span class="clickme">
+                <input name="exportexcel" type="checkbox" value="true" />Export
+            Minimization results to Excel</span>
             <br /><br />
-            <input name="dualminimization" type="checkbox" value="true" />Use
-            Dual Minimization
+            <span class="clickme">
+                <input name="dualminimization" type="checkbox" value="true" />
+                Use Dual Minimization</span>
         </div>
         <p id="patientstitle" class="heading">Choose patients to be seeded</p>
         <div id="patientssettings">
@@ -145,31 +172,66 @@
             </select>
             <br /><br />
             <div id="randompatients">
-                Number of patients in the study <input name="patientslength" type="text" value="20"/>
+                <span class="clickme">
+                    Number of patients in the study
+                    <input name="patientslength" type="text" value="20"/>
+                </span>
                 <br /><br />
                 Patients to include in the randomization:
                 <br />
-                <input name="includeall" type="checkbox" />Include All
-                <input name="includenone" type="checkbox" />Include None
+                <span class="clickme">
+                    <input name="includeall" type="checkbox" />Include All
+                </span>
+                <span class="clickme">
+                    <input name="includenone" type="checkbox" />Include None
+                </span>
                 <br />
-                <input name="filterpatients" type="checkbox" value="1" checked />Patient 1
-                <input name="filterpatients" type="checkbox" value="2" checked />Patient 2 &nbsp;
-                <input name="filterpatients" type="checkbox" value="3" checked />Patient 3 &nbsp;
-                <input name="filterpatients" type="checkbox" value="4" />Patient 4
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="1" checked />Patient 1
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="2" checked />Patient 2 &nbsp;
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="3" checked />Patient 3 &nbsp;
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="4" />Patient 4
+                </span>
                 <br />
-                <input name="filterpatients" type="checkbox" value="5" />Patient 5
-                <input name="filterpatients" type="checkbox" value="6" />Patient 6 &nbsp;
-                <input name="filterpatients" type="checkbox" value="7" />Patient 7 &nbsp;
-                <input name="filterpatients" type="checkbox" value="8" />Patient 8
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="5" />Patient 5
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="6" />Patient 6 &nbsp;
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="7" />Patient 7 &nbsp;
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="8" />Patient 8
+                </span>
                 <br />
-                <input name="filterpatients" type="checkbox" value="9" />Patient 9
-                <input name="filterpatients" type="checkbox" value="10" />Patient 10
-                <input name="filterpatients" type="checkbox" value="11" />Patient 11
-                <input name="filterpatients" type="checkbox" value="12" />Patient 12
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="9" />Patient 9
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="10" />Patient 10
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="11" />Patient 11
+                </span>
+                <span class="clickme">
+                    <input name="filterpatients" type="checkbox" value="12" />Patient 12
+                </span>
             </div>
             <div id="setpatients">
-                <input name="patientlist" value="standard" type="radio" checked />Standard <br />
-                <input name="patientlist" value="own" type="radio" />My own sequence
+                <span class="clickme">
+                    <input name="patientlist" value="standard" type="radio" checked />Standard <br />
+                </span>
+                <span class="clickme">
+                    <input name="patientlist" value="own" type="radio" />My own sequence
+                </span>
                 <input name="ownsequence" type="text" placeholder="comma separated sequence" />
                 <i id="ownseqvalid" class="fa fa-check" ></i><br />
             </div>
