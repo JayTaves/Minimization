@@ -1,4 +1,5 @@
-﻿var study, settings, newSettings, validateSettings, buildExcelCTBlock;
+﻿var study, settings, newSettings, validateSettings, buildExcelCTBlock,
+    buildExcelBlankBlock, arrayPad, arrayConnect;
 
 settings = {
     numGators : 1,
@@ -240,7 +241,7 @@ var Trial = function (investigators, doOutput, settings) {
 
         // Minimizes and adds a patient to one of the two groups. Used in only one branch
         pushToGroup = function (patient) {
-            var invResult, result, tie, groupRes, tiestr, tchars, cchars;
+            var invResult, result, tie, groupRes, tiestr, tchars, cchars, i;
 
             if (trialClosure.s.dualMinimization) {
                 invResult = minimize(patient, investigator, investigator.control,
@@ -461,7 +462,8 @@ var groupDiff = function (controlGroup, treatmentGroup, useInvestigator, useLeng
 var minimize = function (patient, investigator, control, treatment, trial, dualMin) {
 
     var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
-        controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar, arr;
+        controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar, arr, i,
+        invArr;
 
     newControlTest = jQuery.extend(true, {}, control);
     newTreatmentTest = jQuery.extend(true, {}, treatment);
@@ -477,13 +479,33 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
     addDiff = treatmentDiff - controlDiff;
 
     if (trial !== undefined && trial.s.exportExcel) {
+        // If exporting to Excel
+
         arr = buildExcelCTBlock(treatment, control, newTreatmentTest,
             newControlTest, trial, investigator, patient, treatmentDiff,
-            controlDiff);
+            controlDiff, dualMin === undefined ?
+            "Investigator " + investigator.number : "Individual");
 
-        trial.exportArr = trial.exportArr.concat(arr);
+        arr = arrayPad(arr);
 
-        trial.assignmentNo++;
+        if (dualMin === undefined && trial.s.dualMinimization) {
+            // We are dual minimizing but are on the investigator stage
+            invArr = arr;
+        } else {
+            // We are either not doing dual Minimization or we are but we are on
+            // the individual stage
+
+            if (dualMin !== undefined) {
+                for (i = 1; i < investigator.number; i++) {
+                    arr = arrayConnect(arr, buildExcelBlankBlock(14, 15));
+                }
+
+                arr = arrayPad(arrayConnect(arr, dualMin.invArr));
+            }
+
+            trial.exportArr = trial.exportArr.concat(arr);
+            trial.assignmentNo++;
+        }
     }
 
     if (dualMin !== undefined && Math.abs(dualMin.ad) > Math.abs(addDiff)) {
@@ -493,7 +515,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                 control: newControlTest,
                 treatment: treatment,
                 ad: addDiff,
-                tb: false
+                tb: false,
+                invArr: invArr
             };
         } else if (dualMin.res === "treatment") {
             return {
@@ -501,7 +524,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                 control: control,
                 treatment: newTreatmentTest,
                 ad: addDiff,
-                tb: false
+                tb: false,
+                invArr: invArr
             };
         }
     }
@@ -512,7 +536,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
             control: newControlTest,
             treatment: treatment,
             ad: addDiff,
-            tb: false
+            tb: false,
+            invArr: invArr
         };
     } else if (treatmentDiff < controlDiff) {
         return {
@@ -520,7 +545,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
             control: control,
             treatment: newTreatmentTest,
             ad: addDiff,
-            tb: false
+            tb: false,
+            invArr: invArr
         };
     } else {
         if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
@@ -533,7 +559,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                     control: newControlTest,
                     treatment: treatment,
                     ad: addDiff,
-                    tb: true
+                    tb: true,
+                    invArr: invArr
                 }
             } else if (treatmentTieDiff < controlTieDiff) {
                 return {
@@ -541,7 +568,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                     control: control,
                     treatment: newTreatmentTest,
                     ad: addDiff,
-                    tb: true
+                    tb: true,
+                    invArr: invArr
                 }
             }
         }
@@ -551,21 +579,85 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
             control: newControlTest,
             treatment: newTreatmentTest,
             ad: addDiff,
-            tb: true
+            tb: true,
+            invArr: invArr
         };
     }
 };
 
+// Pulls the arrays from b and adds them to the end of a
+arrayConnect = function (a, b) {
+    var i, arr;
+
+    if (b.length <= a.length) {
+        for (i = 0; i < b.length; i++) {
+            a[i] = a[i].concat(b[i]);
+        }
+    } else {
+        arr = [];
+
+        for (i = 0; i < a[0].length; i++) {
+            arr.push("");
+        }
+
+        for (i = 0; i < a.length; i++) {
+            a[i] = a[i].concat(b[i]);
+        }
+
+        for (; i < b.length; i++) {
+            a.push(arr.concat(b[i]));
+        }
+    }
+
+    return a;
+};
+
+// Pads an array of arrays with "" so that the array is rectangular not ragged
+arrayPad = function (arr) {
+    var i, max;
+
+    max = arr[0].length;
+    for (i = 1; i < arr.length; i++) {
+        max = arr[i].length > max ? arr[i].length : max;
+    }
+
+    for (i = 0; i < arr.length; i++) {
+        while (arr[i].length < max) {
+            arr[i].push("");
+        }
+    }
+
+    // arr is modified in place so this isn't really necessary
+    return arr;
+};
+
+buildExcelBlankBlock = function (rows, columns) {
+    var arr, i, j, row;
+
+    arr = [];
+    row = [];
+
+    for (j = 0; j < columns; j++) {
+        row.push("");
+    }
+
+    for (i = 0; i < rows; i++) {
+        arr.push(row);
+    }
+
+    return arr;
+};
+
 buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
-    trial, investigator, patient, treatmentDiff, controlDiff) {
+    trial, investigator, patient, treatmentDiff, controlDiff, title) {
 
     var arr, addDiff;
 
     arr = [];
     addDiff = treatmentDiff - controlDiff;
 
-    arr.push(["assign #", "inv", "pt", "rx",
-        "Trial"]);
+    arr.push(["", title]);
+    arr.push(["", "assign #", "inv", "pt", "rx", "Trial"]);
 
     tchars = treatment.characteristics;
     cchars = control.characteristics;
@@ -573,12 +665,12 @@ buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
     ntchar = newTreatment.characteristics;
     ncchar = newControl.characteristics;
 
-    arr.push(["", "", "", "", "T", tchars.Male.count,
+    arr.push(["", "", "", "", "", "T", tchars.Male.count,
         tchars.Female.count, tchars.Young.count, tchars.Middle.count,
         tchars.Old.count, tchars.Low.count, tchars.High.count,
         "", "diff score"]);
 
-    arr.push([trial.assignmentNo,
+    arr.push(["", trial.assignmentNo,
         investigator.number, patient.number,
         treatmentDiff > controlDiff ? -1 : 1, "",
         patient.gender.text === "Male" ? 1 : "",
@@ -589,18 +681,18 @@ buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
         patient.risk.text === "Low" ? 1 : "",
         patient.risk.text === "High" ? 1 : ""]);
 
-    arr.push(["", "", "", "", "T+", ntchar.Male.count,
+    arr.push(["", "", "", "", "", "T+", ntchar.Male.count,
         ntchar.Female.count, ntchar.Young.count, ntchar.Middle.count,
         ntchar.Old.count, ntchar.Low.count, ntchar.High.count]);
 
     arr.push([""]);
     arr.push([""]);
 
-    arr.push(["", "", "", "", "C", cchars.Male.count,
+    arr.push(["", "", "", "", "", "C", cchars.Male.count,
         cchars.Female.count, cchars.Young.count, cchars.Middle.count,
         cchars.Old.count, cchars.Low.count, cchars.High.count]);
 
-    arr.push([trial.assignmentNo,
+    arr.push(["", trial.assignmentNo,
         investigator.number, patient.number,
         treatmentDiff > controlDiff ? -1 : 1, "",
         patient.gender.text === "Male" ? 1 : "",
@@ -611,13 +703,13 @@ buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
         patient.risk.text === "Low" ? 1 : "",
         patient.risk.text === "High" ? 1 : ""]);
 
-    arr.push(["", "", "", "", "C+", ncchar.Male.count,
+    arr.push(["", "", "", "", "", "C+", ncchar.Male.count,
         ncchar.Female.count, ncchar.Young.count, ncchar.Middle.count,
         ncchar.Old.count, ncchar.Low.count, ncchar.High.count]);
 
     arr.push([""]);
 
-    arr.push(["", "", "", "abs diff T+, C", "",
+    arr.push(["", "", "", "", "abs diff T+, C", "",
         Math.abs(ntchar.Male.count - cchars.Male.count),
         Math.abs(ntchar.Female.count - cchars.Female.count),
         Math.abs(ntchar.Young.count - cchars.Young.count),
@@ -627,7 +719,7 @@ buildExcelCTBlock = function (treatment, control, newTreatment, newControl,
         Math.abs(ntchar.High.count - cchars.High.count)
         ]);
 
-    arr.push(["", "", "", "abs diff C+, T", "",
+    arr.push(["", "", "", "", "abs diff C+, T", "",
         Math.abs(ncchar.Male.count - tchars.Male.count),
         Math.abs(ncchar.Female.count - tchars.Female.count),
         Math.abs(ncchar.Young.count - tchars.Young.count),
