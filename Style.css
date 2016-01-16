@@ -95,3 +95,6 @@ div#tablecontainer {
 .fa-exclamation {
     color: red;
 }
+.strike {
+    text-decoration: line-through;
+}

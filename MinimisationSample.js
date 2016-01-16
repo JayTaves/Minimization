@@ -1889,18 +1889,21 @@ $(document).ready(function () {
                 break;
         }
     });
+
     $("input[name=includeall]").click(function () {
         if ($("input[name=includeall]").is(":checked")) {
             $("input[name=filterpatients]").prop("checked", true);
             $("input[name=includenone]").prop("checked", false);
         }
     });
+
     $("input[name=includenone]").click(function () {
         if ($("input[name=includenone]").is(":checked")) {
             $("input[name=filterpatients]").prop("checked", false);
             $("input[name=includeall]").prop("checked", false);
         }
     });
+
     $("input[name=filterpatients]").click(function () {
         var checkedLength = $("input[name=filterpatients]:checked").length;
         if (checkedLength === 0) {
@@ -1946,7 +1949,7 @@ $(document).ready(function () {
         disableStartButton();
     });
 
-    $("input[name=tiebreaksequencestr]").on("input", function() {
+    $("input[name=tiebreaksequencestr]").on("input", function () {
         var seq = $(this).val();
 
         if (jQuery.trim(seq) !== "") {
@@ -1955,6 +1958,50 @@ $(document).ready(function () {
 
         sequenceValid.tie = validateTieSequence(seq);
         disableStartButton();
+    });
+
+    $("input[name=exportexcel]").on("click", function () {
+        if ($(this).is(":checked")) {
+            $("select[name=minimizationqueuelength]").attr("disabled", "disabled");
+            $("select[name=minimizationexponent]").attr("disabled", "disabled");
+
+            $("select[name=minimizationqueuelength]").val(1).trigger("input");
+            $("select[name=minimizationexponent]").val(1).trigger("input");
+
+            $("select[name=minimizationqueuelength]").parent().addClass("strike");
+            $("select[name=minimizationexponent]").parent().addClass("strike");
+        } else {
+            $("select[name=minimizationqueuelength]").removeAttr("disabled");
+            $("select[name=minimizationexponent]").removeAttr("disabled");
+
+            $("select[name=minimizationqueuelength]").parent().removeClass("strike");
+            $("select[name=minimizationexponent]").parent().removeClass("strike");
+        }
+    });
+
+    $("select[name=minimizationexponent], select[name=minimizationqueuelength]")
+        .on("input", function () {
+
+        var exponent, queue;
+
+        exponent = $("select[name=minimizationexponent]").val();
+        queue = $("select[name=minimizationqueuelength]").val();
+
+        if (queue > 1 || exponent > 1) {
+            if (queue > 1) {
+                $("input[name=dualminimization]").attr("disabled", "disabled");
+                $("input[name=dualminimization]").parent().addClass("strike");
+            } else {
+                $("input[name=dualminimization]").removeAttr("disabled");
+                $("input[name=dualminimization]").parent().removeClass("strike");
+            }
+
+            $("input[name=exportexcel]").attr("disabled", "disabled");
+            $("input[name=exportexcel]").parent().addClass("strike");
+        } else {
+            $("input[name=exportexcel]").removeAttr("disabled");
+            $("input[name=exportexcel]").parent().removeClass("strike");
+        }
     });
 
     $("input[name=gatorsequence]").on("input", function () {
@@ -1967,8 +2014,10 @@ $(document).ready(function () {
     $("input[name=minimizeinvestigator]").on("click", function () {
         if ($(this).is(":checked")) {
             $("input[name=investigatortiebreak]").attr("disabled", "disabled");
+            $("input[name=investigatortiebreak]").parent().addClass("strike");
         } else {
             $("input[name=investigatortiebreak]").removeAttr("disabled");
+            $("input[name=investigatortiebreak]").parent().removeClass("strike");
         }
     });
 
