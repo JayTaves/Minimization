@@ -514,7 +514,9 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
         }
     }
 
-    if (dualMin !== undefined && Math.abs(dualMin.ad) >= Math.abs(addDiff)) {
+    if (dualMin !== undefined && Math.abs(dualMin.ad) > Math.abs(addDiff)) {
+        /* If difference through investigator minimization is greater than the
+            difference through regular minimization */
         if (dualMin.res === "control") {
             return {
                 res: "control",
