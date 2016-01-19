@@ -230,7 +230,8 @@ var Trial = function (investigators, doOutput, settings) {
 
     this.addPatient = function (patient, investigator) {
         var trialClosure, pushToGroup, patient1, patient2, c1, t2, c3, t3, c4, t4,
-            diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2, temp1, temp2, res1, res2, rawDiff;
+            diff1, diff2, diff3, diff4, diffMin, investigator1, investigator2,
+            temp1, temp2, res1, res2, rawDiff, arr, grp;
 
         patient.investigator = investigator.number;
         trialClosure = this;
@@ -354,42 +355,65 @@ var Trial = function (investigators, doOutput, settings) {
             diff3 = groupDiff(c3, t3, this.s.minimizeInvestigator);
             diff4 = groupDiff(c4, t4, this.s.minimizeInvestigator);
 
+            if (trialClosure.s.exportExcel) {
+                arr = buildTwoPatBlock(this.treatment, this.control, this.treatment,
+                    c1, trialClosure, patient1, patient2, investigator1, investigator2,
+                    diff1, 0);
+                arr = arrayConnect(arrayPad(arr), buildTwoPatBlock(this.treatment,
+                    this.control, t2, this.control, trialClosure, patient1, patient2,
+                    investigator1, investigator2, diff2, 1));
+                arr = arrayConnect(arrayPad(arr), buildTwoPatBlock(this.treatment,
+                    this.control, t3, c3, trialClosure, patient1, patient2,
+                    investigator1, investigator2, diff3, 2));
+                arr = arrayConnect(arrayPad(arr), buildTwoPatBlock(this.treatment,
+                    this.control, t4, c4, trialClosure, patient1, patient2,
+                    investigator1, investigator2, diff4, 3));
+            }
+
             diffMin = Math.min(diff1, diff2, diff3, diff4);
 
             if (diff1 === diffMin) {
                 this.control = c1;
 
-                writeMessage(investigator2.number, patient2, "add", "control");
                 writeMessage(investigator1.number, patient1, "add", "control");
+                writeMessage(investigator2.number, patient2, "add", "control");
 
                 res1 = "control";
                 res2 = "control";
+
+                grp = 1;
             } else if (diff2 === diffMin) {
                 this.treatment = t2;
 
-                writeMessage(investigator2.number, patient2, "add", "treatment");
                 writeMessage(investigator1.number, patient1, "add", "treatment");
+                writeMessage(investigator2.number, patient2, "add", "treatment");
 
                 res1 = "treatment";
                 res2 = "treatment";
+
+                grp = 2;
             } else if (diff3 === diffMin) {
                 this.control = c3;
                 this.treatment = t3;
 
-                writeMessage(investigator2.number, patient2, "add", "control");
                 writeMessage(investigator1.number, patient1, "add", "treatment");
+                writeMessage(investigator2.number, patient2, "add", "control");
 
                 res1 = "treatment";
                 res2 = "control";
+
+                grp = 3;
             } else if (diff4 === diffMin) {
                 this.control = c4;
                 this.treatment = t4;
 
-                writeMessage(investigator2.number, patient2, "add", "treatment");
                 writeMessage(investigator1.number, patient1, "add", "control");
+                writeMessage(investigator2.number, patient2, "add", "treatment");
 
                 res1 = "control";
                 res2 = "treatment";
+
+                grp = 4;
             } else {
                 throw "Minimum error";
             }
@@ -407,6 +431,17 @@ var Trial = function (investigators, doOutput, settings) {
                 } else {
                     investigator2.nonTargetScore++;
                 }
+            }
+
+            if (trialClosure.s.exportExcel) {
+                arr = arrayConnect(arrayPad(arr), [["", ""], ["", ""], ["", ""],
+                ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", "Grouping"],
+                ["", grp]]);
+
+                trialClosure.exportArr = trialClosure.exportArr.concat(arr);
+                trialClosure.assignmentNo += 2;
+
+                trialClosure.exportArr.push([""]);
             }
 
             this.control.updateTable();
@@ -465,7 +500,7 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
 
     var addDiff, newControlTest, newTreatmentTest, controlDiff, treatmentDiff,
         controlTieDiff, treatmentTieDiff, ntchar, ncchar, nchar, cchar, arr, i,
-        expArr;
+        expArr, ret;
 
     newControlTest = jQuery.extend(true, {}, control);
     newTreatmentTest = jQuery.extend(true, {}, treatment);
@@ -479,6 +514,75 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
         study.s.minimizeInvestigator, study.s.minimizeLength);
 
     addDiff = treatmentDiff - controlDiff;
+
+    if (dualMin !== undefined && Math.abs(dualMin.ad) >= Math.abs(addDiff)) {
+        /* If difference through investigator minimization is greater than the
+            difference through regular minimization */
+        if (dualMin.res === "control") {
+            ret = {
+                res: "control",
+                control: newControlTest,
+                treatment: treatment,
+                ad: addDiff,
+                tb: false
+            };
+        } else if (dualMin.res === "treatment") {
+            ret = {
+                res: "treatment",
+                control: control,
+                treatment: newTreatmentTest,
+                ad: addDiff,
+                tb: false
+            };
+        }
+    } else if (treatmentDiff > controlDiff) {
+        ret = {
+            res: "control",
+            control: newControlTest,
+            treatment: treatment,
+            ad: addDiff,
+            tb: false
+        };
+    } else if (treatmentDiff < controlDiff) {
+        ret = {
+            res: "treatment",
+            control: control,
+            treatment: newTreatmentTest,
+            ad: addDiff,
+            tb: false
+        };
+    } else {
+        if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
+            controlTieDiff = groupDiff(newControlTest, treatment, true);
+            treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
+
+            if (treatmentTieDiff > controlTieDiff) {
+                ret = {
+                    res: "control",
+                    control: newControlTest,
+                    treatment: treatment,
+                    ad: addDiff,
+                    tb: true
+                }
+            } else if (treatmentTieDiff < controlTieDiff) {
+                ret = {
+                    res: "treatment",
+                    control: control,
+                    treatment: newTreatmentTest,
+                    ad: addDiff,
+                    tb: true
+                }
+            }
+        }
+
+        ret = {
+            res: "tie",
+            control: newControlTest,
+            treatment: newTreatmentTest,
+            ad: addDiff,
+            tb: true
+        };
+    }
 
     if (trial !== undefined && trial.s.exportExcel) {
         // If exporting to Excel
@@ -507,6 +611,8 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                 }
 
                 arr = arrayPad(arrayConnect(arr, dualMin.expArr));
+                arr = arrayConnect(arrayPad(arr), [[""], [""], [""], [""], [""],
+                    [""], [""], [""], [""], [""], [""], ["Final Group", ret.res]]);
             }
 
             trial.exportArr = trial.exportArr.concat(arr);
@@ -514,83 +620,9 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
         }
     }
 
-    if (dualMin !== undefined && Math.abs(dualMin.ad) > Math.abs(addDiff)) {
-        /* If difference through investigator minimization is greater than the
-            difference through regular minimization */
-        if (dualMin.res === "control") {
-            return {
-                res: "control",
-                control: newControlTest,
-                treatment: treatment,
-                ad: addDiff,
-                tb: false,
-                expArr: expArr
-            };
-        } else if (dualMin.res === "treatment") {
-            return {
-                res: "treatment",
-                control: control,
-                treatment: newTreatmentTest,
-                ad: addDiff,
-                tb: false,
-                expArr: expArr
-            };
-        }
-    }
+    ret.expArr = expArr;
 
-    if (treatmentDiff > controlDiff) {
-        return {
-            res: "control",
-            control: newControlTest,
-            treatment: treatment,
-            ad: addDiff,
-            tb: false,
-            expArr: expArr
-        };
-    } else if (treatmentDiff < controlDiff) {
-        return {
-            res: "treatment",
-            control: control,
-            treatment: newTreatmentTest,
-            ad: addDiff,
-            tb: false,
-            expArr: expArr
-        };
-    } else {
-        if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
-            controlTieDiff = groupDiff(newControlTest, treatment, true);
-            treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
-
-            if (treatmentTieDiff > controlTieDiff) {
-                return {
-                    res: "control",
-                    control: newControlTest,
-                    treatment: treatment,
-                    ad: addDiff,
-                    tb: true,
-                    expArr: expArr
-                }
-            } else if (treatmentTieDiff < controlTieDiff) {
-                return {
-                    res: "treatment",
-                    control: control,
-                    treatment: newTreatmentTest,
-                    ad: addDiff,
-                    tb: true,
-                    expArr: expArr
-                }
-            }
-        }
-
-        return {
-            res: "tie",
-            control: newControlTest,
-            treatment: newTreatmentTest,
-            ad: addDiff,
-            tb: true,
-            expArr: expArr
-        };
-    }
+    return ret;
 };
 
 // Pulls the arrays from b and adds them to the end of a
@@ -669,13 +701,27 @@ buildTwoPatBlock = function (treatment, control, newTreatment, newControl, trial
     nt_chars = newTreatment.characteristics;
     nc_chars = newControl.characteristics;
 
+    arr.push(["Assign #", "inv", "pt", "Group"]);
+    arr.push(["", "", "", "T"].concat(getGroupArr(t_chars)));
+
     if (type === 0) {
-        // Two in treatment, zero in control
-        arr.push(["Assign #", "inv", "pt", "Group"]);
-        arr.push(["", "", "", "T"].concat(getGroupArr(t_chars)));
-        arr.push([trial.assignmentNo, investigator1.number,
+        // Two in Control, zero in treatment
+
+        arr.push([""]);
+        arr.push([""]);
+
+        arr.push(["", "", "", "C"].concat(getGroupArr(c_chars)));
+        arr.push([trial.assignmentNo, investigator1.number, "",
             patient1.number].concat(getPatientArr(patient1)));
-        arr.push([trial.assignmentNo + 1, investigator2.number,
+        arr.push([trial.assignmentNo + 1, investigator2.number, "",
+            patient2.number].concat(getPatientArr(patient2)));
+        arr.push(["", "", "", "C+"].concat(getGroupArr(nc_chars)));
+    } else if (type === 1) {
+        // Two in treatment, zero in control
+
+        arr.push([trial.assignmentNo, investigator1.number, "",
+            patient1.number].concat(getPatientArr(patient1)));
+        arr.push([trial.assignmentNo + 1, investigator2.number, "",
             patient2.number].concat(getPatientArr(patient2)));
         arr.push(["", "", "", "T+"].concat(getGroupArr(nt_chars)));
 
@@ -683,12 +729,38 @@ buildTwoPatBlock = function (treatment, control, newTreatment, newControl, trial
         arr.push([""]);
 
         arr.push(["", "", "", "C"].concat(getGroupArr(c_chars)));
+    } else if (type === 2) {
+        // First patient to treatment, second to control
 
+        arr.push([trial.assignmentNo, investigator1.number, "",
+            patient1.number].concat(getPatientArr(patient1)));
+        arr.push(["", "", "", "T+"].concat(getGroupArr(nt_chars)));
         arr.push([""]);
 
-        arr.push(["", "", "", "abs diff"].concat(
-            getGroupDiffArr(nt_chars, c_chars, diff)));
+        arr.push(["", "", "", "C"].concat(getGroupArr(c_chars)));
+        arr.push([trial.assignmentNo + 1, investigator2.number, "",
+            patient2.number].concat(getPatientArr(patient2)));
+        arr.push(["", "", "", "C+"].concat(getGroupArr(nc_chars)));
+    } else if (type === 3) {
+        // Second patient to treatment, first to control
+
+        arr.push([trial.assignmentNo, investigator2.number, "",
+            patient2.number].concat(getPatientArr(patient2)));
+        arr.push(["", "", "", "T+"].concat(getGroupArr(nt_chars)));
+        arr.push([""]);
+
+        arr.push(["", "", "", "C"].concat(getGroupArr(c_chars)));
+        arr.push([trial.assignmentNo + 1, investigator1.number, "",
+            patient1.number].concat(getPatientArr(patient1)));
+        arr.push(["", "", "", "C+"].concat(getGroupArr(nc_chars)));
+    } else {
+        throw "No such option " + type;
     }
+
+    arr.push([""]);
+
+    arr.push(["", "", "", "abs diff"].concat(
+        getGroupDiffArr(nt_chars, nc_chars, diff)));
 
     return arr;
 };
@@ -2039,40 +2111,50 @@ $(document).ready(function () {
 
     $("input[name=exportexcel]").on("click", function () {
         if ($(this).is(":checked")) {
-            $("select[name=minimizationqueuelength]").attr("disabled", "disabled");
+            //$("select[name=minimizationqueuelength]").attr("disabled", "disabled");
             $("select[name=minimizationexponent]").attr("disabled", "disabled");
+            $("input[name=minimizelength]").attr("disabled", "disabled");
+            $("input[name=minimizeinvestigator]").attr("disabled", "disabled");
 
-            $("select[name=minimizationqueuelength]").val(1).trigger("input");
+            //$("select[name=minimizationqueuelength]").val(1).trigger("input");
             $("select[name=minimizationexponent]").val(1).trigger("input");
+            $("input[name=minimizelength]").prop("checked", false);
+            $("input[name=minimizeinvestigator]").prop("checked", false);
 
-            $("select[name=minimizationqueuelength]").parent().addClass("strike");
+            //$("select[name=minimizationqueuelength]").parent().addClass("strike");
             $("select[name=minimizationexponent]").parent().addClass("strike");
+            $("input[name=minimizelength]").parent().addClass("strike");
+            $("input[name=minimizeinvestigator]").parent().addClass("strike");
         } else {
-            $("select[name=minimizationqueuelength]").removeAttr("disabled");
+            //$("select[name=minimizationqueuelength]").removeAttr("disabled");
             $("select[name=minimizationexponent]").removeAttr("disabled");
+            $("input[name=minimizelength]").removeAttr("disabled");
+            $("input[name=minimizeinvestigator]").removeAttr("disabled");
 
-            $("select[name=minimizationqueuelength]").parent().removeClass("strike");
+            //$("select[name=minimizationqueuelength]").parent().removeClass("strike");
             $("select[name=minimizationexponent]").parent().removeClass("strike");
+            $("input[name=minimizelength]").parent().removeClass("strike");
+            $("input[name=minimizeinvestigator]").parent().removeClass("strike");
         }
     });
 
     $("select[name=minimizationexponent], select[name=minimizationqueuelength]")
         .on("input", function () {
 
-        var exponent, queue;
+        var exponent, queue, minOnLength;
 
         exponent = $("select[name=minimizationexponent]").val();
         queue = $("select[name=minimizationqueuelength]").val();
 
-        if (queue > 1 || exponent > 1) {
-            if (queue > 1) {
-                $("input[name=dualminimization]").attr("disabled", "disabled");
-                $("input[name=dualminimization]").parent().addClass("strike");
-            } else {
-                $("input[name=dualminimization]").removeAttr("disabled");
-                $("input[name=dualminimization]").parent().removeClass("strike");
-            }
+        if (queue > 1) {
+            $("input[name=dualminimization]").attr("disabled", "disabled");
+            $("input[name=dualminimization]").parent().addClass("strike");
+        } else {
+            $("input[name=dualminimization]").removeAttr("disabled");
+            $("input[name=dualminimization]").parent().removeClass("strike");
+        }
 
+        if (exponent > 1) {
             $("input[name=exportexcel]").attr("disabled", "disabled");
             $("input[name=exportexcel]").parent().addClass("strike");
         } else {
@@ -2088,17 +2170,32 @@ $(document).ready(function () {
         disableStartButton();
     });
 
-    $("input[name=minimizeinvestigator]").on("click", function () {
-        if ($(this).is(":checked")) {
+    $("input[name=minimizeinvestigator], input[name=minimizelength]")
+        .on("click", function () {
+        var len, inv;
+
+        inv = $("input[name=minimizeinvestigator]").is(":checked");
+        len = $("input[name=minimizelength]").is(":checked");
+
+        if (inv || len) {
+            $("input[name=exportexcel]").attr("disabled", "disabled");
+            $("input[name=exportexcel]").prop("checked", false);
+            $("input[name=exportexcel]").parent().addClass("strike");
+        } else {
+            $("input[name=exportexcel]").removeAttr("disabled");
+            $("input[name=exportexcel]").parent().removeClass("strike");
+        }
+
+        if (inv) {
             $("input[name=investigatortiebreak]").attr("disabled", "disabled");
             $("input[name=investigatortiebreak]").parent().addClass("strike");
         } else {
-            $("input[name=investigatortiebreak]").removeAttr("disabled");
+             $("input[name=investigatortiebreak]").removeAttr("disabled");
             $("input[name=investigatortiebreak]").parent().removeClass("strike");
         }
     });
 
-    $("input#import").click(function () {
+    $("input#importdata").on("input", function () {
         var str, gator, index;
 
         str = $("input#importdata").val();
