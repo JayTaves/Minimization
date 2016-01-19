@@ -535,53 +535,57 @@ var minimize = function (patient, investigator, control, treatment, trial, dualM
                 tb: false
             };
         }
-    } else if (treatmentDiff > controlDiff) {
-        ret = {
-            res: "control",
-            control: newControlTest,
-            treatment: treatment,
-            ad: addDiff,
-            tb: false
-        };
-    } else if (treatmentDiff < controlDiff) {
-        ret = {
-            res: "treatment",
-            control: control,
-            treatment: newTreatmentTest,
-            ad: addDiff,
-            tb: false
-        };
-    } else {
-        if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
-            controlTieDiff = groupDiff(newControlTest, treatment, true);
-            treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
+    }
 
-            if (treatmentTieDiff > controlTieDiff) {
-                ret = {
-                    res: "control",
-                    control: newControlTest,
-                    treatment: treatment,
-                    ad: addDiff,
-                    tb: true
-                }
-            } else if (treatmentTieDiff < controlTieDiff) {
-                ret = {
-                    res: "treatment",
-                    control: control,
-                    treatment: newTreatmentTest,
-                    ad: addDiff,
-                    tb: true
+    if (ret === undefined) {
+        if (treatmentDiff > controlDiff) {
+            ret = {
+                res: "control",
+                control: newControlTest,
+                treatment: treatment,
+                ad: addDiff,
+                tb: false
+            };
+        } else if (treatmentDiff < controlDiff) {
+            ret = {
+                res: "treatment",
+                control: control,
+                treatment: newTreatmentTest,
+                ad: addDiff,
+                tb: false
+            };
+        } else {
+            if (!study.s.minimizeInvestigator && study.s.tiebreakInvestigator) {
+                controlTieDiff = groupDiff(newControlTest, treatment, true);
+                treatmentTieDiff = groupDiff(newTreatmentTest, control, true);
+
+                if (treatmentTieDiff > controlTieDiff) {
+                    ret = {
+                        res: "control",
+                        control: newControlTest,
+                        treatment: treatment,
+                        ad: addDiff,
+                        tb: true
+                    }
+                } else if (treatmentTieDiff < controlTieDiff) {
+                    ret = {
+                        res: "treatment",
+                        control: control,
+                        treatment: newTreatmentTest,
+                        ad: addDiff,
+                        tb: true
+                    }
                 }
             }
-        }
 
-        ret = {
-            res: "tie",
-            control: newControlTest,
-            treatment: newTreatmentTest,
-            ad: addDiff,
-            tb: true
-        };
+            ret = {
+                res: "tie",
+                control: newControlTest,
+                treatment: newTreatmentTest,
+                ad: addDiff,
+                tb: true
+            };
+        }
     }
 
     if (trial !== undefined && trial.s.exportExcel) {
