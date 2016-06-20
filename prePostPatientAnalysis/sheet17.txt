@@ -1,0 +1,2134 @@
+Investigator 1 discarded patient 1e because it was held for too long.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 held patient 1e.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 1 held patient 1e.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1d because it was held for too long.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 discarded patient 1d because it was held for too long.
+Investigator 1 held patient 1d.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 1c. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 held patient 1d.
+Investigator 2 held patient 1c.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 discarded patient 1c because it was held for too long.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 discarded patient 1b because it was held for too long.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 held patient 1c.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 held patient 1b.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 discarded patient 1a because it was held for too long.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 held patient 1a.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 discarded patient 1b because it was held for too long.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 held patient 1b.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 1z. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 held patient 1z.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1y because it was held for too long.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 held patient 1y.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1a. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 held patient 1a.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 discarded patient 1z because it was held for too long.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 held patient 1z.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 discarded patient 1x because it was held for too long.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 held patient 1x.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 discarded patient 1y because it was held for too long.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 held patient 1y.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 discarded patient 1w because it was held for too long.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 held patient 1w.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 discarded patient 1x because it was held for too long.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 held patient 1x.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 discarded patient 1v because it was held for too long.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 held patient 1v.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 1u. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1w because it was held for too long.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 held patient 1w.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 1v. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 discarded patient 1u because it was held for too long.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 held patient 1u.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 discarded patient 1t because it was held for too long.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 held patient 1t.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1s. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 held patient 1s.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 1r. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1q. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 held patient 1q.
+Investigator 2 discarded patient 1t because it was held for too long.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 discarded patient 1p because it was held for too long.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1t.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 held patient 1p.
+Investigator 2 discarded patient 1s because it was held for too long.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 held patient 1s.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 discarded patient 1r because it was held for too long.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 held patient 1r.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 1q. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 1p. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 held patient 1p.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 discarded patient 1o because it was held for too long.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 held patient 1o.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 1o. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 held patient 1o.
+Investigator 2 added patient 1n. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 1n. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 discarded patient 1m because it was held for too long.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1m.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 discarded patient 1m because it was held for too long.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 held patient 1m.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 1l. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 held patient 1l.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 1l. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 1k. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 held patient 1k.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 discarded patient 1j because it was held for too long.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 1k. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 held patient 1j.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 held patient 1k.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 1i. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 discarded patient 1j because it was held for too long.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 held patient 1j.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 1h. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 held patient 1h.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 discarded patient 1g because it was held for too long.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1f because it was held for too long.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 held patient 1g.
+Investigator 1 held patient 1f.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 discarded patient 1e because it was held for too long.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 held patient 1e.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 1d. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 discarded patient 1c because it was held for too long.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 1i. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 held patient 1i.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 held patient 1c.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 1b. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 1h. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 1g. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 held patient 1g.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 1f. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 held patient 1f.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 discarded patient 1a because it was held for too long.
+Investigator 2 added patient 1e. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 held patient 1e.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 held patient 1a.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 discarded patient 1d because it was held for too long.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1d.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 1c. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 held patient 1c.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 discarded patient 1b because it was held for too long.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 held patient 1b.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 1z. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1a because it was held for too long.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 held patient 1a.
+Investigator 1 added patient 1y. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 1z. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 1x. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1y because it was held for too long.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 discarded patient 1w because it was held for too long.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 discarded patient 1v because it was held for too long.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 held patient 1y.
+Investigator 1 held patient 1w.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 held patient 1v.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 1x. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 discarded patient 1u because it was held for too long.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 held patient 1u.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1w because it was held for too long.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 discarded patient 1t because it was held for too long.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 held patient 1w.
+Investigator 1 discarded patient 1s because it was held for too long.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1t.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 discarded patient 1v because it was held for too long.
+Investigator 1 held patient 1s.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1u because it was held for too long.
+Investigator 2 held patient 1v.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 held patient 1u.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 discarded patient 1r because it was held for too long.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 discarded patient 1t because it was held for too long.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 held patient 1r.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 held patient 1t.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 2 discarded patient 1s because it was held for too long.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 held patient 1s.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 1r. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 1q. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 1p. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 held patient 1p.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 1o. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 held patient 1o.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1n because it was held for too long.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 held patient 1n.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 discarded patient 1m because it was held for too long.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 held patient 1m.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 discarded patient 1q because it was held for too long.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 discarded patient 1l because it was held for too long.
+Investigator 1 held patient 1q.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 1p. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 held patient 1l.
+Investigator 1 held patient 1p.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1k because it was held for too long.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 discarded patient 1j because it was held for too long.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 held patient 1k.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 held patient 1j.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 discarded patient 1o because it was held for too long.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1o.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1i because it was held for too long.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 held patient 1i.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 discarded patient 1h because it was held for too long.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 held patient 1h.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 1n. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 4. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 discarded patient 1g because it was held for too long.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 held patient 1g.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 1m. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1m.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 discarded patient 1f because it was held for too long.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 held patient 1f.
+Investigator 1 discarded patient 1l because it was held for too long.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 held patient 1l.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 discarded patient 1e because it was held for too long.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 held patient 1e.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 1d. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 2 added patient 1c. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1k because it was held for too long.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 1b. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 1 held patient 1k.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 discarded patient 1j because it was held for too long.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 discarded patient 1a because it was held for too long.
+Investigator 1 held patient 1j.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 2 held patient 1a.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 1z. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 1i. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 held patient 1i.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 1h. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 held patient 1h.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 discarded patient 1g because it was held for too long.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 held patient 1g.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 discarded patient 1f because it was held for too long.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 held patient 1f.
+Investigator 1 discarded patient 1e because it was held for too long.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1e.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 discarded patient 1d because it was held for too long.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 held patient 1d.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 discarded patient 1c because it was held for too long.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1b because it was held for too long.
+Investigator 1 held patient 1c.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 1a. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1z because it was held for too long.
+Investigator 1 held patient 1b.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1a.
+Investigator 1 held patient 1z.
+Investigator 2 added patient 1y. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 held patient 1y.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 1y. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 1x. It was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 discarded patient 1w because it was held for too long.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 1x. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 held patient 1w.
+Investigator 1 held patient 1x.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 discarded patient 1w because it was held for too long.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 held patient 1w.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 discarded patient 1v because it was held for too long.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1v because it was held for too long.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 held patient 1v.
+Investigator 1 held patient 1v.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 1u. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 1u. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 1t. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 held patient 1t.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1s. It was added to the treatment group.
+Investigator 2 added patient 8. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 held patient 1s.
+Investigator 1 added patient 3. After a tie break it was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 1t. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1t.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 discarded patient 1r because it was held for too long.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 discarded patient 1s because it was held for too long.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 held patient 1r.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 held patient 1s.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 1q. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1r because it was held for too long.
+Investigator 1 held patient 1q.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 held patient 1r.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 1p. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 held patient 1p.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 1o. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 1 held patient 1o.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 1n. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 10. After a tie break it was added to the treatment group.
+Investigator 1 held patient 1n.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 1m. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 held patient 1m.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 11. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1q because it was held for too long.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 held patient 1q.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 1p. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 3. After a tie break it was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 discarded patient 1o because it was held for too long.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 held patient 1o.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 discarded patient 1n because it was held for too long.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1n.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1l. It was added to the treatment group.
+Investigator 2 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 held patient 1l.
+Investigator 2 discarded patient 1m because it was held for too long.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 discarded patient 1l because it was held for too long.
+Investigator 2 held patient 1m.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 held patient 1l.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 1k. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 1k. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 discarded patient 1j because it was held for too long.
+Investigator 1 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 discarded patient 1i because it was held for too long.
+Investigator 2 held patient 1k.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 held patient 1j.
+Investigator 1 held patient 1i.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 8. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 6. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. After a tie break it was added to the control group.
+Investigator 2 discarded patient 1j because it was held for too long.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 held patient 1j.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 added patient 11. It was added to the control group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 discarded patient 1h because it was held for too long.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 discarded patient 1i because it was held for too long.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 held patient 1h.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 discarded patient 1h because it was held for too long.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 held patient 1i.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 discarded patient 1g because it was held for too long.
+Investigator 2 held patient 1h.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1g.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 11. After a tie break it was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 2 discarded patient 1f because it was held for too long.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 12. After a tie break it was added to the control group.
+Investigator 2 held patient 1f.
+Investigator 1 added patient 1g. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 1 held patient 1g.
+Investigator 1 added patient 8. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 12. After a tie break it was added to the control group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 2 added patient 2. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 1 discarded patient 1f because it was held for too long.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 2 added patient 12. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 1 held patient 1f.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 5. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 1 added patient 9. After a tie break it was added to the control group.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 discarded patient 1e because it was held for too long.
+Investigator 1 added patient 2. After a tie break it was added to the control group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 1 added patient 8. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 held patient 1e.
+Investigator 2 discarded patient 1e because it was held for too long.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 1 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 6. After a tie break it was added to the control group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 discarded patient 1d because it was held for too long.
+Investigator 2 held patient 1e.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 discarded patient 1c because it was held for too long.
+Investigator 1 added patient 5. It was added to the control group.
+Investigator 2 discarded patient 1b because it was held for too long.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 held patient 1d.
+Investigator 2 added patient 12. It was added to the treatment group.
+Investigator 2 held patient 1c.
+Investigator 2 held patient 1b.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 6. After a tie break it was added to the control group.
+Investigator 1 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 9. After a tie break it was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 1 added patient 11. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 2 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 12. It was added to the control group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the treatment group.
+Investigator 1 added patient 1d. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 1 added patient 12. It was added to the treatment group.
+Investigator 1 added patient 7. It was added to the control group.
+Investigator 2 added patient 12. It was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 11. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 added patient 10. It was added to the control group.
+Investigator 2 added patient 6. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 5. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 5. After a tie break it was added to the control group.
+Investigator 1 added patient 1c. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 1 added patient 9. After a tie break it was added to the treatment group.
+Investigator 2 added patient 8. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 1 added patient 4. It was added to the treatment group.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 1b. It was added to the treatment group.
+Investigator 1 added patient 9. It was added to the control group.
+Investigator 2 added patient 5. It was added to the treatment group.
+Investigator 2 added patient 3. It was added to the control group.
+Investigator 1 held patient 1b.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 10. After a tie break it was added to the control group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 1a. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 discarded patient 1a because it was held for too long.
+Investigator 2 added patient 10. After a tie break it was added to the treatment group.
+Investigator 2 held patient 1a.
+Investigator 1 added patient 11. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 held patient 1a.
+Investigator 2 added patient 7. It was added to the treatment group.
+Investigator 2 added patient 8. It was added to the control group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 2. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the treatment group.
+Investigator 2 added patient 7. It was added to the control group.
+Investigator 1 added patient 3. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 1 added patient 11. After a tie break it was added to the treatment group.
+Investigator 1 added patient 7. It was added to the treatment group.
+Investigator 1 added patient 2. It was added to the control group.
+Investigator 1 added patient 8. It was added to the treatment group.
+Investigator 2 added patient 9. It was added to the control group.
+Investigator 1 added patient 10. It was added to the treatment group.
+Investigator 1 added patient 4. It was added to the control group.
+Investigator 1 added patient 3. It was added to the treatment group.
+Investigator 2 added patient 2. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
+Investigator 2 added patient 10. It was added to the treatment group.
+Investigator 2 added patient 4. It was added to the control group.
+Investigator 2 added patient 7. After a tie break it was added to the control group.
+Investigator 2 added patient 6. It was added to the control group.
+Investigator 2 added patient 4. After a tie break it was added to the treatment group.
+Investigator 1 added patient 6. It was added to the treatment group.
+Investigator 1 added patient 6. It was added to the control group.
+Investigator 2 added patient 10. It was added to the control group.
+Investigator 2 added patient 2. After a tie break it was added to the treatment group.
