@@ -1,5 +1,5 @@
 var arrToCSV, download, Patient, Group, generateVariates, categories, patients,
-    study, Trial;
+    study, Trial, runSet, isPatientOne, countPatientOne, distToExcel;
 
 arrToCSV = function (arrs) {
     var csv = "";
@@ -175,6 +175,18 @@ Group = function (name, categories) {
         }
     };
 
+    this.shallowAdd = function (pat) {
+        var i, arr;
+
+        arr = [];
+
+        for (i = 0; i < this.properties.length; i++) {
+            arr[i] = this.properties[i] + pat.properties[i];
+        }
+
+        return arr;
+    };
+
     this.printProperties = function () {
         var index, str;
 
@@ -194,66 +206,76 @@ Trial = function (categories) {
     this.control = new Group("Control", categories);
     this.treatment = new Group("Treatment", categories);
 
+    this.exponent = 1;
+
     this.groupDiff = function (a, b, exponent) {
         var diff, index;
 
-        if (a.properties.length !== b.properties.length) {
+        if (a.length !== b.length) {
             console.error("incompatible groups");
         }
 
         diff = 0;
 
-        for (index = 0; index < a.properties.length; index++) {
-            diff += Math.pow(Math.abs(a.properties[index] - b.properties[index]),
-                exponent);
+        for (index = 0; index < a.length; index++) {
+            diff += Math.pow(Math.abs(a[index] - b[index]), exponent);
         }
 
         return diff;
     };
 
     this.minimize = function (control, treatment, exponent, patient) {
-        var newControl, newTreatment, controlDiff, treatmentDiff, diff, res,
-            finalControl, finalTreatment, tb;
+        var newControl, newTreatment, controlDiff, treatmentDiff, diff, res, tb;
 
-        newControl = jQuery.extend(true, {}, control);
-        newTreatment = jQuery.extend(true, {}, treatment);
+        newControl = control.shallowAdd(patient);
+        newTreatment = treatment.shallowAdd(patient);
 
-        newControl.addPatient(patient);
-        newTreatment.addPatient(patient);
-
-        controlDiff = this.groupDiff(newControl, treatment, exponent);
-        treatmentDiff = this.groupDiff(newTreatment, control, exponent);
+        controlDiff = this.groupDiff(newControl, treatment.properties, exponent);
+        treatmentDiff = this.groupDiff(newTreatment, control.properties, exponent);
 
         diff = treatmentDiff - controlDiff;
 
         tb = false;
         if (treatmentDiff > controlDiff) {
             res = "control";
-            finalControl = newControl;
-            finalTreatment = treatment;
         } else if (controlDiff > treatmentDiff) {
             res = "treatment";
-            finalControl = control;
-            finalTreatment = newTreatment;
         } else {
             // Whatever calls minimize handles the tiebreak depending on settings
             res = "tie";
-            finalControl = newControl;
-            finalTreatment = newTreatment;
             tb = true;
         }
 
         return {
             res : res,
-            control : finalControl,
-            treatment : finalTreatment,
             ad : diff,
             tb : tb
         };
     };
+
+    this.addPatient = function (patient) {
+        var result;
+
+        result = this.minimize(this.control, this.treatment, this.exponent, patient);
+
+        if (result.tb) {
+            if (Math.floor(Math.random() * 2) === 0) {
+                this.control.addPatient(patient);
+            } else {
+                this.treatment.addPatient(patient);
+            }
+        } else {
+            // Sorted directly to either treatment or control
+            if (result.res === "treatment") {
+                this.treatment.addPatient(patient);
+            } else {
+                this.control.addPatient(patient);
+            }
+        }
+    };
 };
 
-$(document).ready(function () {
+runSet = function (numPats) {
     var index, pat;
 
     categories = generateVariates(7, 3, [2, 3, 2],
@@ -262,25 +284,109 @@ $(document).ready(function () {
 
     patients = [];
 
-    for (index = 0; index < 100; index++) {
+    for (index = 0; index < numPats; index++) {
         pat = new Patient(index, categories);
         pat.generateProperties();
 
-        patients.push(pat);
+        if (isPatientOne(pat) || isPatientTwo(pat) || isPatientThree(pat)) {
+            patients.push(pat);
+        } else {
+            index--;
+        }
     }
 
     study = new Trial(categories);
 
     for (index = 0; index < patients.length; index++) {
-        if (index % 2 === 0) {
-            study.control.addPatient(patients[index]);
-        } else {
-            study.treatment.addPatient(patients[index]);
+        study.addPatient(patients[index]);
+    }
+
+    return study;
+};
+
+objCopy = function (obj) {
+    var newObj, prop;
+
+    newObj = {};
+
+    for (prop in obj) {
+        newObj[prop] = obj[prop];
+    }
+
+
+};
+
+distToExcel = function (n, its) {
+    var arr, dist, i, res, exp;
+
+    arr = [];
+    dist = [];
+    exp = [];
+
+    for (i = 0; i < its; i++) {
+        res = runSet(n);
+
+        arr.push(countPatientOne(res.treatment) - countPatientOne(res.control));
+        if (i % 10 === 0) {
+            console.log(i);
         }
     }
 
-    console.log(study.control.printProperties());
-    console.log(study.treatment.printProperties());
+    for (i = 0; i < arr.length; i++) {
+        if (dist[arr[i]] === undefined) {
+            dist[arr[i]] = 1;
+        } else {
+            dist[arr[i]]++;
+        }
+    }
 
-    console.log(study.groupDiff(study.control, study.treatment, 1));
+    for (prop in dist) {
+        exp.push([prop, dist[prop]]);
+    }
+
+    download("Distribution", arrToCSV(exp));
+
+    return dist;
+};
+
+isPatientOne = function (patient) {
+    var c;
+
+    c = patient.properties;
+
+    return c[0] === 1 && c[2] === 1 && c[5] === 1;
+};
+
+isPatientTwo = function (patient) {
+    var c;
+
+    c = patient.properties;
+
+    return c[0] === 1 && c[2] === 1 && c[6] === 1;
+};
+
+isPatientThree = function (patient) {
+    var c;
+
+    c = patient.properties;
+
+    return c[0] === 1 && c[3] === 1 && c[5] === 1;
+};
+
+countPatientOne = function (group) {
+    var i, count;
+
+    count = 0;
+
+    for (i = 0; i < group.patients.length; i++) {
+        if (isPatientOne(group.patients[i])) {
+            count++;
+        }
+    }
+
+    return count;
+};
+
+$(document).ready(function () {
+
 });

@@ -1,6 +1,6 @@
 ﻿var study, settings, newSettings, validateSettings, buildExcelCTBlock,
     buildExcelBlankBlock, arrayPad, arrayConnect, getGroupArr, getPatientArr,
-    getGroupDiffArr;
+    getGroupDiffArr, doRandDist;
 
 settings = {
     numGators : 1,
@@ -28,6 +28,74 @@ settings = {
     blocksize : 1,
     gatorSeq : [],
     gatorStr : ""
+};
+
+doRandDist = function (typesOfPat, n) {
+    var arr, i, treatment, control, tcount, ccount, pat;
+
+    arr = [];
+    treatment = [];
+    control = [];
+
+    tcount = 0;
+    ccount = 0;
+
+    for (i = 0; i < n; i++) {
+        arr.push(Math.floor(Math.random() * typesOfPat) + 1);
+    }
+
+    for (i = 0; i < arr.length; i++) {
+        pat = arr[i];
+
+        if (i % 2 === 0) {
+            treatment.push(pat);
+
+            if (pat === 1) {
+                tcount++;
+            }
+        } else {
+            control.push(pat);
+
+            if (pat === 1) {
+                ccount++;
+            }
+        }
+    }
+
+    return {
+        t : tcount,
+        c : ccount
+    };
+};
+
+getDistExcel = function (typesOfPat, n, its) {
+    var arr, dist, i, res, exp;
+
+    arr = [];
+    dist = [];
+    exp = [];
+
+    for (i = 0; i < its; i++) {
+        res = doRandDist(typesOfPat, n);
+
+        arr.push(res.t - res.c);
+    }
+
+    for (i = 0; i < arr.length; i++) {
+        if (dist[arr[i]] === undefined) {
+            dist[arr[i]] = 1;
+        } else {
+            dist[arr[i]]++;
+        }
+    }
+
+    for (prop in dist) {
+        exp.push([prop, dist[prop]]);
+    }
+
+    download("Distribution", arrToCSV(exp));
+
+    return dist;
 };
 
 var extraInfoRow = function (cellEntry) {
