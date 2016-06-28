@@ -14,6 +14,7 @@ def process_line(line):
 		'Investigator n sorted patient y to group g' -> [n, y, g]"""
 
 	broken = line.split(' ')
+
 	return [int(broken[1]), int(broken[4][:-1]), broken[-2]]
 
 def index_success(list):
@@ -23,7 +24,7 @@ def index_success(list):
 	indices = []
 	for index in range(len(list)):
 		l = list[index]
-		if l[1] == 1 and l[2] == 'treatment':
+		if l[1] == 1:
 			indices.append(index)
 
 	return indices
