@@ -1409,7 +1409,12 @@ var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
     study = new Trial(allInvestigators, true, settings);
     study.tb = tiebreakSequence.arr;
 
-    $("#allsettings").val(JSON.stringify(study.s));
+    $("#allsettings").val(JSON.stringify(study.s, ["numGators", "gators",
+        "allowedLength", "heldTurns", "playerView", "autoPlay", "minimizeInvestigator",
+        "tiebreakInvestigator", "tiebreakSequence", "minimizationExponent", "queueLength",
+        "studyLength", "exportExcel", "patients", "gatorStreamType", "blocksize",
+        "gatorSeq", "strategyName", "selectPatient", "targetGroup", "arr",
+        "number", "numGators", "patStr", "gatorStr"]));
 
     var count = 0;
 
