@@ -1414,7 +1414,7 @@ var setup = function (allInvestigators, studyPatients, tiebreakSequence) {
         "tiebreakInvestigator", "tiebreakSequence", "minimizationExponent", "queueLength",
         "studyLength", "exportExcel", "patients", "gatorStreamType", "blocksize",
         "gatorSeq", "strategyName", "selectPatient", "targetGroup", "arr",
-        "number", "numGators", "patStr", "gatorStr"]));
+        "number", "numGators", "patStr", "gatorStr", "str"]));
 
     var count = 0;
 
